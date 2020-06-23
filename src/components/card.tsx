@@ -1,5 +1,5 @@
 import React from 'react'
-import { View, Text, ImageBackground, StyleSheet, Image } from 'react-native'
+import { View, Text, TouchableOpacity, ImageBackground, StyleSheet, Image } from 'react-native'
 
 interface ComponentInterface {
     title: string,
@@ -9,11 +9,15 @@ interface ComponentInterface {
 
 const Card = (props: ComponentInterface) => {
     return (
-        <View style={styles.container}>
-            <Image source={require('../assets/fin.png')} style={styles.image} />
-            <Text style={styles.title}>{props.title}</Text>
-
-        </View>
+        <TouchableOpacity
+            onPress={() => { }}
+            activeOpacity={0.9}
+        >
+            <View style={styles.container}>
+                <Image source={require('../assets/fin.png')} style={styles.image} />
+                <Text style={styles.title}>{props.title}</Text>
+            </View>
+        </TouchableOpacity>
 
     )
 }
@@ -24,27 +28,20 @@ const styles = StyleSheet.create({
         flex: 1,
         width: '100%',
         height: '100%',
-        minHeight:100,
+        minHeight: 100,
         justifyContent: 'flex-end',
         alignItems: 'center',
-        borderRadius: 15,
+        // borderRadius: 15,
+        borderBottomLeftRadius: 15,
+        borderTopLeftRadius: 15,
 
-    },
-
-    boxText: {
-        padding: 15,
-        width: '100%',
-        justifyContent: 'center',
-        alignItems: 'center',
-        backgroundColor: 'rgba(4, 0, 0, 0.73)',
-        borderBottomLeftRadius: 15, borderBottomRightRadius: 15
     },
 
     title: {
-        paddingHorizontal:15,
+        paddingHorizontal: 15,
         color: 'black',
-        flex:1,
-        fontSize: 18
+        flex: 1,
+        fontSize: 18,
     },
 
     container: {

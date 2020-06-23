@@ -10,7 +10,7 @@ const Subscribe = () => {
     function goBack() {
         navigate.goBack()
     }
-    
+
     function goToNext() {
         navigate.navigate('Subscribe2')
     }
@@ -71,10 +71,10 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
     },
 
-    textButton:{
-        color:'#fff',
-        fontSize:18,
-        fontFamily:'Ubuntu_500Medium'
+    textButton: {
+        color: '#fff',
+        fontSize: 18,
+        fontFamily: 'Ubuntu_500Medium'
     },
 
     titleHeader: {

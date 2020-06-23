@@ -1,13 +1,11 @@
 import React from 'react'
-import { View, Text, ImageBackground, StyleSheet } from 'react-native'
+import { View, Text, TouchableOpacity, ImageBackground, StyleSheet, Image } from 'react-native'
 
 interface ComponentInterface {
     title: string,
-    message: string,
-    describe: string,
 }
 
-const MainCard = (props: ComponentInterface) => {
+const MainCardDetails = (props: ComponentInterface) => {
     return (
         // <View style={styles.container1}>
         //     <Image source={require('../assets/fin.png')} style={styles.image} />
@@ -31,6 +29,7 @@ const styles = StyleSheet.create({
         height: 200,
         justifyContent: 'flex-end',
         alignItems: 'center',
+        borderRadius: 19,
 
     },
 
@@ -52,15 +51,11 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
         marginBottom: 20,
-        borderStyle: 'solid',
-        borderColor: '#FFC633',
-        borderWidth: 2,
         borderRadius: 19,
-        shadowColor: '#000',
-        shadowOffset: { width: 5, height: 40 },
-        shadowOpacity: 5,
-        shadowRadius: 100,
-        elevation: 4,
+
+
     }
 })
-export default MainCard
+
+
+export default MainCardDetails

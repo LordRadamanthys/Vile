@@ -11,10 +11,10 @@ const Login = () => {
     }
 
     function goToHome() {
-        navigate.navigate('Home')
+        navigate.navigate('BottomMenu')
     }
 
-   
+
 
     return (
 
@@ -62,12 +62,12 @@ const styles = StyleSheet.create({
         paddingHorizontal: 20
     },
 
-    textButton:{
-        color:'#fff',
-        fontSize:18,
-        fontFamily:'Ubuntu_500Medium'
+    textButton: {
+        color: '#fff',
+        fontSize: 18,
+        fontFamily: 'Ubuntu_500Medium'
     },
-    
+
     header: {
         //backgroundColor:'#fff',
         marginTop: 20,

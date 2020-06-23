@@ -18,6 +18,7 @@ const Home = () => {
             <View style={styles.main}>
                 <ScrollView
                     showsVerticalScrollIndicator={false}
+
                 >
                     <Text style={styles.title}>News</Text>
                     <MainCard title='Alguma noticia interessante' describe='' message='' />

@@ -2,6 +2,7 @@ import React from 'react'
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator, TransitionPresets, CardStyleInterpolators } from '@react-navigation/stack';
 import Login from './pages/Login'
+import BottomMenu from './bottomMenu'
 import Subscribe1 from './pages/Subscribe/subscribe1'
 import Subscribe2 from './pages/Subscribe/subscribe2'
 import Home from './pages/Home/home'
@@ -50,6 +51,7 @@ const Routes = () => {
                 <AppStack.Screen name="Subscribe1" component={Subscribe1} />
                 <AppStack.Screen name="Subscribe2" component={Subscribe2} />
                 <AppStack.Screen name="Home" component={Home} />
+                <AppStack.Screen name="BottomMenu" component={BottomMenu} />
             </AppStack.Navigator>
         </NavigationContainer >
     )
