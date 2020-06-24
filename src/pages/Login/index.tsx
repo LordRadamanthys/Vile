@@ -24,15 +24,24 @@ const Login = () => {
             </View>
 
             <KeyboardAvoidingView behavior='height' style={styles.formLogin}>
-                <View style={styles.formHeader}>
+                {/* <View style={styles.formHeader}>
                     <Text style={styles.titleForm}>Login</Text>
                     <Image source={require('../../assets/ideia.png')} style={styles.homeImage} />
+                </View> */}
+                <View style={styles.containerImage}>
+                    <ImageBackground source={require('../../assets/home.png')} imageStyle={{ borderRadius: 15, }} style={styles.image}>
+                        {/* <View style={styles.boxText}> */}
+                        <Text style={styles.titleForm}>Login</Text>
+                        {/* </View> */}
+                    </ImageBackground>
                 </View>
                 <TextInput
                     style={styles.input}
+                    placeholderTextColor={'rgba(0, 0, 0, 0.5)'}
                     placeholder="Digite seu email" />
                 <TextInput
                     style={styles.input}
+                    placeholderTextColor={'rgba(0, 0, 0, 0.5)'}
                     placeholder="Digite sua senha" />
                 <TouchableOpacity
                     activeOpacity={0.5}
@@ -55,6 +64,42 @@ const Login = () => {
 }
 
 const styles = StyleSheet.create({
+    containerImage: {
+        marginVertical:20,
+        justifyContent: 'center',
+        alignItems: 'center',
+        borderRadius: 19,
+        
+
+    },
+    image: {
+        width: '100%',
+        height: 200,
+        justifyContent: 'flex-end',
+        alignItems: 'flex-start',
+        borderRadius: 19,
+
+
+    },
+
+    boxText: {
+        padding: 15,
+        width: '100%',
+        justifyContent: 'center',
+        alignItems: 'center',
+        backgroundColor: 'rgba(4, 0, 0, 0.73)',
+        borderBottomLeftRadius: 15, borderBottomRightRadius: 15
+    },
+
+    titleForm: {
+        fontFamily: 'Ubuntu_500Medium',
+        color: '#464141',
+        textAlign: 'left',
+        justifyContent: 'center',
+        fontSize: 24,
+        padding: 10
+    },
+
     container: {
         flex: 1,
         backgroundColor: '#FFC633',
@@ -76,12 +121,13 @@ const styles = StyleSheet.create({
     },
     titleHeader: {
         fontSize: 48,
-        fontFamily: 'Ubuntu_500Medium',
+        color: '#464141',
+        fontFamily: 'Ubuntu_300Light',
     },
 
     formLogin: {
         flex: 1,
-        marginTop: 50,
+        marginTop: 40,
         paddingHorizontal: 30,
         //alignItems: 'center',
         backgroundColor: '#fff',
@@ -111,21 +157,13 @@ const styles = StyleSheet.create({
 
     button: {
         alignSelf: 'center',
-        marginTop: 70,
+        marginTop: 40,
         backgroundColor: '#FFB802',
         borderRadius: 20,
         paddingHorizontal: 50,
         paddingVertical: 20
     },
-    titleForm: {
-        fontFamily: 'Ubuntu_500Medium',
-        marginTop: 30,
-        marginBottom: 35,
-        textAlign: 'left',
-        justifyContent: 'center',
-        fontSize: 24,
-
-    },
+  
     footer: {
         fontFamily: 'Ubuntu_500Medium',
         padding: 40,
@@ -135,6 +173,7 @@ const styles = StyleSheet.create({
 
     textCadastro: {
         fontSize: 18,
+        color: '#464141',
         fontWeight: 'bold',
         textDecorationLine: 'underline',
     },

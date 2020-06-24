@@ -8,6 +8,7 @@ import { View, TouchableOpacity, Text, Image, ImageBackground, TextInput, StyleS
 const Home = () => {
     const navigate = useNavigation()
 
+  
 
     return (
 
@@ -18,22 +19,19 @@ const Home = () => {
             <View style={styles.main}>
                 <ScrollView
                     showsVerticalScrollIndicator={false}
-
                 >
                     <Text style={styles.title}>News</Text>
-                    <MainCard title='Alguma noticia interessante' describe='' message='' />
-                    <Card title='Alguma noticia interessantehjshdsdsdsdsdsd dsdsd dsddsdjkshksdhfjkdhfjkhdjkfhkjd' describe='' message='' />
-                    <Card title='Alguma noticia interessante' describe='' message='' />
-                    <Card title='Alguma noticia interessantehjshdsdsdsdsdsd dsdsd dsddsdjkshksdhfjkdhfjkhdjkfhkjd' describe='' message='' />
-                    <Card title='Alguma noticia interessante' describe='' message='' />
-                    <Card title='Alguma noticia interessantehjshdsdsdsdsdsd dsdsd dsddsdjkshksdhfjkdhfjkhdjkfhkjd' describe='' message='' />
-                    <Card title='Alguma noticia interessante' describe='' message='' />
-                    <Card title='Alguma noticia interessantehjshdsdsdsdsdsd dsdsd dsddsdjkshksdhfjkdhfjkhdjkfhkjd' describe='' message='' />
-                    <Card title='Alguma noticia interessante' describe='' message='' />
-                    <Card title='Alguma noticia interessantehjshdsdsdsdsdsd dsdsd dsddsdjkshksdhfjkdhfjkhdjkfhkjd' describe='' message='' />
-                    <Card title='Alguma noticia interessante' describe='' message='' />
-                    <Card title='Alguma noticia interessantehjshdsdsdsdsdsd dsdsd dsddsdjkshksdhfjkdhfjkhdjkfhkjd' describe='' message='' />
-                    <Card title='Alguma noticia interessante' describe='' message='' />
+                    <MainCard title='Lorem ipsum phasellus lacinia pretium metus adipiscing est auctor' describe='' message='' page='NewsDetails'/>
+                    <Card title='Lorem ipsum phasellus lacinia pretium metus adipiscing est auctor, vel ac ad, lacus lobortis etiam' describe='' message='' />
+                    <Card title='Lorem ipsum phasellus lacinia pretium metus adipiscing est auctor, vel ac ad, lacus lobortis etiam' describe='' message='' />
+                    <Card title='Lorem ipsum phasellus lacinia pretium metus adipiscing est auctor, vel ac ad, lacus lobortis etiam' describe='' message='' />
+                    <Card title='Lorem ipsum phasellus lacinia pretium metus adipiscing est auctor, vel ac ad, lacus lobortis etiam' describe='' message='' />
+                    <Card title='Lorem ipsum phasellus lacinia pretium metus adipiscing est auctor, vel ac ad, lacus lobortis etiam' describe='' message='' />
+                    <Card title='Lorem ipsum phasellus lacinia pretium metus adipiscing est auctor, vel ac ad, lacus lobortis etiam' describe='' message='' />
+                    <Card title='Lorem ipsum phasellus lacinia pretium metus adipiscing est auctor, el ac ad, lacus lobortis etiam' describe='' message='' />
+                    <Card title='Lorem ipsum phasellus lacinia pretium metus adipiscing est auctor, vel ac ad, lacus lobortis etiam' describe='' message='' />
+                    <Card title='Lorem ipsum phasellus lacinia pretium metus adipiscing est auctor, vel ac ad, lacus lobortis etiam' describe='' message='' />
+                   
                 </ScrollView>
             </View>
 
@@ -74,8 +72,9 @@ const styles = StyleSheet.create({
         alignItems: "center",
     },
     titleHeader: {
-        fontSize: 48,
-        fontFamily: 'Ubuntu_500Medium',
+        fontSize: 32,
+        color:'#464141',
+        fontFamily: 'Ubuntu_300Light',
     },
 
     formLogin: {

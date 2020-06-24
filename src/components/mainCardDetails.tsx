@@ -14,9 +14,7 @@ const MainCardDetails = (props: ComponentInterface) => {
         // </View>
         <View style={styles.container}>
             <ImageBackground source={require('../assets/fin.png')} imageStyle={{ borderRadius: 15, }} style={styles.image}>
-                <View style={styles.boxText}>
-                    <Text style={styles.title}>{props.title}</Text>
-                </View>
+             
             </ImageBackground>
         </View>
     )
@@ -50,7 +48,6 @@ const styles = StyleSheet.create({
     container: {
         justifyContent: 'center',
         alignItems: 'center',
-        marginBottom: 20,
         borderRadius: 19,
 
 

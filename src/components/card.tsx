@@ -1,5 +1,6 @@
 import React from 'react'
 import { View, Text, TouchableOpacity, ImageBackground, StyleSheet, Image } from 'react-native'
+import { useNavigation } from '@react-navigation/native'
 
 interface ComponentInterface {
     title: string,
@@ -8,9 +9,14 @@ interface ComponentInterface {
 }
 
 const Card = (props: ComponentInterface) => {
+    const navigate = useNavigation()
+    function goTo(page: string) {
+        
+        navigate.navigate(page)
+    }
     return (
         <TouchableOpacity
-            onPress={() => { }}
+            onPress={()=>goTo('NewsDetails')}
             activeOpacity={0.9}
         >
             <View style={styles.container}>
@@ -32,8 +38,8 @@ const styles = StyleSheet.create({
         justifyContent: 'flex-end',
         alignItems: 'center',
         // borderRadius: 15,
-        borderBottomLeftRadius: 15,
-        borderTopLeftRadius: 15,
+        borderBottomLeftRadius: 7,
+        borderTopLeftRadius: 7,
 
     },
 
@@ -41,16 +47,17 @@ const styles = StyleSheet.create({
         paddingHorizontal: 15,
         color: 'black',
         flex: 1,
-        fontSize: 18,
+        fontSize: 12,
+        fontFamily: 'NotoSansJP_400Regular',
     },
 
     container: {
         flexDirection: 'row',
         justifyContent: 'center',
         alignItems: 'center',
-        marginBottom: 20,
+        marginBottom: 15,
         backgroundColor: "#fff",
-        borderRadius: 19,
+        borderRadius: 10,
         borderStyle: 'solid',
         borderColor: '#FFC633',
         borderWidth: 2,

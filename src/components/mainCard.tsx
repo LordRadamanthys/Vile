@@ -1,26 +1,35 @@
 import React from 'react'
-import { View, Text, ImageBackground, StyleSheet } from 'react-native'
+import { View, Text, ImageBackground, StyleSheet, TouchableOpacity } from 'react-native'
+import { useNavigation } from '@react-navigation/native'
 
 interface ComponentInterface {
     title: string,
     message: string,
     describe: string,
+    page: string
 }
 
+
+
 const MainCard = (props: ComponentInterface) => {
+    const navigate = useNavigation()
+    function goTo(page: string) {
+        
+        navigate.navigate(page)
+    }
     return (
         // <View style={styles.container1}>
         //     <Image source={require('../assets/fin.png')} style={styles.image} />
         //     <Text style={styles.text}>{props.title}</Text>
 
         // </View>
-        <View style={styles.container}>
+        <TouchableOpacity style={styles.container} onPress={() => goTo(props.page)}>
             <ImageBackground source={require('../assets/fin.png')} imageStyle={{ borderRadius: 15, }} style={styles.image}>
                 <View style={styles.boxText}>
                     <Text style={styles.title}>{props.title}</Text>
                 </View>
             </ImageBackground>
-        </View>
+        </TouchableOpacity>
     )
 }
 
@@ -35,17 +44,19 @@ const styles = StyleSheet.create({
     },
 
     boxText: {
-        padding: 15,
+        // padding: 5,
         width: '100%',
         justifyContent: 'center',
         alignItems: 'center',
-        backgroundColor: 'rgba(4, 0, 0, 0.73)',
+        backgroundColor: 'rgba(4, 0, 0, 0.60)',
         borderBottomLeftRadius: 15, borderBottomRightRadius: 15
     },
 
     title: {
         color: '#fff',
-        fontSize: 18
+        fontSize: 16,
+        marginHorizontal:10,
+        fontFamily: 'NotoSansJP_400Regular',
     },
 
     container: {
@@ -55,7 +66,7 @@ const styles = StyleSheet.create({
         borderStyle: 'solid',
         borderColor: '#FFC633',
         borderWidth: 2,
-        borderRadius: 19,
+        borderRadius: 15,
         shadowColor: '#000',
         shadowOffset: { width: 5, height: 40 },
         shadowOpacity: 5,

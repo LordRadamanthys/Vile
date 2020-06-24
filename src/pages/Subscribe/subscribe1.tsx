@@ -19,7 +19,7 @@ const Subscribe = () => {
 
         <View style={styles.container}>
             <View style={styles.header}>
-                <TouchableOpacity style={{ alignSelf: 'flex-start', justifyContent: 'space-between' }} onPress={goBack}>
+                <TouchableOpacity style={{ flex: 1, alignSelf: 'center' }} onPress={goBack}>
                     <Icon name="arrow-left" size={28} color="#fff" />
                 </TouchableOpacity>
                 <Text style={styles.titleHeader}>Eleva</Text>
@@ -34,15 +34,19 @@ const Subscribe = () => {
                 </View>
                 <TextInput
                     style={styles.input}
+                    placeholderTextColor={'rgba(0, 0, 0, 0.5)'}
                     placeholder="Digite seu nome" />
                 <TextInput
                     style={styles.input}
+                    placeholderTextColor={'rgba(0, 0, 0, 0.5)'}
                     placeholder="Digite seu e-mail" />
                 <TextInput
                     style={styles.input}
+                    placeholderTextColor={'rgba(0, 0, 0, 0.5)'}
                     placeholder="Digite uma senha" />
                 <TextInput
                     style={styles.input}
+                    placeholderTextColor={'rgba(0, 0, 0, 0.5)'}
                     placeholder="Confirme sua senha" />
                 <TouchableOpacity
                     activeOpacity={0.5}
@@ -67,8 +71,9 @@ const styles = StyleSheet.create({
     },
 
     header: {
-        alignItems: 'flex-start',
+        padding: 10,
         flexDirection: 'row',
+        
     },
 
     textButton: {
@@ -78,15 +83,18 @@ const styles = StyleSheet.create({
     },
 
     titleHeader: {
+        flex: 2,
+        alignItems: 'center',
+        alignContent: 'center',
         justifyContent: 'center',
         fontSize: 48,
-        marginStart: '25%',
-        fontFamily: 'Ubuntu_500Medium',
+        color:'#464141',
+        fontFamily: 'Ubuntu_300Light',
     },
 
     formLogin: {
         flex: 1,
-        marginTop: 50,
+        marginTop: 30,
         marginBottom: 50,
         paddingHorizontal: 30,
         backgroundColor: '#fff',
@@ -123,7 +131,8 @@ const styles = StyleSheet.create({
         paddingVertical: 20
     },
     titleForm: {
-        fontFamily: 'Ubuntu_500Medium',
+        color:'#464141',
+        fontFamily: 'Ubuntu_300Light',
         marginTop: 30,
         marginBottom: 35,
         textAlign: 'left',

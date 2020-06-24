@@ -6,6 +6,7 @@ import BottomMenu from './bottomMenu'
 import Subscribe1 from './pages/Subscribe/subscribe1'
 import Subscribe2 from './pages/Subscribe/subscribe2'
 import Home from './pages/Home/home'
+import NewsDetails from './pages/News/newsDetails'
 import { Easing } from 'react-native';
 const AppStack = createStackNavigator()
 
@@ -52,6 +53,7 @@ const Routes = () => {
                 <AppStack.Screen name="Subscribe2" component={Subscribe2} />
                 <AppStack.Screen name="Home" component={Home} />
                 <AppStack.Screen name="BottomMenu" component={BottomMenu} />
+                <AppStack.Screen name="NewsDetails" component={NewsDetails} />
             </AppStack.Navigator>
         </NavigationContainer >
     )
