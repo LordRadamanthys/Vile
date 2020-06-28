@@ -24,7 +24,7 @@ const MainCard = (props: ComponentInterface) => {
 
         // </View>
         <TouchableOpacity style={styles.container} onPress={() => goTo(props.page)}>
-            <ImageBackground source={require('../assets/fin.png')} imageStyle={{ borderRadius: 15, }} style={styles.image}>
+            <ImageBackground source={require('../assets/2.png')} imageStyle={{ borderRadius: 15, }} style={styles.image}>
                 <View style={styles.boxText}>
                     <Text style={styles.title}>{props.title}</Text>
                 </View>
@@ -64,7 +64,7 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         marginBottom: 20,
         borderStyle: 'solid',
-        borderColor: '#FFC633',
+        borderColor: '#BABABA',
         borderWidth: 2,
         borderRadius: 15,
         shadowColor: '#000',

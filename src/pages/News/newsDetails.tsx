@@ -181,7 +181,7 @@ const styles = StyleSheet.create({
         alignContent: 'center',
         justifyContent: 'center',
         fontSize: 48,
-        color:'#464141',
+        color: '#464141',
         fontFamily: 'Ubuntu_300Light',
     },
 

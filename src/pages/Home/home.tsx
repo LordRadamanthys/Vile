@@ -14,6 +14,11 @@ const Home = () => {
 
         <View style={styles.container}>
             <View style={styles.header}>
+            <View
+                    style={styles.profileImgContainer}
+                >
+                    <Image source={require('../../assets/perfil.jpg')} style={styles.profileImg} />
+                </View>
                 <Text style={styles.titleHeader}>Eleva</Text>
             </View>
             <View style={styles.main}>
@@ -41,6 +46,26 @@ const Home = () => {
 }
 
 const styles = StyleSheet.create({
+    profileImgContainer: {
+        height: 60,
+        width: 60,
+        borderRadius: 40,
+        flex:1,
+        // shadowColor: "#000",
+        // shadowOffset: {
+        //     width: 0,
+        //     height: 3,
+        // },
+        // shadowOpacity: 0.29,
+        // shadowRadius: 4.65,
+
+        // elevation: 7,
+    },
+    profileImg: {
+        height: 60,
+        width: 60,
+        borderRadius: 40,
+    },
     container: {
         flex: 1,
         backgroundColor: '#FFC633',
@@ -67,13 +92,15 @@ const styles = StyleSheet.create({
 
     header: {
         // backgroundColor:'#fff',
-        padding: 10,
+        flexDirection:'row',
+        padding: 20,
         justifyContent: "center",
         alignItems: "center",
     },
     titleHeader: {
         fontSize: 32,
         color:'#464141',
+        flex:1.5,
         fontFamily: 'Ubuntu_300Light',
     },
 

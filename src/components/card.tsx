@@ -11,20 +11,19 @@ interface ComponentInterface {
 const Card = (props: ComponentInterface) => {
     const navigate = useNavigation()
     function goTo(page: string) {
-        
+
         navigate.navigate(page)
     }
     return (
         <TouchableOpacity
-            onPress={()=>goTo('NewsDetails')}
+            onPress={() => goTo('NewsDetails')}
             activeOpacity={0.9}
         >
             <View style={styles.container}>
-                <Image source={require('../assets/fin.png')} style={styles.image} />
+                <Image source={require('../assets/1.png')} style={styles.image} />
                 <Text style={styles.title}>{props.title}</Text>
             </View>
         </TouchableOpacity>
-
     )
 }
 
@@ -59,8 +58,8 @@ const styles = StyleSheet.create({
         backgroundColor: "#fff",
         borderRadius: 10,
         borderStyle: 'solid',
-        borderColor: '#FFC633',
-        borderWidth: 2,
+        borderColor: '#BABABA',
+        borderWidth: 1,
         shadowColor: '#000',
         shadowOffset: { width: 5, height: 20 },
         shadowOpacity: 5,
