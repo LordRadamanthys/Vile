@@ -1,6 +1,6 @@
 import React from 'react'
 import { createMaterialBottomTabNavigator } from '@react-navigation/material-bottom-tabs';
-import Subscribe1 from './pages/Subscribe/subscribe1'
+import FeedVideos from './pages/HomeVideos/feedVideos'
 import Home from './pages/Home/home'
 import Profile from './pages/User/profile'
 
@@ -24,8 +24,8 @@ function BottomMenu() {
                 elevation: 30
             }}
         >
-            {/* <Tab.Screen name="NewsDetails" component={NewsDetails} options={{ tabBarIcon: () => (<Icon name="person" size={28} color="#fff" />), tabBarColor: '#FFC633', }} /> */}
             <Tab.Screen name="Home" component={Home} options={{ tabBarIcon: () => (<Icon name="home" size={28} color="#fff" />), tabBarColor: '#FFB800', }} />
+            <Tab.Screen name="FeedVideos" component={FeedVideos} options={{ tabBarIcon: () => (<Icon name="movie" size={28} color="#fff" />), tabBarColor: '#FFC633', }} />
             <Tab.Screen name="Profile" component={Profile} options={{ tabBarIcon: () => (<Icon name="person" size={28} color="#fff" />), tabBarColor: '#FFC633', }} />
         </Tab.Navigator>
     );
