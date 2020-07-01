@@ -10,11 +10,6 @@ const FeedVideos = () => {
     return (
         <View style={styles.container}>
             <View style={styles.header}>
-                <View
-                    style={styles.profileImgContainer}
-                >
-                    <Image source={require('../../assets/perfil.jpg')} style={styles.profileImg} />
-                </View>
                 <Text style={styles.titleHeader}>Eleva</Text>
             </View>
             <View style={styles.main}>
@@ -96,7 +91,7 @@ const styles = StyleSheet.create({
     titleHeader: {
         fontSize: 32,
         color: '#464141',
-        flex: 1.5,
+        padding:10,
         fontFamily: 'Ubuntu_300Light',
     },
 })

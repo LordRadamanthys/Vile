@@ -36,7 +36,7 @@ const CardVideos = (props: ComponentInterface) => {
         <TouchableOpacity style={styles.container} onPress={() => play()}>
                 <Video
                     // source={require('../assets/teste.mp4')}
-                    source={{ uri: 'https://www.youtube.com/watch?v=2YXEtKboQas' }}
+                    source={{ uri: 'https://youtu.be/vD0ql-y0WiM' }}
                     rate={1.0}
                     volume={1.0}
                     isMuted={true}
