@@ -1,6 +1,7 @@
 import React from 'react'
 import { View, Text, TouchableOpacity, ImageBackground, StyleSheet, Image } from 'react-native'
 import { useNavigation } from '@react-navigation/native'
+import ShimmerPlaceHolder from 'react-native-shimmer-placeholder';
 
 interface ComponentInterface {
     title: string,
@@ -15,15 +16,26 @@ const Card = (props: ComponentInterface) => {
         navigate.navigate(page)
     }
     return (
-        <TouchableOpacity
-            onPress={() => goTo('NewsDetails')}
-            activeOpacity={0.9}
+        <ShimmerPlaceHolder
+            style={{
+                width: '100%',
+                height: 100,
+                borderRadius: 10,
+                marginBottom: 25,
+            }}
+            autoRun={true}
+            visible={true}
         >
-            <View style={styles.container}>
-                <Image source={require('../assets/1.png')} style={styles.image} />
-                <Text style={styles.title}>{props.title}</Text>
-            </View>
-        </TouchableOpacity>
+            <TouchableOpacity
+                onPress={() => goTo('NewsDetails')}
+                activeOpacity={0.9}
+            >
+                <View style={styles.container}>
+                    <Image source={require('../assets/1.png')} style={styles.image} />
+                    <Text style={styles.title}>{props.title}</Text>
+                </View>
+            </TouchableOpacity>
+        </ShimmerPlaceHolder>
     )
 }
 

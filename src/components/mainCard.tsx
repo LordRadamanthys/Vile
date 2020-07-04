@@ -1,6 +1,7 @@
 import React from 'react'
 import { View, Text, ImageBackground, StyleSheet, TouchableOpacity } from 'react-native'
 import { useNavigation } from '@react-navigation/native'
+import ShimmerPlaceHolder from 'react-native-shimmer-placeholder';
 
 interface ComponentInterface {
     title: string,
@@ -14,7 +15,7 @@ interface ComponentInterface {
 const MainCard = (props: ComponentInterface) => {
     const navigate = useNavigation()
     function goTo(page: string) {
-        
+
         navigate.navigate(page)
     }
     return (
@@ -23,13 +24,25 @@ const MainCard = (props: ComponentInterface) => {
         //     <Text style={styles.text}>{props.title}</Text>
 
         // </View>
-        <TouchableOpacity style={styles.container} onPress={() => goTo(props.page)}>
-            <ImageBackground source={require('../assets/2.png')} imageStyle={{ borderRadius: 15, }} style={styles.image}>
-                <View style={styles.boxText}>
-                    <Text style={styles.title}>{props.title}</Text>
-                </View>
-            </ImageBackground>
-        </TouchableOpacity>
+
+        <ShimmerPlaceHolder
+            style={{
+                width: '100%',
+                height: 200,
+                borderRadius: 15,
+                marginBottom: 20,
+            }}
+            autoRun={true}
+            visible={true}
+        >
+            <TouchableOpacity style={styles.container} onPress={() => goTo(props.page)}>
+                <ImageBackground source={require('../assets/2.png')} imageStyle={{ borderRadius: 15, }} style={styles.image}>
+                    <View style={styles.boxText}>
+                        <Text style={styles.title}>{props.title}</Text>
+                    </View>
+                </ImageBackground>
+            </TouchableOpacity >
+        </ShimmerPlaceHolder>
     )
 }
 
@@ -55,7 +68,7 @@ const styles = StyleSheet.create({
     title: {
         color: '#fff',
         fontSize: 16,
-        marginHorizontal:10,
+        marginHorizontal: 10,
         fontFamily: 'NotoSansJP_400Regular',
     },
 

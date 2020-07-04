@@ -74,6 +74,7 @@ const Home = () => {
                     <Card title='Lorem ipsum phasellus lacinia pretium metus adipiscing est auctor, vel ac ad, lacus lobortis etiam' describe='' message='' />
                     <Card title='Lorem ipsum phasellus lacinia pretium metus adipiscing est auctor, vel ac ad, lacus lobortis etiam' describe='' message='' />
                     <Card title='Lorem ipsum phasellus lacinia pretium metus adipiscing est auctor, vel ac ad, lacus lobortis etiam' describe='' message='' />
+                    <Card title='Lorem ipsum phasellus lacinia pretium metus adipiscing est auctor, vel ac ad, lacus lobortis etiam' describe='' message='' />
                     <Card title='Lorem ipsum phasellus lacinia pretium metus adipiscing est auctor, el ac ad, lacus lobortis etiam' describe='' message='' />
                     <Card title='Lorem ipsum phasellus lacinia pretium metus adipiscing est auctor, vel ac ad, lacus lobortis etiam' describe='' message='' />
                     <Card title='Lorem ipsum phasellus lacinia pretium metus adipiscing est auctor, vel ac ad, lacus lobortis etiam' describe='' message='' />
