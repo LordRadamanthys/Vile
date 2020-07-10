@@ -5,7 +5,7 @@ import { Video } from 'expo-av';
 
 interface ComponentInterface {
     title: string,
-    message: string,
+    video: string,
     describe: string,
     page: string
 }
@@ -36,7 +36,7 @@ const CardVideos = (props: ComponentInterface) => {
         <TouchableOpacity style={styles.container} onPress={() => play()}>
                 <Video
                     // source={require('../assets/teste.mp4')}
-                    source={{ uri: 'https://youtu.be/vD0ql-y0WiM' }}
+                    source={{ uri: props.video }}
                     rate={1.0}
                     volume={1.0}
                     isMuted={true}

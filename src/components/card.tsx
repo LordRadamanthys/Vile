@@ -1,20 +1,25 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import { View, Text, TouchableOpacity, ImageBackground, StyleSheet, Image } from 'react-native'
 import { useNavigation } from '@react-navigation/native'
 import ShimmerPlaceHolder from 'react-native-shimmer-placeholder';
 
 interface ComponentInterface {
     title: string,
-    message: string,
+    text: string,
     describe: string,
+    image: string,
+    visible: boolean
 }
 
 const Card = (props: ComponentInterface) => {
     const navigate = useNavigation()
+    const [shimmer, setShimmer] = useState(false)
     function goTo(page: string) {
-
         navigate.navigate(page)
     }
+    useEffect(() => {
+        setShimmer(props.visible)
+    }, [])
     return (
         <ShimmerPlaceHolder
             style={{
@@ -24,14 +29,14 @@ const Card = (props: ComponentInterface) => {
                 marginBottom: 25,
             }}
             autoRun={true}
-            visible={true}
+            visible={shimmer}
         >
             <TouchableOpacity
                 onPress={() => goTo('NewsDetails')}
                 activeOpacity={0.9}
             >
                 <View style={styles.container}>
-                    <Image source={require('../assets/1.png')} style={styles.image} />
+                    <Image source={{ uri: props.image }} style={styles.image} />
                     <Text style={styles.title}>{props.title}</Text>
                 </View>
             </TouchableOpacity>

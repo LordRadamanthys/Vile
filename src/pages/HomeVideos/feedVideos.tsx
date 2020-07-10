@@ -1,12 +1,31 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import Constants from 'expo-constants'
 import { useNavigation } from '@react-navigation/native'
 import CardVideos from '../../components/cardVideos'
 import { Video } from 'expo-av';
+import axios from '../../services/api'
+import videosInterface from '../../interfaces/videosInterface'
 import { View, TouchableOpacity, Text, Image, ImageBackground, TextInput, StyleSheet, ScrollView } from 'react-native'
+import userInterface from '../../interfaces/userInterface';
 
-const FeedVideos = () => {
+const FeedVideos = (value: any) => {
+    const [videos, setVideos] = useState<Array<videosInterface>>([])
+    const user: userInterface = value.route.params
+    useEffect(() => {
+        loadVideos()
+    }, [])
 
+    async function loadVideos() {
+        await axios.get('videos', {
+            headers: {
+                'Authorization': 'Bearer ' + user.token
+            }
+        }).then(response => {
+            setVideos(response.data)
+        }).catch(error => {
+            console.log(error.response.data)
+        })
+    }
     return (
         <View style={styles.container}>
             <View style={styles.header}>
@@ -18,11 +37,10 @@ const FeedVideos = () => {
                     showsVerticalScrollIndicator={false}
                 >
                     <Text style={styles.title}>Videos</Text>
-                    
-                    <CardVideos title='Lorem ipsum phasellus lacinia pretium metus adipiscing est auctor' describe='' message='' page='NewsDetails' />
-                    <CardVideos title='Lorem ipsum phasellus lacinia pretium metus adipiscing est auctor' describe='' message='' page='NewsDetails' />
-                    <CardVideos title='Lorem ipsum phasellus lacinia pretium metus adipiscing est auctor' describe='' message='' page='NewsDetails' />
-                    <CardVideos title='Lorem ipsum phasellus lacinia pretium metus adipiscing est auctor' describe='' message='' page='NewsDetails' />
+                    {videos.map(v => (
+
+                        <CardVideos title={v.title} describe={v.description} page='NewsDetails' video={v.path} />
+                    ))}
 
 
                 </ScrollView>
@@ -91,7 +109,7 @@ const styles = StyleSheet.create({
     titleHeader: {
         fontSize: 32,
         color: '#464141',
-        padding:10,
+        padding: 10,
         fontFamily: 'Ubuntu_300Light',
     },
 })

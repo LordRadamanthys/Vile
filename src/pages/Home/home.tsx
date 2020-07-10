@@ -1,19 +1,53 @@
 import React, { useState, useEffect } from 'react'
 import Constants from 'expo-constants'
-import { useNavigation } from '@react-navigation/native'
+import AsyncStorage from '@react-native-community/async-storage'
 import MainCard from '../../components/mainCard'
 import Card from '../../components/card'
-import { View, TouchableOpacity, Text, Image, ImageBackground, TextInput, StyleSheet, ScrollView } from 'react-native'
-
+import { View, TouchableOpacity, Text, Image, TextInput, StyleSheet, ScrollView } from 'react-native'
+import axios from '../../services/api'
 import * as ImagePicker from 'expo-image-picker';
 import * as Permissions from 'expo-permissions';
+import userInterface from '../../interfaces/userInterface'
+import newsInterface from '../../interfaces/newsInterface'
 
-const Home = () => {
-    const navigate = useNavigation()
+const Home = (value: any) => {
     const [image, setImage] = useState('')
+    const [news, setNews] = useState<Array<newsInterface>>([])
+    const user: userInterface = value.route.params
+
+    var getPreferences = async () => {
+        try {
+            const value = await AsyncStorage.getItem('@isSave')
+            if (value !== null) {
+                // console.log(value)
+            } else {
+                //console.log(value)
+
+            }
+        } catch (e) {
+            console.log('teste')
+            // error reading value
+        }
+    }
+
+
+    async function loadNews() {
+        await axios.get('news', {
+            headers: {
+                'Authorization': 'Bearer ' + user.token
+            }
+        }).then(response => {
+            setNews(response.data)
+        }).catch(error => {
+            console.log(error.response.data)
+        })
+    }
 
     useEffect(() => {
         componentDidMount()
+        getPreferences()
+        setTimeout(loadNews,1000)
+
     }, [])
 
     function componentDidMount() {
@@ -57,7 +91,7 @@ const Home = () => {
                     style={styles.profileImgContainer}
                 >
                     <TouchableOpacity onPress={_pickImage}>
-                        <Image source={image !== '' ? { uri: image } : require('../../assets/perfil.jpg')} style={styles.profileImg} />
+                        <Image source={image !== '' ? { uri: image } : { uri: user.image } /*require('../../assets/perfil.jpg')*/} style={styles.profileImg} />
                     </TouchableOpacity>
                 </View>
                 <Text style={styles.titleHeader}>Eleva</Text>
@@ -67,17 +101,17 @@ const Home = () => {
                     showsVerticalScrollIndicator={false}
                 >
                     <Text style={styles.title}>News</Text>
-                    <MainCard title='Lorem ipsum phasellus lacinia pretium metus adipiscing est auctor' describe='' message='' page='NewsDetails' />
-                    <Card title='Lorem ipsum phasellus lacinia pretium metus adipiscing est auctor, vel ac ad, lacus lobortis etiam' describe='' message='' />
-                    <Card title='Lorem ipsum phasellus lacinia pretium metus adipiscing est auctor, vel ac ad, lacus lobortis etiam' describe='' message='' />
-                    <Card title='Lorem ipsum phasellus lacinia pretium metus adipiscing est auctor, vel ac ad, lacus lobortis etiam' describe='' message='' />
-                    <Card title='Lorem ipsum phasellus lacinia pretium metus adipiscing est auctor, vel ac ad, lacus lobortis etiam' describe='' message='' />
-                    <Card title='Lorem ipsum phasellus lacinia pretium metus adipiscing est auctor, vel ac ad, lacus lobortis etiam' describe='' message='' />
-                    <Card title='Lorem ipsum phasellus lacinia pretium metus adipiscing est auctor, vel ac ad, lacus lobortis etiam' describe='' message='' />
-                    <Card title='Lorem ipsum phasellus lacinia pretium metus adipiscing est auctor, vel ac ad, lacus lobortis etiam' describe='' message='' />
-                    <Card title='Lorem ipsum phasellus lacinia pretium metus adipiscing est auctor, el ac ad, lacus lobortis etiam' describe='' message='' />
-                    <Card title='Lorem ipsum phasellus lacinia pretium metus adipiscing est auctor, vel ac ad, lacus lobortis etiam' describe='' message='' />
-                    <Card title='Lorem ipsum phasellus lacinia pretium metus adipiscing est auctor, vel ac ad, lacus lobortis etiam' describe='' message='' />
+                  
+                    {
+                        news.map((n) => {
+                            if (n.id === 1) {
+                                return  <MainCard title={n.title} describe={n.description} text={n.text} image={n.image} page='NewsDetails' visible={true}/>
+                            } else {
+                                return <Card title={n.title} describe={n.description} text={n.text} image={n.image}  visible={true}/>
+                            }
+                        })
+
+                    }
 
                 </ScrollView>
             </View>

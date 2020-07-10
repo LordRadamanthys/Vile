@@ -1,19 +1,82 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import Constants from 'expo-constants'
+import AsyncStorage from '@react-native-community/async-storage'
 import { useNavigation } from '@react-navigation/native'
-import { View, TouchableOpacity, Text, Image, ImageBackground, TextInput, StyleSheet, KeyboardAvoidingView } from 'react-native'
+import axios from '../../services/api'
+import userInterface from '../../interfaces/userInterface'
+import { View, TouchableOpacity, Text, ImageBackground, TextInput, StyleSheet, KeyboardAvoidingView, Switch } from 'react-native'
+
+
 
 const Login = () => {
+    const [isEnabledSwitch, setIsEnabledSwitch] = useState(false)
+    const [email, setEmail] = useState('')
+    const [password, setPassword] = useState('')
     const navigate = useNavigation()
+
+    useEffect(() => {
+
+        verifyPreferences()
+    }, [])
+
+    async function actionSwitch(data: userInterface) {
+
+        if (isEnabledSwitch) {
+            setPreferences(data, isEnabledSwitch)
+            //console.log(isEnabledSwitch)
+        } else {
+            cleanPreferences()
+            console.log(isEnabledSwitch)
+        }
+    }
+
+    async function verifyPreferences() {
+        const isSave = await AsyncStorage.getItem('isSave')
+        if (isSave) {
+            setIsEnabledSwitch(true)
+        } else {
+            setIsEnabledSwitch(false)
+        }
+        //console.log(isSave)
+    }
+
+    const setPreferences = async (value: userInterface, isSave: boolean) => {
+        try {
+            await AsyncStorage.setItem('@isSave', String(isSave))
+            await AsyncStorage.setItem('@id', String(value.id))
+            // await AsyncStorage.setItem('@email', value.)
+            // await AsyncStorage.setItem('password', '')
+            await AsyncStorage.setItem('token', String(value.token))
+        } catch (e) {
+            // saving error
+        }
+    }
+
+
+    async function cleanPreferences() {
+        await AsyncStorage.clear()
+    }
 
     function goToSubscribe() {
         navigate.navigate('Subscribe1')
     }
 
-    function goToHome() {
-        navigate.navigate('BottomMenu')
-    }
+    async function goToHome() {
 
+        const data = {
+            email,
+            password
+        }
+        await axios.post('login', data).then(reponse => {
+            actionSwitch(reponse.data)
+            //console.log(reponse.data)
+            navigate.navigate('BottomMenu', { data: reponse.data })
+        }).catch(error => {
+            console.log(error.response.data.error)
+
+        })
+
+    }
 
 
     return (
@@ -38,11 +101,26 @@ const Login = () => {
                 <TextInput
                     style={styles.input}
                     placeholderTextColor={'rgba(0, 0, 0, 0.5)'}
-                    placeholder="Digite seu email" />
+                    placeholder="Digite seu email"
+                    value={email}
+                    onChangeText={(props) => setEmail(props)} />
                 <TextInput
                     style={styles.input}
                     placeholderTextColor={'rgba(0, 0, 0, 0.5)'}
-                    placeholder="Digite sua senha" />
+                    placeholder="Digite sua senha"
+                    value={password}
+                    onChangeText={(props) => setPassword(props)} />
+                <View style={styles.switchContainer}>
+                    <Text style={styles.textSwitch}>Lembrar Senha</Text>
+                    <Switch
+                        trackColor={{ false: "#767577", true: "#FFD361" }}
+                        thumbColor={isEnabledSwitch ? "#FFC633" : "#f4f3f4"}
+                        ios_backgroundColor="#3e3e3e"
+                        onValueChange={() => setIsEnabledSwitch(previousState => !previousState)}
+                        value={isEnabledSwitch}
+
+                    />
+                </View>
                 <TouchableOpacity
                     activeOpacity={0.5}
                     style={styles.button}
@@ -65,11 +143,11 @@ const Login = () => {
 
 const styles = StyleSheet.create({
     containerImage: {
-        marginVertical:20,
+        marginVertical: 20,
         justifyContent: 'center',
         alignItems: 'center',
         borderRadius: 19,
-        
+
 
     },
     image: {
@@ -78,8 +156,18 @@ const styles = StyleSheet.create({
         justifyContent: 'flex-end',
         alignItems: 'flex-start',
         borderRadius: 19,
+    },
 
-
+    switchContainer: {
+        flexDirection: 'row',
+        justifyContent: 'center',
+    },
+    textSwitch: {
+        color: '#464141',
+        fontFamily: 'Ubuntu_300Light',
+        fontSize: 16,
+        marginHorizontal: 10,
+        marginTop: 2
     },
 
     boxText: {
@@ -127,7 +215,7 @@ const styles = StyleSheet.create({
 
     formLogin: {
         flex: 1,
-        marginTop: 40,
+        marginTop: 30,
         paddingHorizontal: 30,
         //alignItems: 'center',
         backgroundColor: '#fff',
@@ -148,7 +236,7 @@ const styles = StyleSheet.create({
         height: 60,
         backgroundColor: 'rgba(186, 186, 186, 0.25)',
         borderRadius: 20,
-        marginBottom: 35,
+        marginBottom: 30,
         width: '90%',
         alignSelf: 'center',
         paddingHorizontal: 24,
@@ -157,13 +245,13 @@ const styles = StyleSheet.create({
 
     button: {
         alignSelf: 'center',
-        marginTop: 40,
+        marginTop: 20,
         backgroundColor: '#FFB802',
         borderRadius: 20,
         paddingHorizontal: 50,
         paddingVertical: 20
     },
-  
+
     footer: {
         fontFamily: 'Ubuntu_500Medium',
         padding: 40,
