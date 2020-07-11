@@ -16,16 +16,10 @@ interface ComponentInterface {
 
 const MainCard = (props: ComponentInterface) => {
     const navigate = useNavigation()
-    const [shimmer, setShimmer] = useState(false)
     function goTo(page: string) {
 
         navigate.navigate(page)
     }
-
-    useEffect(() => {
-        setShimmer(props.visible)
-    }, [])
-
 
     return (
         // <View style={styles.container1}>
@@ -42,7 +36,7 @@ const MainCard = (props: ComponentInterface) => {
                 marginBottom: 20,
             }}
             autoRun={true}
-            visible={shimmer}
+            visible={props.visible}
         >
             <TouchableOpacity style={styles.container} onPress={() => goTo(props.page)}>
                 <ImageBackground source={{uri:props.image}} imageStyle={{ borderRadius: 15, }} style={styles.image}>

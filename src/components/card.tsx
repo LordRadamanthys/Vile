@@ -29,7 +29,7 @@ const Card = (props: ComponentInterface) => {
                 marginBottom: 25,
             }}
             autoRun={true}
-            visible={shimmer}
+            visible={props.visible}
         >
             <TouchableOpacity
                 onPress={() => goTo('NewsDetails')}

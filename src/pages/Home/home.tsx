@@ -9,10 +9,49 @@ import * as ImagePicker from 'expo-image-picker';
 import * as Permissions from 'expo-permissions';
 import userInterface from '../../interfaces/userInterface'
 import newsInterface from '../../interfaces/newsInterface'
-
+const teste: Array<newsInterface> = [
+    {
+        description: 'string',
+        id: 1,
+        idAuthor: 1,
+        image: 'string',
+        text: 'string',
+        title: 'string',
+    },
+    {
+        description: 'string',
+        id: 2,
+        idAuthor: 1,
+        image: 'string',
+        text: 'string',
+        title: 'string',
+    }, {
+        description: 'string',
+        id: 3,
+        idAuthor: 1,
+        image: 'string',
+        text: 'string',
+        title: 'string',
+    }, {
+        description: 'string',
+        id: 4,
+        idAuthor: 1,
+        image: 'string',
+        text: 'string',
+        title: 'string',
+    }, {
+        description: 'string',
+        id: 5,
+        idAuthor: 1,
+        image: 'string',
+        text: 'string',
+        title: 'string',
+    }
+]
 const Home = (value: any) => {
     const [image, setImage] = useState('')
-    const [news, setNews] = useState<Array<newsInterface>>([])
+    const [cardsVisibility, setCardsVisibility] = useState(false)
+    const [news, setNews] = useState<Array<newsInterface>>(teste)
     const user: userInterface = value.route.params
 
     var getPreferences = async () => {
@@ -32,12 +71,15 @@ const Home = (value: any) => {
 
 
     async function loadNews() {
+
         await axios.get('news', {
             headers: {
                 'Authorization': 'Bearer ' + user.token
             }
         }).then(response => {
+
             setNews(response.data)
+            setCardsVisibility(true)
         }).catch(error => {
             console.log(error.response.data)
         })
@@ -46,7 +88,9 @@ const Home = (value: any) => {
     useEffect(() => {
         componentDidMount()
         getPreferences()
-        setTimeout(loadNews,1000)
+
+        setTimeout(loadNews, 2000)
+
 
     }, [])
 
@@ -101,13 +145,13 @@ const Home = (value: any) => {
                     showsVerticalScrollIndicator={false}
                 >
                     <Text style={styles.title}>News</Text>
-                  
+
                     {
                         news.map((n) => {
                             if (n.id === 1) {
-                                return  <MainCard title={n.title} describe={n.description} text={n.text} image={n.image} page='NewsDetails' visible={true}/>
+                                return <MainCard key={n.id} title={n.title} describe={n.description} text={n.text} image={n.image} page='NewsDetails' visible={cardsVisibility} />
                             } else {
-                                return <Card title={n.title} describe={n.description} text={n.text} image={n.image}  visible={true}/>
+                                return <Card title={n.title} describe={n.description} text={n.text} image={n.image} visible={cardsVisibility} />
                             }
                         })
 

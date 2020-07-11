@@ -1,12 +1,11 @@
 import React, { useEffect, useState } from 'react'
 import Constants from 'expo-constants'
-import { useNavigation } from '@react-navigation/native'
 import CardVideos from '../../components/cardVideos'
-import { Video } from 'expo-av';
 import axios from '../../services/api'
 import videosInterface from '../../interfaces/videosInterface'
-import { View, TouchableOpacity, Text, Image, ImageBackground, TextInput, StyleSheet, ScrollView } from 'react-native'
+import { View, Text, StyleSheet, ScrollView } from 'react-native'
 import userInterface from '../../interfaces/userInterface';
+
 
 const FeedVideos = (value: any) => {
     const [videos, setVideos] = useState<Array<videosInterface>>([])
