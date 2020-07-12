@@ -4,12 +4,13 @@ import AsyncStorage from '@react-native-community/async-storage'
 import { useNavigation } from '@react-navigation/native'
 import axios from '../../services/api'
 import userInterface from '../../interfaces/userInterface'
-import { View, TouchableOpacity, Text, ImageBackground, TextInput, StyleSheet, KeyboardAvoidingView, Switch } from 'react-native'
+import { View, TouchableOpacity, Text, ImageBackground, TextInput, StyleSheet, KeyboardAvoidingView, Switch, ActivityIndicator } from 'react-native'
 
 
 
 const Login = () => {
     const [isEnabledSwitch, setIsEnabledSwitch] = useState(false)
+    const [indicatorLoading, setIndicatorLoading] = useState(false)
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
     const navigate = useNavigation()
@@ -62,7 +63,8 @@ const Login = () => {
     }
 
     async function goToHome() {
-
+        setIndicatorLoading(true)
+        
         const data = {
             email,
             password
@@ -70,8 +72,10 @@ const Login = () => {
         await axios.post('login', data).then(reponse => {
             actionSwitch(reponse.data)
             //console.log(reponse.data)
+            setIndicatorLoading(false)
             navigate.navigate('BottomMenu', { data: reponse.data })
         }).catch(error => {
+            setIndicatorLoading(false)
             console.log(error.response.data.error)
 
         })
@@ -125,7 +129,10 @@ const Login = () => {
                     activeOpacity={0.5}
                     style={styles.button}
                     onPress={goToHome}
-                ><Text style={styles.textButton}>Entrar</Text></TouchableOpacity>
+                >
+                    {indicatorLoading ? <ActivityIndicator  style={{paddingHorizontal:20}}  color="#fff" /> : <Text style={styles.textButton}>Entrar</Text>}
+
+                </TouchableOpacity>
             </KeyboardAvoidingView>
 
             <View style={styles.footer}>

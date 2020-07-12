@@ -1,29 +1,30 @@
-import React,{useEffect, useState} from 'react'
+import React, { useEffect, useState } from 'react'
 import { View, Text, ImageBackground, StyleSheet, TouchableOpacity } from 'react-native'
 import { useNavigation } from '@react-navigation/native'
 import { Video } from 'expo-av';
-
+import ShimmerPlaceHolder from 'react-native-shimmer-placeholder';
 interface ComponentInterface {
     title: string,
     video: string,
     describe: string,
-    page: string
+    page: string,
+    visible: boolean
 }
 
 
 
 const CardVideos = (props: ComponentInterface) => {
-    const [isPlaying,setIsPlaying] = useState(true)
+    const [isPlaying, setIsPlaying] = useState(true)
     const navigate = useNavigation()
     function goTo(page: string) {
 
         navigate.navigate(page)
     }
 
-    function play(){
-        if(isPlaying){
+    function play() {
+        if (isPlaying) {
             setIsPlaying(false)
-        }else{
+        } else {
             setIsPlaying(true)
         }
     }
@@ -33,7 +34,18 @@ const CardVideos = (props: ComponentInterface) => {
         //     <Text style={styles.text}>{props.title}</Text>
 
         // </View>
-        <TouchableOpacity style={styles.container} onPress={() => play()}>
+        <ShimmerPlaceHolder
+            style={{
+                flex:1,
+                width: '100%',
+                height: 200,
+                borderRadius: 10,
+                marginBottom: 25,
+            }}
+            autoRun={true}
+            visible={props.visible}
+        >
+            <TouchableOpacity style={styles.container} onPress={() => play()}>
                 <Video
                     // source={require('../assets/teste.mp4')}
                     source={{ uri: props.video }}
@@ -42,15 +54,16 @@ const CardVideos = (props: ComponentInterface) => {
                     isMuted={true}
                     useNativeControls
                     resizeMode="contain"
-                
-                
+
+
                     //shouldPlay={isPlaying}
                     style={styles.video}
                 />
                 <View style={isPlaying ? styles.boxText : styles.boxTextHide}>
                     <Text style={styles.title}>{props.title}</Text>
                 </View>
-        </TouchableOpacity>
+            </TouchableOpacity>
+        </ShimmerPlaceHolder>
     )
 }
 
@@ -60,7 +73,7 @@ const styles = StyleSheet.create({
         width: '100%',
         height: 200,
         borderRadius: 13,
-        flex:1
+        flex: 1
     },
 
     boxText: {
@@ -69,7 +82,7 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
         backgroundColor: 'rgba(4, 0, 0, 0.30)',
-        position:'absolute',
+        position: 'absolute',
         borderBottomLeftRadius: 15, borderBottomRightRadius: 15
     },
 
@@ -79,7 +92,7 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
         backgroundColor: 'rgba(4, 0, 0, 0.60)',
-        display:'none',
+        display: 'none',
         borderBottomLeftRadius: 15, borderBottomRightRadius: 15
     },
 
@@ -90,7 +103,7 @@ const styles = StyleSheet.create({
         fontFamily: 'NotoSansJP_400Regular',
     },
 
-    
+
 
     container: {
         justifyContent: 'flex-end',

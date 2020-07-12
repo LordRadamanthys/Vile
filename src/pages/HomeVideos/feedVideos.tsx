@@ -6,12 +6,46 @@ import videosInterface from '../../interfaces/videosInterface'
 import { View, Text, StyleSheet, ScrollView } from 'react-native'
 import userInterface from '../../interfaces/userInterface';
 
-
+const itemDefault: Array<videosInterface> = [
+    {
+        description: 'string',
+        id: 1,
+        idAuthor: 1,
+        path: 'string',
+        title: 'string',
+    },
+    {
+        description: 'string',
+        id: 2,
+        idAuthor: 1,
+        path: 'string',
+        title: 'string',
+    }, {
+        description: 'string',
+        id: 3,
+        idAuthor: 1,
+        path: 'string',
+        title: 'string',
+    }, {
+        description: 'string',
+        id: 4,
+        idAuthor: 1,
+        path: 'string',
+        title: 'string',
+    },{
+        description: 'string',
+        id: 5,
+        idAuthor: 1,
+        path: 'string',
+        title: 'string',
+    },
+]
 const FeedVideos = (value: any) => {
-    const [videos, setVideos] = useState<Array<videosInterface>>([])
+    const [videos, setVideos] = useState<Array<videosInterface>>(itemDefault)
+    const [cardsVisibility, setCardsVisibility] = useState(false)
     const user: userInterface = value.route.params
     useEffect(() => {
-        loadVideos()
+        setTimeout(loadVideos,2000)
     }, [])
 
     async function loadVideos() {
@@ -21,6 +55,7 @@ const FeedVideos = (value: any) => {
             }
         }).then(response => {
             setVideos(response.data)
+            setCardsVisibility(true)
         }).catch(error => {
             console.log(error.response.data)
         })
@@ -38,7 +73,7 @@ const FeedVideos = (value: any) => {
                     <Text style={styles.title}>Videos</Text>
                     {videos.map(v => (
 
-                        <CardVideos title={v.title} describe={v.description} page='NewsDetails' video={v.path} />
+                        <CardVideos key={v.id} title={v.title} describe={v.description} page='NewsDetails' video={v.path} visible={cardsVisibility}/>
                     ))}
 
 

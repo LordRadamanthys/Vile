@@ -9,7 +9,7 @@ import * as ImagePicker from 'expo-image-picker';
 import * as Permissions from 'expo-permissions';
 import userInterface from '../../interfaces/userInterface'
 import newsInterface from '../../interfaces/newsInterface'
-const teste: Array<newsInterface> = [
+const itemDefault: Array<newsInterface> = [
     {
         description: 'string',
         id: 1,
@@ -48,10 +48,11 @@ const teste: Array<newsInterface> = [
         title: 'string',
     }
 ]
+
 const Home = (value: any) => {
     const [image, setImage] = useState('')
     const [cardsVisibility, setCardsVisibility] = useState(false)
-    const [news, setNews] = useState<Array<newsInterface>>(teste)
+    const [news, setNews] = useState<Array<newsInterface>>(itemDefault)
     const user: userInterface = value.route.params
 
     var getPreferences = async () => {
@@ -151,7 +152,7 @@ const Home = (value: any) => {
                             if (n.id === 1) {
                                 return <MainCard key={n.id} title={n.title} describe={n.description} text={n.text} image={n.image} page='NewsDetails' visible={cardsVisibility} />
                             } else {
-                                return <Card title={n.title} describe={n.description} text={n.text} image={n.image} visible={cardsVisibility} />
+                                return <Card key={n.id} title={n.title} describe={n.description} text={n.text} image={n.image} visible={cardsVisibility} />
                             }
                         })
 
