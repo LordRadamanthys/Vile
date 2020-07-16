@@ -1,14 +1,14 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, useContext } from 'react'
 import Constants from 'expo-constants'
 import AsyncStorage from '@react-native-community/async-storage'
 import { useNavigation } from '@react-navigation/native'
-import axios from '../../services/api'
-import userInterface from '../../interfaces/userInterface'
 import { View, TouchableOpacity, Text, ImageBackground, TextInput, StyleSheet, KeyboardAvoidingView, Switch, ActivityIndicator } from 'react-native'
+import AuthContext from '../../services/contexts'
 
 
 
 const Login = () => {
+    const { signed, login } = useContext(AuthContext)
     const [isEnabledSwitch, setIsEnabledSwitch] = useState(false)
     const [indicatorLoading, setIndicatorLoading] = useState(false)
     const [email, setEmail] = useState('')
@@ -16,15 +16,13 @@ const Login = () => {
     const navigate = useNavigation()
 
     useEffect(() => {
-
         verifyPreferences()
     }, [])
 
-    async function actionSwitch(data: userInterface) {
+    async function actionSwitch() {
 
         if (isEnabledSwitch) {
-            setPreferences(data, isEnabledSwitch)
-            //console.log(isEnabledSwitch)
+            setPreferences(isEnabledSwitch)
         } else {
             cleanPreferences()
             console.log(isEnabledSwitch)
@@ -32,22 +30,29 @@ const Login = () => {
     }
 
     async function verifyPreferences() {
-        const isSave = await AsyncStorage.getItem('isSave')
+        const isSave = await AsyncStorage.getItem('@isSave')
+
         if (isSave) {
+            const saveEmail = await AsyncStorage.getItem('@email') as string
+            const savePassword = await AsyncStorage.getItem('@password') as string
+
             setIsEnabledSwitch(true)
+            setEmail(saveEmail)
+            setPassword(savePassword)
+
         } else {
             setIsEnabledSwitch(false)
         }
         //console.log(isSave)
     }
 
-    const setPreferences = async (value: userInterface, isSave: boolean) => {
+    const setPreferences = async (isSave: boolean) => {
         try {
             await AsyncStorage.setItem('@isSave', String(isSave))
-            await AsyncStorage.setItem('@id', String(value.id))
-            // await AsyncStorage.setItem('@email', value.)
-            // await AsyncStorage.setItem('password', '')
-            await AsyncStorage.setItem('token', String(value.token))
+            await AsyncStorage.setItem('@email', email)
+            await AsyncStorage.setItem('@password', password)
+            // // await AsyncStorage.setItem('password', '')
+            // await AsyncStorage.setItem('token', String(value.token))
         } catch (e) {
             // saving error
         }
@@ -64,22 +69,11 @@ const Login = () => {
 
     async function goToHome() {
         setIndicatorLoading(true)
-        
-        const data = {
-            email,
-            password
-        }
-        await axios.post('login', data).then(reponse => {
-            actionSwitch(reponse.data)
-            //console.log(reponse.data)
-            setIndicatorLoading(false)
-            navigate.navigate('BottomMenu', { data: reponse.data })
-        }).catch(error => {
-            setIndicatorLoading(false)
-            console.log(error.response.data.error)
+        login(email, password).then(() => {
 
+            setIndicatorLoading(false)
+            actionSwitch()
         })
-
     }
 
 
@@ -87,19 +81,14 @@ const Login = () => {
 
         <View style={styles.container}>
             <View style={styles.header}>
-                <Text style={styles.titleHeader}>Eleva</Text>
+                <Text style={styles.titleHeader}>Vile</Text>
             </View>
 
             <KeyboardAvoidingView behavior='height' style={styles.formLogin}>
-                {/* <View style={styles.formHeader}>
-                    <Text style={styles.titleForm}>Login</Text>
-                    <Image source={require('../../assets/ideia.png')} style={styles.homeImage} />
-                </View> */}
                 <View style={styles.containerImage}>
                     <ImageBackground source={require('../../assets/home.png')} imageStyle={{ borderRadius: 15, }} style={styles.image}>
-                        {/* <View style={styles.boxText}> */}
+
                         <Text style={styles.titleForm}>Login</Text>
-                        {/* </View> */}
                     </ImageBackground>
                 </View>
                 <TextInput
@@ -108,12 +97,14 @@ const Login = () => {
                     placeholder="Digite seu email"
                     value={email}
                     onChangeText={(props) => setEmail(props)} />
+
                 <TextInput
                     style={styles.input}
                     placeholderTextColor={'rgba(0, 0, 0, 0.5)'}
                     placeholder="Digite sua senha"
                     value={password}
                     onChangeText={(props) => setPassword(props)} />
+
                 <View style={styles.switchContainer}>
                     <Text style={styles.textSwitch}>Lembrar Senha</Text>
                     <Switch
@@ -129,8 +120,9 @@ const Login = () => {
                     activeOpacity={0.5}
                     style={styles.button}
                     onPress={goToHome}
+                    disabled={indicatorLoading}
                 >
-                    {indicatorLoading ? <ActivityIndicator  style={{paddingHorizontal:20}}  color="#fff" /> : <Text style={styles.textButton}>Entrar</Text>}
+                    {indicatorLoading ? <ActivityIndicator style={{ paddingHorizontal: 20 }} color="#fff" /> : <Text style={styles.textButton}>Entrar</Text>}
 
                 </TouchableOpacity>
             </KeyboardAvoidingView>

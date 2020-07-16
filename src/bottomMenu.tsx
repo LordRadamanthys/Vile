@@ -6,17 +6,10 @@ import Profile from './pages/User/profile'
 
 import { MaterialIcons as Icon } from '@expo/vector-icons'
 const Tab = createMaterialBottomTabNavigator();
-interface user {
-    id: number,
-    toke: string,
-    name: string,
-    image: string,
-    whatsapp: string,
-    sex: string,
-}
+
 
 function BottomMenu(value:any) {
-    const data = value.route.params.data
+    //const data = value.route.params.data
     return (
         <Tab.Navigator
 
@@ -34,9 +27,9 @@ function BottomMenu(value:any) {
                 elevation: 30
             }}
         >
-            <Tab.Screen name="Home" component={Home} initialParams={data} options={{ tabBarIcon: () => (<Icon name="home" size={28} color="#fff" />), tabBarColor: '#FFB800', }} />
-            <Tab.Screen name="FeedVideos" component={FeedVideos} initialParams={data} options={{ tabBarIcon: () => (<Icon name="movie" size={28} color="#fff" />), tabBarColor: '#FFC633', }} />
-            <Tab.Screen name="Profile" component={Profile} initialParams={data} options={{ tabBarIcon: () => (<Icon name="person" size={28} color="#fff" />), tabBarColor: '#FFC633', }} />
+            <Tab.Screen name="Home" component={Home}  options={{ tabBarIcon: () => (<Icon name="home" size={28} color="#fff" />), tabBarColor: '#FFB800', }} />
+            <Tab.Screen name="FeedVideos" component={FeedVideos}  options={{ tabBarIcon: () => (<Icon name="movie" size={28} color="#fff" />), tabBarColor: '#FFC633', }} />
+            <Tab.Screen name="Profile" component={Profile}  options={{ tabBarIcon: () => (<Icon name="person" size={28} color="#fff" />), tabBarColor: '#FFC633', }} />
         </Tab.Navigator>
     );
 }

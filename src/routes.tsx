@@ -1,4 +1,4 @@
-import React from 'react'
+import React,{useContext} from 'react'
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator, TransitionPresets, CardStyleInterpolators } from '@react-navigation/stack';
 import Login from './pages/Login'
@@ -8,11 +8,13 @@ import Subscribe2 from './pages/Subscribe/subscribe2'
 import Home from './pages/Home/home'
 import NewsDetails from './pages/News/newsDetails'
 import { Easing } from 'react-native';
+import AuthContext, { AuthProvider } from './services/contexts'
 const AppStack = createStackNavigator()
 
 
 
 const Routes = () => {
+    const {signed} = useContext(AuthContext)
     const config = {
         animation: 'spring',
         config: {
@@ -32,7 +34,7 @@ const Routes = () => {
             easing: Easing.linear
         }
     }
-    return (
+    return (!signed?
         <NavigationContainer>
             <AppStack.Navigator
                 headerMode="none"
@@ -49,9 +51,27 @@ const Routes = () => {
                 }
             >
                 <AppStack.Screen name="Login" component={Login} />
+                
                 <AppStack.Screen name="Subscribe1" component={Subscribe1} />
                 <AppStack.Screen name="Subscribe2" component={Subscribe2} />
-                <AppStack.Screen name="Home" component={Home} />
+            </AppStack.Navigator>
+        </NavigationContainer >
+        :
+         <NavigationContainer>
+            <AppStack.Navigator
+                headerMode="none"
+                screenOptions={
+                    {
+                        gestureEnabled: true,
+                        gestureDirection: 'horizontal',
+                        cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS
+                        // transitionSpec: {
+                        //     open: config,
+                        //     close: closeConfig,
+                        // }
+                    }
+                }
+            >  
                 <AppStack.Screen name="BottomMenu" component={BottomMenu} />
                 <AppStack.Screen name="NewsDetails" component={NewsDetails} />
             </AppStack.Navigator>

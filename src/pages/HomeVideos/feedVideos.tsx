@@ -1,10 +1,11 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, useContext } from 'react'
 import Constants from 'expo-constants'
 import CardVideos from '../../components/cardVideos'
 import axios from '../../services/api'
 import videosInterface from '../../interfaces/videosInterface'
 import { View, Text, StyleSheet, ScrollView } from 'react-native'
 import userInterface from '../../interfaces/userInterface';
+import AuthContext from '../../services/contexts'
 
 const itemDefault: Array<videosInterface> = [
     {
@@ -32,7 +33,7 @@ const itemDefault: Array<videosInterface> = [
         idAuthor: 1,
         path: 'string',
         title: 'string',
-    },{
+    }, {
         description: 'string',
         id: 5,
         idAuthor: 1,
@@ -41,11 +42,11 @@ const itemDefault: Array<videosInterface> = [
     },
 ]
 const FeedVideos = (value: any) => {
+    const { user } = useContext(AuthContext)
     const [videos, setVideos] = useState<Array<videosInterface>>(itemDefault)
     const [cardsVisibility, setCardsVisibility] = useState(false)
-    const user: userInterface = value.route.params
     useEffect(() => {
-        setTimeout(loadVideos,2000)
+        setTimeout(loadVideos, 2000)
     }, [])
 
     async function loadVideos() {
@@ -57,13 +58,13 @@ const FeedVideos = (value: any) => {
             setVideos(response.data)
             setCardsVisibility(true)
         }).catch(error => {
-            console.log(error.response.data)
+            alert(`${error.response.data}`)
         })
     }
     return (
         <View style={styles.container}>
             <View style={styles.header}>
-                <Text style={styles.titleHeader}>Eleva</Text>
+                <Text style={styles.titleHeader}>Vile</Text>
             </View>
             <View style={styles.main}>
 
@@ -73,7 +74,7 @@ const FeedVideos = (value: any) => {
                     <Text style={styles.title}>Videos</Text>
                     {videos.map(v => (
 
-                        <CardVideos key={v.id} title={v.title} describe={v.description} page='NewsDetails' video={v.path} visible={cardsVisibility}/>
+                        <CardVideos key={v.id} title={v.title} describe={v.description} page='NewsDetails' video={v.path} visible={cardsVisibility} />
                     ))}
 
 

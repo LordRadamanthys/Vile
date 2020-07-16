@@ -1,24 +1,17 @@
-import React,{useState, useEffect} from 'react'
+import React, { useState, useEffect } from 'react'
 import { View, Text, ImageBackground, StyleSheet, TouchableOpacity } from 'react-native'
 import { useNavigation } from '@react-navigation/native'
 import ShimmerPlaceHolder from 'react-native-shimmer-placeholder';
-
-interface ComponentInterface {
-    title: string,
-    text: string,
-    image: string,
-    describe: string,
-    page: string,
-    visible:boolean
-}
+import mainCardInterface from './interfacesCards/mainCardInterface'
 
 
 
-const MainCard = (props: ComponentInterface) => {
+
+const MainCard = (props: mainCardInterface) => {
     const navigate = useNavigation()
     function goTo(page: string) {
 
-        navigate.navigate(page)
+        navigate.navigate(page, { data: props })
     }
 
     return (
@@ -39,7 +32,7 @@ const MainCard = (props: ComponentInterface) => {
             visible={props.visible}
         >
             <TouchableOpacity style={styles.container} onPress={() => goTo(props.page)}>
-                <ImageBackground source={{uri:props.image}} imageStyle={{ borderRadius: 15, }} style={styles.image}>
+                <ImageBackground source={{ uri: props.image }} imageStyle={{ borderRadius: 15, }} style={styles.image}>
                     <View style={styles.boxText}>
                         <Text style={styles.title}>{props.title}</Text>
                     </View>

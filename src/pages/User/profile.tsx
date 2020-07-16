@@ -1,20 +1,82 @@
-import React from 'react'
+import React, { useContext, useState, useEffect } from 'react'
+import AuthContext from '../../services/contexts'
 import { useNavigation } from '@react-navigation/native'
 import Constants from 'expo-constants'
+import * as ImagePicker from 'expo-image-picker';
 import { View, TouchableOpacity, Text, Image, StyleSheet, KeyboardAvoidingView, TextInput } from 'react-native'
+import axios from '../../services/api'
 
 const Profile = () => {
-
+    const { user } = useContext(AuthContext)
+    const [image, setImage] = useState('')
+    const [name, setName] = useState('')
+    const [whatsapp, setWhatsapp] = useState('')
+    const [password, setPassword] = useState('')
     const navigate = useNavigation()
 
-    function goBack() {
-        navigate.goBack()
+    function handleName(value:string) {
+        setName(value)
+        console.log(name)
     }
 
     function goToNext() {
         navigate.navigate('Subscribe2')
     }
+    const _pickImage = async () => {
+        try {
+            let result = await ImagePicker.launchImageLibraryAsync({
+                mediaTypes: ImagePicker.MediaTypeOptions.Images,
+                // allowsEditing: true,
+                aspect: [4, 3],
+                quality: 1,
+            });
+            if (!result.cancelled) {
+                setImage(result.uri);
+            }
 
+            //console.log(result);
+            console.log(image)
+        } catch (E) {
+            console.log(E);
+        }
+    };
+
+    async function updateUser() {
+        
+       // setPassword(user.password)
+        
+
+        var data = new FormData()
+        data.append('name', name)
+        //data.append('password', password)
+        data.append('whatsapp', whatsapp)
+        if (image) {
+            data.append('image', {
+                uri: image,
+                name: 'teste.jpg',
+                type: 'image/jpg'
+            })
+        }
+
+
+        await axios.put('user', data, {
+            headers: {
+                'Authorization': 'Bearer ' + user.token,
+                'Content-Type': 'Multipart/form-data'
+            }
+        }).then(resp => {
+
+        }).catch(error => {
+            alert(`${error.response.data.error}`)
+        })
+    }
+
+    useEffect(() => {
+        setName(user.name)
+        setWhatsapp(user.whatsapp)
+        //setPassword(user.password)
+        setImage(user.image)
+    }, [])
     return (
 
         <View style={styles.container}>
@@ -29,29 +91,36 @@ const Profile = () => {
             <KeyboardAvoidingView behavior='height' style={styles.formLogin}>
                 <View style={styles.formHeader}>
                     <Text style={styles.titleForm}>Perfil</Text>
-                    <View
+                    <TouchableOpacity
+                    onPress={_pickImage}
                         style={styles.profileImgContainer}
                     >
-                        <Image source={require('../../assets/perfil.jpg')} style={styles.profileImg} />
-                    </View>
+                        <Image source={image ? { uri: image } : require('../../assets/perfil.jpg')} style={styles.profileImg} />
+                    </TouchableOpacity>
                 </View>
                 <TextInput
                     style={styles.input}
                     placeholderTextColor={'rgba(0, 0, 0, 0.5)'}
-                    placeholder="Nome" />
+                    placeholder="Nome"
+                    onChangeText={(props)=>handleName(props)}
+                    value={name} />
 
+                {/* <TextInput
+                    style={styles.input}
+                    placeholderTextColor={'rgba(0, 0, 0, 0.5)'}
+                    placeholder="Senha"
+                    value={password}
+                /> */}
                 <TextInput
                     style={styles.input}
                     placeholderTextColor={'rgba(0, 0, 0, 0.5)'}
-                    placeholder="Senha" />
-                <TextInput
-                    style={styles.input}
-                    placeholderTextColor={'rgba(0, 0, 0, 0.5)'}
-                    placeholder="Celular" />
+                    placeholder="Celular"
+                    onChangeText={setWhatsapp}
+                    value={whatsapp} />
                 <TouchableOpacity
                     activeOpacity={0.5}
                     style={styles.button}
-                    onPress={goToNext}
+                    onPress={updateUser}
                 >
                     <Text style={styles.textButton}>Salvar</Text>
                 </TouchableOpacity>

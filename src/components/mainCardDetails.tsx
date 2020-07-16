@@ -3,6 +3,7 @@ import { View, Text, TouchableOpacity, ImageBackground, StyleSheet, Image } from
 
 interface ComponentInterface {
     title: string,
+    image: string,
 }
 
 const MainCardDetails = (props: ComponentInterface) => {
@@ -13,7 +14,7 @@ const MainCardDetails = (props: ComponentInterface) => {
 
         // </View>
         <View style={styles.container}>
-            <ImageBackground source={require('../assets/fin.png')} imageStyle={{ borderRadius: 15, }} style={styles.image}>
+            <ImageBackground source={ props.image ? {uri:props.image} :require('../assets/fin.png')} imageStyle={{ borderRadius: 15, }} style={styles.image}>
              
             </ImageBackground>
         </View>

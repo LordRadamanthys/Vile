@@ -2,20 +2,15 @@ import React, { useState, useEffect } from 'react'
 import { View, Text, TouchableOpacity, ImageBackground, StyleSheet, Image } from 'react-native'
 import { useNavigation } from '@react-navigation/native'
 import ShimmerPlaceHolder from 'react-native-shimmer-placeholder';
+import cardInterface from './interfacesCards/cardInterface'
 
-interface ComponentInterface {
-    title: string,
-    text: string,
-    describe: string,
-    image: string,
-    visible: boolean
-}
 
-const Card = (props: ComponentInterface) => {
+
+const Card = (props: cardInterface) => {
     const navigate = useNavigation()
     const [shimmer, setShimmer] = useState(false)
     function goTo(page: string) {
-        navigate.navigate(page)
+        navigate.navigate(page,{data:props})
     }
     useEffect(() => {
         setShimmer(props.visible)

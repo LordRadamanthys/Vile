@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useContext } from 'react'
 import Constants from 'expo-constants'
 import AsyncStorage from '@react-native-community/async-storage'
 import MainCard from '../../components/mainCard'
@@ -9,6 +9,7 @@ import * as ImagePicker from 'expo-image-picker';
 import * as Permissions from 'expo-permissions';
 import userInterface from '../../interfaces/userInterface'
 import newsInterface from '../../interfaces/newsInterface'
+import AuthContext from '../../services/contexts'
 const itemDefault: Array<newsInterface> = [
     {
         description: 'string',
@@ -49,26 +50,12 @@ const itemDefault: Array<newsInterface> = [
     }
 ]
 
-const Home = (value: any) => {
+const Home = () => {
+    const { user } = useContext(AuthContext)
     const [image, setImage] = useState('')
     const [cardsVisibility, setCardsVisibility] = useState(false)
     const [news, setNews] = useState<Array<newsInterface>>(itemDefault)
-    const user: userInterface = value.route.params
 
-    var getPreferences = async () => {
-        try {
-            const value = await AsyncStorage.getItem('@isSave')
-            if (value !== null) {
-                // console.log(value)
-            } else {
-                //console.log(value)
-
-            }
-        } catch (e) {
-            console.log('teste')
-            // error reading value
-        }
-    }
 
 
     async function loadNews() {
@@ -86,12 +73,12 @@ const Home = (value: any) => {
         })
     }
 
+
+
     useEffect(() => {
         componentDidMount()
-        getPreferences()
-
+        setImage(user.image)
         setTimeout(loadNews, 2000)
-
 
     }, [])
 
@@ -136,10 +123,10 @@ const Home = (value: any) => {
                     style={styles.profileImgContainer}
                 >
                     <TouchableOpacity onPress={_pickImage}>
-                        <Image source={image !== '' ? { uri: image } : { uri: user.image } /*require('../../assets/perfil.jpg')*/} style={styles.profileImg} />
+                        <Image source={image !== '' ? { uri: image } : require('../../assets/perfil.jpg')} style={styles.profileImg} />
                     </TouchableOpacity>
                 </View>
-                <Text style={styles.titleHeader}>Eleva</Text>
+                <Text style={styles.titleHeader}>Vile</Text>
             </View>
             <View style={styles.main}>
                 <ScrollView
