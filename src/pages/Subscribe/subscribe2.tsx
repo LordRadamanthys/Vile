@@ -1,19 +1,90 @@
 import React, { useState, useEffect } from 'react'
 import Constants from 'expo-constants'
 import { Feather as Icon } from '@expo/vector-icons'
-import { useNavigation } from '@react-navigation/native'
+import { useNavigation, useRoute } from '@react-navigation/native'
 import CheckBox from '@react-native-community/checkbox';
+import axios from '../../services/api'
+import interestsInterface from '../../interfaces/interestsInterface'
 import { View, TouchableOpacity, Text, Image, TextInput, StyleSheet, KeyboardAvoidingView } from 'react-native'
+import { List } from 'react-native-paper';
 
 const Subscribe = () => {
+    const route = useRoute()
+    const value = route.params
+    const [selectedItems, setSelectedItems] = useState<number[]>([])
+    const [valor, setValor] = useState( false)
+
     const navigate = useNavigation()
-    const [marketing, setMarketing] = useState<boolean>()
-    const [branding, setBranding] = useState<boolean>(false)
-    const [financas, setFinancas] = useState<boolean>(false)
+
+    const [interests, setInterests] = useState<Array<interestsInterface>>([])
+    const [userInterests, setUserInterests] = useState('')
 
     function goBack() {
         navigate.goBack()
     }
+
+    function addUserInterests(id: number) {
+        setUserInterests((id) => {
+            return (
+                id
+            )
+        })
+        console.log(userInterests)
+    }
+    async function updateUser() {
+
+        // setPassword(user.password)
+
+
+        var data = new FormData()
+        data.append('name', name)
+        //data.append('password', password)
+        data.append('whatsapp', whatsapp)
+        if (image) {
+            data.append('image', {
+                uri: image,
+                name: 'teste.jpg',
+                type: 'image/jpg'
+            })
+        }
+
+
+        await axios.put('user', data, {
+            headers: {
+                'Authorization': 'Bearer ' + user.token,
+                'Content-Type': 'Multipart/form-data'
+            }
+        }).then(resp => {
+
+        }).catch(error => {
+            alert(`${error.response.data.error}`)
+        })
+    }
+
+    async function getInterests() {
+        await axios.get('interests')
+            .then(response => {
+                setInterests(response.data)
+            }).catch(error => {
+                alert(error.response.data.error)
+            })
+    }
+
+    function handleSelectItem(id: number) {
+        const alredySelected = selectedItems.findIndex(item => item === id)
+        if (alredySelected >= 0) {
+            const filteredItems = selectedItems.filter(item => item !== id)
+            setSelectedItems(filteredItems)
+        } else {
+            setSelectedItems([...selectedItems, id])
+        }
+
+    }
+
+    useEffect(() => {
+        //console.log(value)
+        getInterests()
+    }, [])
     return (
 
         <View style={styles.container}>
@@ -41,30 +112,34 @@ const Subscribe = () => {
                 <View style={styles.checkboxContainer}>
                     <Text>Qual seu principal interesse aqui?</Text>
 
-                    <View style={styles.checkBoxItens}>
+                    {/* <View style={styles.checkBoxItens}>
                         <CheckBox
                             tintColors={{ true: '#FFC633', false: '' }}
-                            value={marketing}
-                            onValueChange={setMarketing}
+                            value={false}
+                            onValueChange={()=>{}}
                         />
                         <Text style={{ marginEnd: 30 }}>Marketing</Text>
 
-                        <CheckBox
-                            tintColors={{ true: '#FFC633', false: '' }}
-                            value={financas}
-                            onValueChange={setFinancas}
-                        />
-                        <Text>Finanças</Text>
-                    </View>
+                        
+                    </View> */}
 
-                    <View style={styles.checkBoxItens}>
-                        <CheckBox
-                            tintColors={{ true: '#FFC633', false: '' }}
-                            value={branding}
-                            onValueChange={setBranding}
-                        />
-                        <Text style={{ marginEnd: 30 }}>Branding</Text>
-                    </View>
+
+                    
+                    {interests?.map((interest: interestsInterface) => {
+                        return (
+                            <View key={interest.id} style={styles.checkBoxItens}>
+                                <CheckBox
+                                    
+                                    tintColors={{ true: '#FFC633', false: '' }}
+                                    value={valor}
+                                    onValueChange={()=>setValor(!valor)}
+                                    
+                                />
+                                <Text style={{ marginEnd: 30 }}>{interest.name}</Text>
+                            </View>
+                        )
+                    })}
+
                 </View>
 
 
@@ -100,11 +175,12 @@ const styles = StyleSheet.create({
         alignContent: 'center',
         justifyContent: 'center',
         fontSize: 48,
-        color:'#464141',
+        color: '#464141',
         fontFamily: 'Ubuntu_300Light',
     },
 
     formLogin: {
+
         flex: 1,
         marginTop: 30,
         marginBottom: 50,
@@ -150,9 +226,9 @@ const styles = StyleSheet.create({
     },
 
     titleForm: {
-        color:'#464141',
+        color: '#464141',
         fontFamily: 'Ubuntu_300Light',
-        marginTop: 30,
+        marginTop: 20,
         marginBottom: 35,
         textAlign: 'left',
         justifyContent: 'center',

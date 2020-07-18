@@ -18,10 +18,7 @@ const Profile = () => {
         setName(value)
         console.log(name)
     }
-
-    function goToNext() {
-        navigate.navigate('Subscribe2')
-    }
+    
     const _pickImage = async () => {
         try {
             let result = await ImagePicker.launchImageLibraryAsync({
