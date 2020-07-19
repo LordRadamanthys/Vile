@@ -5,58 +5,70 @@ import { useNavigation, useRoute } from '@react-navigation/native'
 import CheckBox from '@react-native-community/checkbox';
 import axios from '../../services/api'
 import interestsInterface from '../../interfaces/interestsInterface'
-import { View, TouchableOpacity, Text, Image, TextInput, StyleSheet, KeyboardAvoidingView } from 'react-native'
-import { List } from 'react-native-paper';
+import { View, TouchableOpacity, Text, ActivityIndicator, TextInput, StyleSheet, KeyboardAvoidingView } from 'react-native'
+import userInterface from '../../interfaces/userInterface';
 
 const Subscribe = () => {
-    const route = useRoute()
-    const value = route.params
-    const [selectedItems, setSelectedItems] = useState<number[]>([])
-    const [valor, setValor] = useState( false)
-
     const navigate = useNavigation()
+    const route = useRoute()
+    const valuePage1 = route.params.data
+    const [whatsapp, setWhatsapp] = useState('')
+    const [visibilityLoad, setVisibilityLoad] = useState(false)
+    const [sex, setSex] = useState('')
 
-    const [interests, setInterests] = useState<Array<interestsInterface>>([])
-    const [userInterests, setUserInterests] = useState('')
+    const [selectedItems, setSelectedItems] = useState<number[]>([])
+
+
+
+    const [interests, setInterests] = useState<Array<interestsInterface>>()
 
     function goBack() {
         navigate.goBack()
     }
 
-    function addUserInterests(id: number) {
-        setUserInterests((id) => {
-            return (
-                id
-            )
-        })
-        console.log(userInterests)
+    function verifyFields() {
+        if (!whatsapp || whatsapp === undefined || !sex || sex === '') return false
+        return true
     }
-    async function updateUser() {
 
-        // setPassword(user.password)
+    async function createUser() {
+        if (!verifyFields()) return alert('preencha todos os campos')
+
+        setVisibilityLoad(true)
+        var userInterests = ''
+        await selectedItems.map((item: number) => {
+            userInterests += String(item) + ','
+        })
+
 
 
         var data = new FormData()
-        data.append('name', name)
-        //data.append('password', password)
+        data.append('name', valuePage1.name)
+        data.append('email', valuePage1.email)
+        data.append('password', valuePage1.password)
         data.append('whatsapp', whatsapp)
-        if (image) {
+        data.append('interests', userInterests)
+        data.append('sex', sex)
+        if (valuePage1.image) {
             data.append('image', {
-                uri: image,
-                name: 'teste.jpg',
+                uri: valuePage1.image,
+                name: `${valuePage1.email}.jpg`,
                 type: 'image/jpg'
             })
         }
 
 
-        await axios.put('user', data, {
+        await axios.post('user', data, {
             headers: {
-                'Authorization': 'Bearer ' + user.token,
                 'Content-Type': 'Multipart/form-data'
             }
         }).then(resp => {
-
+            setVisibilityLoad(false)
+            alert('Usuario cadastrado')
         }).catch(error => {
+            setVisibilityLoad(false)
+            console.log(error.response.data.error)
+            console.log(error.message)
             alert(`${error.response.data.error}`)
         })
     }
@@ -74,25 +86,27 @@ const Subscribe = () => {
         const alredySelected = selectedItems.findIndex(item => item === id)
         if (alredySelected >= 0) {
             const filteredItems = selectedItems.filter(item => item !== id)
+            console.log(filteredItems)
             setSelectedItems(filteredItems)
         } else {
             setSelectedItems([...selectedItems, id])
         }
-
     }
 
     useEffect(() => {
-        //console.log(value)
+        if (!valuePage1) return alert('erro')
         getInterests()
     }, [])
+
+
     return (
 
         <View style={styles.container}>
             <View style={styles.header}>
-                <TouchableOpacity style={{ flex: 1, alignSelf: 'center' }} onPress={goBack}>
+                <TouchableOpacity disabled={visibilityLoad} style={{ flex: 1, alignSelf: 'center' }} onPress={goBack}>
                     <Icon name="arrow-left" size={28} color="#fff" />
                 </TouchableOpacity>
-                <Text style={styles.titleHeader}>Eleva</Text>
+                <Text style={styles.titleHeader}>Vile</Text>
             </View>
 
 
@@ -103,11 +117,15 @@ const Subscribe = () => {
                 <TextInput
                     style={styles.input}
                     placeholderTextColor={'rgba(0, 0, 0, 0.5)'}
-                    placeholder="Digite seu celular" />
+                    placeholder="Digite seu whatsapp"
+                    value={whatsapp}
+                    onChangeText={setWhatsapp} />
                 <TextInput
                     style={styles.input}
                     placeholderTextColor={'rgba(0, 0, 0, 0.5)'}
-                    placeholder="Digite seu sexo" />
+                    placeholder="Digite seu sexo"
+                    value={sex}
+                    onChangeText={setSex} />
 
                 <View style={styles.checkboxContainer}>
                     <Text>Qual seu principal interesse aqui?</Text>
@@ -124,16 +142,17 @@ const Subscribe = () => {
                     </View> */}
 
 
-                    
-                    {interests?.map((interest: interestsInterface) => {
+
+                    {!interests ? <Text style={{ marginTop: 10 }}>Carregando...</Text> : interests?.map((interest: interestsInterface) => {
                         return (
                             <View key={interest.id} style={styles.checkBoxItens}>
                                 <CheckBox
-                                    
+                                    //onPress={() => handleSelectItem(interest.id)}
                                     tintColors={{ true: '#FFC633', false: '' }}
-                                    value={valor}
-                                    onValueChange={()=>setValor(!valor)}
-                                    
+                                    value={selectedItems.includes(interest.id) ? true : false}
+                                    // value={valor}
+                                    onValueChange={() => handleSelectItem(interest.id)}
+
                                 />
                                 <Text style={{ marginEnd: 30 }}>{interest.name}</Text>
                             </View>
@@ -144,11 +163,12 @@ const Subscribe = () => {
 
 
                 <TouchableOpacity
+                    disabled={visibilityLoad}
                     activeOpacity={0.5}
                     style={styles.button}
-                    onPress={() => { }}
+                    onPress={createUser}
                 >
-                    <Text style={styles.textButton}>Finalizar</Text>
+                    {visibilityLoad ? <ActivityIndicator style={{ paddingHorizontal: 20 }} color="#fff" /> : <Text style={styles.textButton}>Finalizar</Text>}
                 </TouchableOpacity>
             </KeyboardAvoidingView>
 

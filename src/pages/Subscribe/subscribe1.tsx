@@ -21,13 +21,14 @@ const Subscribe = () => {
 
     function goToNext() {
         if (!verifyFields()) return alert('preencha os campos')
+        if (password !== confirmPassword) return alert('Senhas não batem')
         const data = {
             name,
             email,
             password,
             image,
         }
-        navigate.navigate('Subscribe2', { data })
+        navigate.navigate('Subscribe2', { data,uri:image })
     }
 
     function componentDidMount() {
@@ -62,6 +63,7 @@ const Subscribe = () => {
 
     function verifyFields() {
         if (!name || !email || !password || !confirmPassword || !image) return false
+        
         return true
     }
 
@@ -76,7 +78,7 @@ const Subscribe = () => {
                 <TouchableOpacity style={{ flex: 1, alignSelf: 'center' }} onPress={goBack}>
                     <Icon name="arrow-left" size={28} color="#fff" />
                 </TouchableOpacity>
-                <Text style={styles.titleHeader}>Eleva</Text>
+                <Text style={styles.titleHeader}>Vile</Text>
             </View>
 
 
@@ -87,7 +89,7 @@ const Subscribe = () => {
                 </View>
 
                 <TouchableOpacity onPress={_pickImage} style={styles.profileImgContainer}>
-                    <Image source={require('../../assets/perfil.jpg')} style={styles.profileImg} />
+                    <Image source={image?{uri:image} : require('../../assets/perfil.jpg')} style={styles.profileImg} />
                 </TouchableOpacity>
 
                 <TextInput
@@ -100,18 +102,22 @@ const Subscribe = () => {
                     style={styles.input}
                     placeholderTextColor={'rgba(0, 0, 0, 0.5)'}
                     placeholder="Digite seu e-mail"
+                    keyboardType='email-address'
                     onChangeText={setEmail} />
 
                 <TextInput
                     style={styles.input}
                     placeholderTextColor={'rgba(0, 0, 0, 0.5)'}
                     placeholder="Digite uma senha"
+                    autoCompleteType='password'
+                    secureTextEntry={true}
                     onChangeText={setPassword} />
 
                 <TextInput
                     style={styles.input}
                     placeholderTextColor={'rgba(0, 0, 0, 0.5)'}
                     placeholder="Confirme sua senha"
+                    secureTextEntry={true}
                     onChangeText={setConfirmPassword} />
 
                 <TouchableOpacity activeOpacity={0.5} style={styles.button} onPress={goToNext}>
