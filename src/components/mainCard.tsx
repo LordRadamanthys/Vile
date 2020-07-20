@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React from 'react'
 import { View, Text, ImageBackground, StyleSheet, TouchableOpacity } from 'react-native'
 import { useNavigation } from '@react-navigation/native'
 import ShimmerPlaceHolder from 'react-native-shimmer-placeholder';
@@ -15,11 +15,6 @@ const MainCard = (props: mainCardInterface) => {
     }
 
     return (
-        // <View style={styles.container1}>
-        //     <Image source={require('../assets/fin.png')} style={styles.image} />
-        //     <Text style={styles.text}>{props.title}</Text>
-
-        // </View>
 
         <ShimmerPlaceHolder
             style={{
@@ -31,8 +26,8 @@ const MainCard = (props: mainCardInterface) => {
             autoRun={true}
             visible={props.visible}
         >
-            <TouchableOpacity style={styles.container} onPress={() => goTo(props.page)}>
-                <ImageBackground source={{ uri: props.image }} imageStyle={{ borderRadius: 15, }} style={styles.image}>
+            <TouchableOpacity activeOpacity={0.9} style={styles.container} onPress={() => goTo(props.page)}>
+                <ImageBackground source={!props.image? require('../assets/fin.png')  :{ uri: props.image }} imageStyle={{ borderRadius: 15, }} style={styles.image}>
                     <View style={styles.boxText}>
                         <Text style={styles.title}>{props.title}</Text>
                     </View>

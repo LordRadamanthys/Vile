@@ -3,7 +3,7 @@ import Constants from 'expo-constants'
 import AsyncStorage from '@react-native-community/async-storage'
 import MainCard from '../../components/mainCard'
 import Card from '../../components/card'
-import { View, TouchableOpacity, Text, Image, TextInput, StyleSheet, ScrollView } from 'react-native'
+import { View, TouchableOpacity, Text, Image, FlatList, StyleSheet, ScrollView } from 'react-native'
 import axios from '../../services/api'
 import * as ImagePicker from 'expo-image-picker';
 import * as Permissions from 'expo-permissions';
@@ -54,7 +54,7 @@ const Home = () => {
     const { user } = useContext(AuthContext)
     const [image, setImage] = useState('')
     const [cardsVisibility, setCardsVisibility] = useState(false)
-    const [news, setNews] = useState<Array<newsInterface>>(itemDefault)
+    const [news, setNews] = useState<Array<newsInterface>>()
 
 
 
@@ -95,6 +95,15 @@ const Home = () => {
         }
     };
 
+    const renderItem = ({ item }) => {
+        if (item.id === 1) {
+            return <MainCard key={item.id} title={item.title} describe={item.description} text={item.text} image={item.image} page='NewsDetails' visible={cardsVisibility} />
+        } else {
+            return <Card key={item.id} title={item.title} describe={item.description} text={item.text} image={item.image} visible={cardsVisibility} />
+        }
+
+    }
+
     const _pickImage = async () => {
         try {
             let result = await ImagePicker.launchImageLibraryAsync({
@@ -129,23 +138,36 @@ const Home = () => {
                 <Text style={styles.titleHeader}>Vile</Text>
             </View>
             <View style={styles.main}>
-                <ScrollView
+
+
+                <FlatList
+                    ListHeaderComponent={<Text style={styles.title}>News</Text>}
+                    data={news}
+                    ListEmptyComponent={news?.length<1 && cardsVisibility? <Text>Nenhuma noticias disponnivel</Text> : <MainCard key={''} title={''} describe={''} text={''} image={''} page='NewsDetails' visible={cardsVisibility} />}
+                    renderItem={renderItem}
+                    refreshing={false}
+                    onRefresh={loadNews}
+                    showsVerticalScrollIndicator={false}
+                    keyExtractor={(i, k) => k.toString()}
+                />
+
+                {/* <ScrollView
                     showsVerticalScrollIndicator={false}
                 >
                     <Text style={styles.title}>News</Text>
 
                     {
-                        news.map((n) => {
+                        !news ? <MainCard key={''} title={''} describe={''} text={''} image={''} page='NewsDetails' visible={cardsVisibility} /> : news.map((n) => {
                             if (n.id === 1) {
                                 return <MainCard key={n.id} title={n.title} describe={n.description} text={n.text} image={n.image} page='NewsDetails' visible={cardsVisibility} />
                             } else {
                                 return <Card key={n.id} title={n.title} describe={n.description} text={n.text} image={n.image} visible={cardsVisibility} />
                             }
                         })
-
+                        
                     }
 
-                </ScrollView>
+                </ScrollView> */}
             </View>
 
         </View>

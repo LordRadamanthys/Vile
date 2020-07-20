@@ -8,18 +8,13 @@ interface Provider {
     signed: boolean,
     user: userInterface | null
     login(email: string, password: string): Promise<void>
+    clearUser():void
 }
 
 const AuthContext = createContext<Provider>({} as Provider)
 
 export const AuthProvider: React.FC = ({ children }) => {
     const [user, setUser] = useState<userInterface | null>(null)
-
-
-    async function verifyPreferences() {
-        const isSave = await AsyncStorage.getItem('@isSave')
-
-    }
 
     async function login(email: string, password: string) {
         const data = {
@@ -35,8 +30,13 @@ export const AuthProvider: React.FC = ({ children }) => {
 
     }
 
+    async function clearUser(){
+        setUser(null)
+        await AsyncStorage.clear()
+    }
+
     return (
-        < AuthContext.Provider value={{ signed: !!user, user, login }}>
+        < AuthContext.Provider value={{ signed: !!user, user, login, clearUser }}>
             {children}
         </AuthContext.Provider >
     )

@@ -102,6 +102,7 @@ const Login = () => {
                     style={styles.input}
                     placeholderTextColor={'rgba(0, 0, 0, 0.5)'}
                     placeholder="Digite sua senha"
+                    secureTextEntry={true}
                     value={password}
                     onChangeText={(props) => setPassword(props)} />
 

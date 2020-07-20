@@ -3,7 +3,7 @@ import Constants from 'expo-constants'
 import CardVideos from '../../components/cardVideos'
 import axios from '../../services/api'
 import videosInterface from '../../interfaces/videosInterface'
-import { View, Text, StyleSheet, ScrollView } from 'react-native'
+import { View, Text, StyleSheet, ScrollView, FlatList } from 'react-native'
 import userInterface from '../../interfaces/userInterface';
 import AuthContext from '../../services/contexts'
 
@@ -43,7 +43,7 @@ const itemDefault: Array<videosInterface> = [
 ]
 const FeedVideos = (value: any) => {
     const { user } = useContext(AuthContext)
-    const [videos, setVideos] = useState<Array<videosInterface>>(itemDefault)
+    const [videos, setVideos] = useState<Array<videosInterface>>()
     const [cardsVisibility, setCardsVisibility] = useState(false)
     useEffect(() => {
         setTimeout(loadVideos, 2000)
@@ -61,14 +61,34 @@ const FeedVideos = (value: any) => {
             alert(`${error.response.data}`)
         })
     }
+
+    const renderItem = ({ item }) => {
+        if (!item.id) {
+            console.log('aqui não')
+            return <Text>Não veio</Text>
+        } else {
+            console.log('aqui não')
+            return <CardVideos key={item.id} title={item.title} describe={item.description} page='NewsDetails' video={item.path} visible={cardsVisibility} />
+        }
+
+    }
     return (
         <View style={styles.container}>
             <View style={styles.header}>
                 <Text style={styles.titleHeader}>Vile</Text>
             </View>
             <View style={styles.main}>
-
-                <ScrollView
+                <FlatList
+                    ListHeaderComponent={<Text style={styles.title}>Videos</Text>}
+                    data={videos}
+                    ListEmptyComponent={videos?.length <1 && cardsVisibility ? <Text>Nenhum video disponivel no momento </Text> :<CardVideos key={''} title={''} describe={''} page='NewsDetails' video={''} visible={cardsVisibility} />}
+                    renderItem={renderItem}
+                    refreshing={false}
+                    onRefresh={loadVideos}
+                    showsVerticalScrollIndicator={false}
+                    keyExtractor={(i, k) => k.toString()}
+                />
+                {/* <ScrollView
                     showsVerticalScrollIndicator={false}
                 >
                     <Text style={styles.title}>Videos</Text>
@@ -78,7 +98,7 @@ const FeedVideos = (value: any) => {
                     ))}
 
 
-                </ScrollView>
+                </ScrollView> */}
             </View>
 
         </View>

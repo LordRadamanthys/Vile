@@ -109,7 +109,6 @@ const Subscribe = () => {
                     style={styles.input}
                     placeholderTextColor={'rgba(0, 0, 0, 0.5)'}
                     placeholder="Digite uma senha"
-                    autoCompleteType='password'
                     secureTextEntry={true}
                     onChangeText={setPassword} />
 

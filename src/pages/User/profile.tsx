@@ -2,23 +2,26 @@ import React, { useContext, useState, useEffect } from 'react'
 import AuthContext from '../../services/contexts'
 import { useNavigation } from '@react-navigation/native'
 import Constants from 'expo-constants'
+import { Feather as Icon } from '@expo/vector-icons'
+import { RectButton } from 'react-native-gesture-handler'
 import * as ImagePicker from 'expo-image-picker';
 import { View, TouchableOpacity, Text, Image, StyleSheet, KeyboardAvoidingView, TextInput } from 'react-native'
 import axios from '../../services/api'
+import AlerBox from '../../components/alertBox'
 
 const Profile = () => {
-    const { user } = useContext(AuthContext)
+    const { user, clearUser } = useContext(AuthContext)
     const [image, setImage] = useState('')
     const [name, setName] = useState('')
     const [whatsapp, setWhatsapp] = useState('')
-    const [password, setPassword] = useState('')
-    const navigate = useNavigation()
+    // const [password, setPassword] = useState('')
+    // const navigate = useNavigation()
 
-    function handleName(value:string) {
+    function handleName(value: string) {
         setName(value)
         console.log(name)
     }
-    
+
     const _pickImage = async () => {
         try {
             let result = await ImagePicker.launchImageLibraryAsync({
@@ -31,7 +34,6 @@ const Profile = () => {
                 setImage(result.uri);
             }
 
-            //console.log(result);
             console.log(image)
         } catch (E) {
             console.log(E);
@@ -39,9 +41,6 @@ const Profile = () => {
     };
 
     async function updateUser() {
-        
-       // setPassword(user.password)
-        
 
         var data = new FormData()
         data.append('name', name)
@@ -68,28 +67,34 @@ const Profile = () => {
         })
     }
 
+    function exit() {
+        AlerBox({ title: 'Deseja realmente sair?', message: 'Esse processo limpara suas credenciais salvas!', textBtn1: 'Sim', textBtn2: 'Não', funcBtn1: clearUser })
+    }
+
     useEffect(() => {
         setName(user.name)
         setWhatsapp(user.whatsapp)
         //setPassword(user.password)
         setImage(user.image)
     }, [])
+
     return (
 
         <View style={styles.container}>
             <View style={styles.header}>
-
-                <Text style={styles.titleHeader}>Eleva</Text>
+                <View style={{ flex: 1, alignItems: 'center', }}>
+                    <Text style={styles.titleHeader}>Vile</Text>
+                </View>
+                <RectButton onPress={exit}>
+                    <Icon color='#464141' name={'power'} size={30} />
+                </RectButton>
             </View>
-
-
-
 
             <KeyboardAvoidingView behavior='height' style={styles.formLogin}>
                 <View style={styles.formHeader}>
                     <Text style={styles.titleForm}>Perfil</Text>
                     <TouchableOpacity
-                    onPress={_pickImage}
+                        onPress={_pickImage}
                         style={styles.profileImgContainer}
                     >
                         <Image source={image ? { uri: image } : require('../../assets/perfil.jpg')} style={styles.profileImg} />
@@ -99,7 +104,7 @@ const Profile = () => {
                     style={styles.input}
                     placeholderTextColor={'rgba(0, 0, 0, 0.5)'}
                     placeholder="Nome"
-                    onChangeText={(props)=>handleName(props)}
+                    onChangeText={(props) => handleName(props)}
                     value={name} />
 
                 {/* <TextInput
@@ -177,9 +182,7 @@ const styles = StyleSheet.create({
     },
 
     titleHeader: {
-        alignItems: 'center',
-        alignContent: 'center',
-        justifyContent: 'center',
+
         fontSize: 48,
         color: '#464141',
         fontFamily: 'Ubuntu_300Light',
