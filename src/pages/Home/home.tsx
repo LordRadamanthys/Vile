@@ -10,45 +10,7 @@ import * as Permissions from 'expo-permissions';
 import userInterface from '../../interfaces/userInterface'
 import newsInterface from '../../interfaces/newsInterface'
 import AuthContext from '../../services/contexts'
-const itemDefault: Array<newsInterface> = [
-    {
-        description: 'string',
-        id: 1,
-        idAuthor: 1,
-        image: 'string',
-        text: 'string',
-        title: 'string',
-    },
-    {
-        description: 'string',
-        id: 2,
-        idAuthor: 1,
-        image: 'string',
-        text: 'string',
-        title: 'string',
-    }, {
-        description: 'string',
-        id: 3,
-        idAuthor: 1,
-        image: 'string',
-        text: 'string',
-        title: 'string',
-    }, {
-        description: 'string',
-        id: 4,
-        idAuthor: 1,
-        image: 'string',
-        text: 'string',
-        title: 'string',
-    }, {
-        description: 'string',
-        id: 5,
-        idAuthor: 1,
-        image: 'string',
-        text: 'string',
-        title: 'string',
-    }
-]
+import {connect,socket} from '../../services/socket'
 
 const Home = () => {
     const { user } = useContext(AuthContext)
@@ -66,7 +28,7 @@ const Home = () => {
             }
         }).then(response => {
 
-            setNews(response.data)
+            setNews(response.data.reverse())
             setCardsVisibility(true)
         }).catch(error => {
             console.log(error.response.data)
@@ -81,6 +43,14 @@ const Home = () => {
         setTimeout(loadNews, 2000)
 
     }, [])
+    
+    // useEffect(() => {
+    //     connect()
+    //     socket.on('pushNews', value =>{
+    //         setNews([...news, value])
+    //     })
+       
+    // }, [])
 
     function componentDidMount() {
         getPermissionAsync();
@@ -96,7 +66,7 @@ const Home = () => {
     };
 
     const renderItem = ({ item }) => {
-        if (item.id === 1) {
+        if (news?.indexOf(item) === 0) {
             return <MainCard key={item.id} title={item.title} describe={item.description} text={item.text} image={item.image} page='NewsDetails' visible={cardsVisibility} />
         } else {
             return <Card key={item.id} title={item.title} describe={item.description} text={item.text} image={item.image} visible={cardsVisibility} />
@@ -147,6 +117,7 @@ const Home = () => {
                     renderItem={renderItem}
                     refreshing={false}
                     onRefresh={loadNews}
+                    
                     showsVerticalScrollIndicator={false}
                     keyExtractor={(i, k) => k.toString()}
                 />

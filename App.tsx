@@ -6,9 +6,12 @@ import { Ubuntu_700Bold, Ubuntu_500Medium, Ubuntu_300Light, useFonts } from '@ex
 import { StatusBar } from 'react-native';
 import Routes from './src/routes'
 import {AuthProvider} from './src/services/contexts'
+import {connect,listenPush} from './src/services/socket'
 
 
 export default function App() {
+  
+  
   const [fontsLoaded] = useFonts({
     Roboto_400Regular,
     Roboto_500Medium,

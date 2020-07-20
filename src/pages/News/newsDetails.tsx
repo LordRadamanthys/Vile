@@ -46,10 +46,14 @@ const NewsDetails = () => {
 
         <View style={styles.container}>
             <View style={styles.header}>
-                <TouchableOpacity style={{ flex: 1, alignSelf: 'center' }} onPress={goBack}>
-                    <Icon name="arrow-left" size={28} color="#fff" />
-                </TouchableOpacity>
-                <Text style={styles.titleHeader}>Vile</Text>
+                <View style={{justifyContent:'center'}}>
+                    <TouchableOpacity onPress={goBack}>
+                        <Icon name="arrow-left" size={28} color="#fff" />
+                    </TouchableOpacity>
+                </View>
+                <View style={{flex:1,alignItems:'center',justifyContent:'center'}}>
+                    <Text style={styles.titleHeader}>Vile</Text>
+                </View>
             </View>
 
             <View style={styles.main}>
@@ -177,11 +181,12 @@ const styles = StyleSheet.create({
 
 
     header: {
+        justifyContent:'center',
+        alignContent:'center',
         padding: 10,
         flexDirection: 'row',
     },
     titleHeader: {
-        flex: 2,
         alignItems: 'center',
         alignContent: 'center',
         justifyContent: 'center',
