@@ -4,6 +4,7 @@ import AsyncStorage from '@react-native-community/async-storage'
 import { useNavigation } from '@react-navigation/native'
 import { View, TouchableOpacity, Text, ImageBackground, TextInput, StyleSheet, KeyboardAvoidingView, Switch, ActivityIndicator } from 'react-native'
 import AuthContext from '../../services/contexts'
+import AwesomeAlert from 'react-native-awesome-alerts'
 
 
 
@@ -13,6 +14,7 @@ const Login = () => {
     const [indicatorLoading, setIndicatorLoading] = useState(false)
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
+    const [showAlert, setShowAlert] = useState(false)
     const navigate = useNavigation()
 
     useEffect(() => {
@@ -73,6 +75,9 @@ const Login = () => {
 
             setIndicatorLoading(false)
             actionSwitch()
+        }).catch(error=>{
+            setShowAlert(true)
+            setIndicatorLoading(false)
         })
     }
 
@@ -136,6 +141,25 @@ const Login = () => {
                     <Text style={styles.textCadastro}>Cadastre-se</Text>
                 </TouchableOpacity>
             </View>
+            <AwesomeAlert
+                show={showAlert}
+                showProgress={false}
+                title="Ops"
+                message="Erro ao fazer login"
+                closeOnTouchOutside={false}
+                closeOnHardwareBackPress={false}
+                showCancelButton={true}
+                //showConfirmButton={true}
+                cancelText="No, cancel"
+                //confirmText="Yes, delete it"
+                confirmButtonColor="#DD6B55"
+                onCancelPressed={() => {
+                    setShowAlert(false)
+                }}
+                // onConfirmPressed={() => {
+                //     valeu.funcBtn1()
+                // }}
+            />
         </View>
 
     )
