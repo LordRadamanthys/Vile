@@ -21,7 +21,7 @@ const NewsDetails = () => {
 
     useEffect(() => {
         async function loadAuthor() {
-            await axios.get(`user/${user?.id}`, {
+            await axios.get(`user/${newsInfo?.idAuthor}`, {
                 headers: {
                     'Authorization': 'Bearer ' + user?.token
                 }
@@ -29,6 +29,7 @@ const NewsDetails = () => {
                 setAuthor(response.data)
                 setShimmerVisibility(true)
             }).catch(error => {
+                console.log(newsInfo)
                 console.log(error.response.data.error)
             })
         }

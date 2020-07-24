@@ -67,9 +67,9 @@ const Home = () => {
 
     const renderItem = ({ item }) => {
         if (news?.indexOf(item) === 0) {
-            return <MainCard key={item.id} title={item.title} describe={item.description} text={item.text} image={item.image} page='NewsDetails' visible={cardsVisibility} />
+            return <MainCard key={item.id} title={item.title} describe={item.description} text={item.text} image={item.image} page='NewsDetails' idAuthor={item.idAuthor} visible={cardsVisibility} />
         } else {
-            return <Card key={item.id} title={item.title} describe={item.description} text={item.text} image={item.image} visible={cardsVisibility} />
+            return <Card key={item.id} title={item.title} describe={item.description} text={item.text} image={item.image} idAuthor={item.idAuthor} visible={cardsVisibility} />
         }
 
     }

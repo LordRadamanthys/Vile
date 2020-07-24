@@ -7,7 +7,8 @@ import { RectButton } from 'react-native-gesture-handler'
 import * as ImagePicker from 'expo-image-picker';
 import { View, TouchableOpacity, Text, Image, StyleSheet, KeyboardAvoidingView, TextInput } from 'react-native'
 import axios from '../../services/api'
-import AlerBox from '../../components/alertBox'
+import alertBoxChoose from '../../components/alertBoxChoose'
+import alertBoxConfirm from '../../components/alertBoxConfirm'
 
 const Profile = () => {
     const { user, clearUser } = useContext(AuthContext)
@@ -61,14 +62,14 @@ const Profile = () => {
                 'Content-Type': 'Multipart/form-data'
             }
         }).then(resp => {
-
+            alertBoxConfirm({ title: 'Sucesso', textBtn: 'Ok', message: 'Dados foram atualizados', funcBtn1: () => { } })
         }).catch(error => {
             alert(`${error.response.data.error}`)
         })
     }
 
     function exit() {
-        AlerBox({ title: 'Deseja realmente sair?', message: 'Esse processo limpara suas credenciais salvas!', textBtn1: 'Sim', textBtn2: 'Não', funcBtn1: clearUser })
+        alertBoxChoose({ title: 'Deseja realmente sair?', message: 'Esse processo limpara suas credenciais salvas!', textBtn1: 'Sim', textBtn2: 'Não', funcBtn1: clearUser })
     }
 
     useEffect(() => {

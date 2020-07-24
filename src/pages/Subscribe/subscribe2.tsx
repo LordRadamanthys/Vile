@@ -7,6 +7,7 @@ import axios from '../../services/api'
 import interestsInterface from '../../interfaces/interestsInterface'
 import { View, TouchableOpacity, Text, ActivityIndicator, TextInput, StyleSheet, KeyboardAvoidingView } from 'react-native'
 import userInterface from '../../interfaces/userInterface';
+import AlertBoxConfirm from '../../components/alertBoxConfirm';
 
 const Subscribe = () => {
     const navigate = useNavigation()
@@ -64,12 +65,11 @@ const Subscribe = () => {
             }
         }).then(resp => {
             setVisibilityLoad(false)
-            alert('Usuario cadastrado')
+            AlertBoxConfirm({ title: 'Sucesso', textBtn: 'Ok', message: 'Usuario cadastrado', funcBtn1: () => { navigate.navigate('Login')} })
         }).catch(error => {
             setVisibilityLoad(false)
-            console.log(error.response.data.error)
-            console.log(error.message)
-            alert(`${error.response.data.error}`)
+            AlertBoxConfirm({ title: 'Ops', textBtn: 'Ok', message: `${error.response.data.error}`, funcBtn1: () => { } })
+            // alert(`${error.response.data.error}`)
         })
     }
 

@@ -1,0 +1,1 @@
+export const IP_SERVER = 'http://192.168.15.4'

@@ -4,5 +4,6 @@ export default interface ComponentInterface {
     image: string,
     describe: string,
     page: string,
+    idAuthor:number,
     visible: boolean
 }
