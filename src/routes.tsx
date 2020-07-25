@@ -5,35 +5,15 @@ import Login from './pages/Login'
 import BottomMenu from './bottomMenu'
 import Subscribe1 from './pages/Subscribe/subscribe1'
 import Subscribe2 from './pages/Subscribe/subscribe2'
-import Home from './pages/Home/home'
 import NewsDetails from './pages/News/newsDetails'
-import { Easing } from 'react-native';
-import AuthContext, { AuthProvider } from './services/contexts'
+import AuthContext from './services/contexts'
 const AppStack = createStackNavigator()
 
 
 
 const Routes = () => {
     const {signed} = useContext(AuthContext)
-    const config = {
-        animation: 'spring',
-        config: {
-            stiffness: 1000,
-            damping: 500,
-            mass: 3,
-            overshootClamping: true,
-            restDisplacementThreshold: 0.01,
-            restSpeedThreshold: 0.01,
-        },
-    };
 
-    const closeConfig = {
-        animation: 'timing',
-        config: {
-            duration: 200,
-            easing: Easing.linear
-        }
-    }
     return (!signed?
         <NavigationContainer>
             <AppStack.Navigator

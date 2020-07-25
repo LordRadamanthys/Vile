@@ -1,16 +1,13 @@
 import React, { useState, useEffect, useContext } from 'react'
 import Constants from 'expo-constants'
-import AsyncStorage from '@react-native-community/async-storage'
 import MainCard from '../../components/mainCard'
 import Card from '../../components/card'
 import { View, TouchableOpacity, Text, Image, FlatList, StyleSheet, ScrollView } from 'react-native'
 import axios from '../../services/api'
 import * as ImagePicker from 'expo-image-picker';
 import * as Permissions from 'expo-permissions';
-import userInterface from '../../interfaces/userInterface'
 import newsInterface from '../../interfaces/newsInterface'
 import AuthContext from '../../services/contexts'
-import {connect,socket} from '../../services/socket'
 
 const Home = () => {
     const { user } = useContext(AuthContext)

@@ -5,4 +5,5 @@ export default interface newsInterface {
     image: string,
     text: string,
     title: string,
+   
 }

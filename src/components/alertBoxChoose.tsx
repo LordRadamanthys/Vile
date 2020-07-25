@@ -19,7 +19,7 @@ const AlertBox = (value:AlertInterface) =>
                 //onPress: () => console.log("Cancel Pressed"),
                 style: "cancel"
             },
-            { text: value.textBtn1, onPress: () => value.funcBtn1() }
+            {  text: value.textBtn1, onPress: () => value.funcBtn1() }
         ],
         { cancelable: false }
     );

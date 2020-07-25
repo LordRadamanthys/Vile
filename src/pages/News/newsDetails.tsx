@@ -3,7 +3,7 @@ import Constants from 'expo-constants'
 import { useNavigation, useRoute } from '@react-navigation/native'
 import { Feather as Icon } from '@expo/vector-icons'
 import MainCardDetails from '../../components/mainCardDetails'
-import { View, TouchableOpacity, Text, Image, StyleSheet, ScrollView } from 'react-native'
+import { View, TouchableOpacity, Linking, Text, Image, StyleSheet, ScrollView } from 'react-native'
 import newsInterface from '../../interfaces/newsInterface'
 import userInterface from '../../interfaces/userInterface'
 import axios from '../../services/api'
@@ -37,7 +37,10 @@ const NewsDetails = () => {
 
     }, [])
 
-
+    function goToInstagram() {
+        // console.log(author?.instagram)
+        Linking.openURL(`instagram://user?username=${!author?.instagram ? '' : author?.instagram}`)
+    }
     function goBack() {
         navigate.goBack()
     }
@@ -47,12 +50,12 @@ const NewsDetails = () => {
 
         <View style={styles.container}>
             <View style={styles.header}>
-                <View style={{justifyContent:'center'}}>
+                <View style={{ justifyContent: 'center' }}>
                     <TouchableOpacity onPress={goBack}>
                         <Icon name="arrow-left" size={28} color="#fff" />
                     </TouchableOpacity>
                 </View>
-                <View style={{flex:1,alignItems:'center',justifyContent:'center'}}>
+                <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
                     <Text style={styles.titleHeader}>Vile</Text>
                 </View>
             </View>
@@ -64,7 +67,7 @@ const NewsDetails = () => {
                 >
                     <MainCardDetails title='Alguma noticia interessante' image={newsInfo.image} />
 
-                    <View style={styles.editor}>
+                    <TouchableOpacity onPress={goToInstagram} activeOpacity={0.9} style={styles.editor}>
                         <View style={styles.profileImgContainer} >
                             <ShimmerPlaceHolder style={styles.profileImg} autoRun={true} visible={shimmerVisibility}>
                                 <Image source={{ uri: author?.image }} style={styles.profileImg} />
@@ -78,7 +81,7 @@ const NewsDetails = () => {
                                 <Text style={styles.subtitleEditor}>Autor</Text>
                             </ShimmerPlaceHolder>
                         </View>
-                    </View>
+                    </TouchableOpacity>
                     <Text style={styles.mainText}>
                         {newsInfo.text}
                     </Text>
@@ -182,8 +185,8 @@ const styles = StyleSheet.create({
 
 
     header: {
-        justifyContent:'center',
-        alignContent:'center',
+        justifyContent: 'center',
+        alignContent: 'center',
         padding: 10,
         flexDirection: 'row',
     },

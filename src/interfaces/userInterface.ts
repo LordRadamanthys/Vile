@@ -7,4 +7,5 @@ export default interface userInterface {
     image: string,
     whatsapp: string,
     sex: string,
+    instagram:string
 }

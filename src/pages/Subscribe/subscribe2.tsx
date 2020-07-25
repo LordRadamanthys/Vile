@@ -6,7 +6,6 @@ import CheckBox from '@react-native-community/checkbox';
 import axios from '../../services/api'
 import interestsInterface from '../../interfaces/interestsInterface'
 import { View, TouchableOpacity, Text, ActivityIndicator, TextInput, StyleSheet, KeyboardAvoidingView } from 'react-native'
-import userInterface from '../../interfaces/userInterface';
 import AlertBoxConfirm from '../../components/alertBoxConfirm';
 
 const Subscribe = () => {
@@ -16,6 +15,7 @@ const Subscribe = () => {
     const [whatsapp, setWhatsapp] = useState('')
     const [visibilityLoad, setVisibilityLoad] = useState(false)
     const [sex, setSex] = useState('')
+    const [instagram, setInstagram] = useState('')
 
     const [selectedItems, setSelectedItems] = useState<number[]>([])
 
@@ -49,6 +49,7 @@ const Subscribe = () => {
         data.append('password', valuePage1.password)
         data.append('whatsapp', whatsapp)
         data.append('interests', userInterests)
+        data.append('instagram', instagram)
         data.append('sex', sex)
         if (valuePage1.image) {
             data.append('image', {
@@ -65,7 +66,7 @@ const Subscribe = () => {
             }
         }).then(resp => {
             setVisibilityLoad(false)
-            AlertBoxConfirm({ title: 'Sucesso', textBtn: 'Ok', message: 'Usuario cadastrado', funcBtn1: () => { navigate.navigate('Login')} })
+            AlertBoxConfirm({ title: 'Sucesso', textBtn: 'Ok', message: 'Usuario cadastrado', funcBtn1: () => { navigate.navigate('Login') } })
         }).catch(error => {
             setVisibilityLoad(false)
             AlertBoxConfirm({ title: 'Ops', textBtn: 'Ok', message: `${error.response.data.error}`, funcBtn1: () => { } })
@@ -120,6 +121,7 @@ const Subscribe = () => {
                     placeholder="Digite seu whatsapp"
                     value={whatsapp}
                     onChangeText={setWhatsapp} />
+
                 <TextInput
                     style={styles.input}
                     placeholderTextColor={'rgba(0, 0, 0, 0.5)'}
@@ -127,20 +129,15 @@ const Subscribe = () => {
                     value={sex}
                     onChangeText={setSex} />
 
+                <TextInput
+                    style={styles.input}
+                    placeholderTextColor={'rgba(0, 0, 0, 0.5)'}
+                    placeholder="Digite seu Instagram (opcional)"
+                    value={instagram}
+                    onChangeText={setInstagram} />
+
                 <View style={styles.checkboxContainer}>
                     <Text>Qual seu principal interesse aqui?</Text>
-
-                    {/* <View style={styles.checkBoxItens}>
-                        <CheckBox
-                            tintColors={{ true: '#FFC633', false: '' }}
-                            value={false}
-                            onValueChange={()=>{}}
-                        />
-                        <Text style={{ marginEnd: 30 }}>Marketing</Text>
-
-                        
-                    </View> */}
-
 
 
                     {!interests ? <Text style={{ marginTop: 10 }}>Carregando...</Text> : interests?.map((interest: interestsInterface) => {

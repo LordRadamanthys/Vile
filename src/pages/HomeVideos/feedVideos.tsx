@@ -81,7 +81,9 @@ const FeedVideos = (value: any) => {
                 <FlatList
                     ListHeaderComponent={<Text style={styles.title}>Videos</Text>}
                     data={videos}
-                    ListEmptyComponent={videos?.length <1 && cardsVisibility ? <Text>Nenhum video disponivel no momento </Text> :<CardVideos key={''} title={''} describe={''} page='NewsDetails' video={''} visible={cardsVisibility} />}
+                    ListEmptyComponent={videos?.length < 1 && cardsVisibility ? <Text>Nenhum video disponivel no momento </Text>
+                        :
+                        <CardVideos key={''} title={''} describe={''} page='NewsDetails' video={''} visible={cardsVisibility} />}
                     renderItem={renderItem}
                     refreshing={false}
                     onRefresh={loadVideos}

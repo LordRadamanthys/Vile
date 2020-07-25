@@ -1,6 +1,5 @@
 import React, { useContext, useState, useEffect } from 'react'
 import AuthContext from '../../services/contexts'
-import { useNavigation } from '@react-navigation/native'
 import Constants from 'expo-constants'
 import { Feather as Icon } from '@expo/vector-icons'
 import { RectButton } from 'react-native-gesture-handler'
@@ -9,13 +8,16 @@ import { View, TouchableOpacity, Text, Image, StyleSheet, KeyboardAvoidingView, 
 import axios from '../../services/api'
 import alertBoxChoose from '../../components/alertBoxChoose'
 import alertBoxConfirm from '../../components/alertBoxConfirm'
+import { ActivityIndicator } from 'react-native-paper'
 
 const Profile = () => {
     const { user, clearUser } = useContext(AuthContext)
     const [image, setImage] = useState('')
     const [name, setName] = useState('')
+    const [loadingIndicator, setLoadingIndicator] = useState(false)
+
     const [whatsapp, setWhatsapp] = useState('')
-    // const [password, setPassword] = useState('')
+    const [instagram, setInstagram] = useState('')
     // const navigate = useNavigation()
 
     function handleName(value: string) {
@@ -42,10 +44,10 @@ const Profile = () => {
     };
 
     async function updateUser() {
-
+        setLoadingIndicator(true)
         var data = new FormData()
         data.append('name', name)
-        //data.append('password', password)
+        data.append('instagram', instagram)
         data.append('whatsapp', whatsapp)
         if (image) {
             data.append('image', {
@@ -62,8 +64,10 @@ const Profile = () => {
                 'Content-Type': 'Multipart/form-data'
             }
         }).then(resp => {
+            setLoadingIndicator(false)
             alertBoxConfirm({ title: 'Sucesso', textBtn: 'Ok', message: 'Dados foram atualizados', funcBtn1: () => { } })
         }).catch(error => {
+            setLoadingIndicator(false)
             alert(`${error.response.data.error}`)
         })
     }
@@ -75,7 +79,7 @@ const Profile = () => {
     useEffect(() => {
         setName(user.name)
         setWhatsapp(user.whatsapp)
-        //setPassword(user.password)
+        setInstagram(user?.instagram)
         setImage(user.image)
     }, [])
 
@@ -101,31 +105,36 @@ const Profile = () => {
                         <Image source={image ? { uri: image } : require('../../assets/perfil.jpg')} style={styles.profileImg} />
                     </TouchableOpacity>
                 </View>
+                <Text style={styles.titleInput}>Nome:</Text>
                 <TextInput
                     style={styles.input}
                     placeholderTextColor={'rgba(0, 0, 0, 0.5)'}
                     placeholder="Nome"
                     onChangeText={(props) => handleName(props)}
                     value={name} />
-
-                {/* <TextInput
-                    style={styles.input}
-                    placeholderTextColor={'rgba(0, 0, 0, 0.5)'}
-                    placeholder="Senha"
-                    value={password}
-                /> */}
+                <Text style={styles.titleInput}>Instagram:</Text>
                 <TextInput
                     style={styles.input}
                     placeholderTextColor={'rgba(0, 0, 0, 0.5)'}
-                    placeholder="Celular"
+                    placeholder="Instagram"
+                    value={instagram}
+                    onChangeText={setInstagram}
+                />
+                <Text style={styles.titleInput}>Whatsapp:</Text>
+                <TextInput
+                    style={styles.input}
+                    placeholderTextColor={'rgba(0, 0, 0, 0.5)'}
+                    placeholder="Whatsapp"
                     onChangeText={setWhatsapp}
                     value={whatsapp} />
+
                 <TouchableOpacity
                     activeOpacity={0.5}
                     style={styles.button}
                     onPress={updateUser}
+                    disabled={loadingIndicator}
                 >
-                    <Text style={styles.textButton}>Salvar</Text>
+                    {loadingIndicator ? <ActivityIndicator style={{ paddingHorizontal: 20 }} color="#fff" /> : <Text style={styles.textButton}>Salvar</Text>}
                 </TouchableOpacity>
             </KeyboardAvoidingView>
 
@@ -209,7 +218,7 @@ const styles = StyleSheet.create({
 
     },
     input: {
-        height: 60,
+        height: 50,
         backgroundColor: 'rgba(186, 186, 186, 0.25)',
         borderRadius: 20,
         marginBottom: 35,
@@ -221,7 +230,7 @@ const styles = StyleSheet.create({
 
     button: {
         alignSelf: 'center',
-        marginTop: 70,
+        marginTop: 30,
         backgroundColor: '#FFB802',
         borderRadius: 20,
         paddingHorizontal: 50,
@@ -235,6 +244,15 @@ const styles = StyleSheet.create({
         marginBottom: 10,
         textAlign: 'left',
         fontSize: 24,
+
+    },
+
+    titleInput: {
+        color: '#464141',
+        fontFamily: 'Ubuntu_300Light',
+        marginBottom: 10,
+        textAlign: 'left',
+        fontSize: 17,
 
     },
 

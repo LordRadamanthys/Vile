@@ -29,7 +29,7 @@ function BottomMenu(value:any) {
         >
             <Tab.Screen name="Home" component={Home}  options={{ tabBarIcon: () => (<Icon name="home" size={28} color="#fff" />), tabBarColor: '#FFB800', }} />
             <Tab.Screen name="FeedVideos" component={FeedVideos}  options={{ tabBarIcon: () => (<Icon name="movie" size={28} color="#fff" />), tabBarColor: '#FFC633', }} />
-            <Tab.Screen name="Profile" component={Profile}  options={{ tabBarIcon: () => (<Icon name="person" size={28} color="#fff" />), tabBarColor: '#FFC633', }} />
+            <Tab.Screen name="Profile" component={Profile}  options={{ tabBarIcon: () => (<Icon name="person" size={28} color="#fff" />), tabBarColor: '#FFB800', }} />
         </Tab.Navigator>
     );
 }

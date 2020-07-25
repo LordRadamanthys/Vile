@@ -26,13 +26,15 @@ const MainCard = (props: mainCardInterface) => {
             autoRun={true}
             visible={props.visible}
         >
-            <TouchableOpacity activeOpacity={0.9} style={styles.container} onPress={() => goTo(props.page)}>
-                <ImageBackground source={!props.image? require('../assets/fin.png')  :{ uri: props.image }} imageStyle={{ borderRadius: 15, }} style={styles.image}>
-                    <View style={styles.boxText}>
-                        <Text style={styles.title}>{props.title}</Text>
-                    </View>
-                </ImageBackground>
-            </TouchableOpacity >
+                <TouchableOpacity activeOpacity={0.9} style={styles.container} onPress={() => goTo(props.page)}>
+
+                    <ImageBackground source={!props.image ? require('../assets/fin.png') : { uri: props.image }} imageStyle={{ borderRadius: 15, }} style={styles.image}>
+                        <View style={styles.boxText}>
+                            <Text style={styles.title}>{props.title}</Text>
+                        </View>
+                    </ImageBackground>
+                </TouchableOpacity >
+            
         </ShimmerPlaceHolder>
     )
 }
