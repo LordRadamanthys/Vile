@@ -9,12 +9,14 @@ import axios from '../../services/api'
 import alertBoxChoose from '../../components/alertBoxChoose'
 import alertBoxConfirm from '../../components/alertBoxConfirm'
 import { ActivityIndicator } from 'react-native-paper'
+import ModalChooser from '../../components/modalChooser'
 
 const Profile = () => {
     const { user, clearUser } = useContext(AuthContext)
     const [image, setImage] = useState('')
     const [name, setName] = useState('')
     const [loadingIndicator, setLoadingIndicator] = useState(false)
+    const [modalVisible, setModalVisible] = useState(false)
 
     const [whatsapp, setWhatsapp] = useState('')
     const [instagram, setInstagram] = useState('')
@@ -73,7 +75,8 @@ const Profile = () => {
     }
 
     function exit() {
-        alertBoxChoose({ title: 'Deseja realmente sair?', message: 'Esse processo limpara suas credenciais salvas!', textBtn1: 'Sim', textBtn2: 'Não', funcBtn1: clearUser })
+        setModalVisible(!modalVisible)
+        //alertBoxChoose({ title: 'Deseja realmente sair?', message: 'Esse processo limpara suas credenciais salvas!', textBtn1: 'Sim', textBtn2: 'Não', funcBtn1: clearUser })
     }
 
     useEffect(() => {
@@ -86,6 +89,9 @@ const Profile = () => {
     return (
 
         <View style={styles.container}>
+
+            {!modalVisible ? <></> : <ModalChooser setShow={setModalVisible} title={`Deseja realmente sair e limpar os dados salvos?`} show={modalVisible} textBtnRight='Sim' textBtnLeft='Não' funcBtn1={clearUser} />}
+            
             <View style={styles.header}>
                 <View style={{ flex: 1, alignItems: 'center', }}>
                     <Text style={styles.titleHeader}>Vile</Text>

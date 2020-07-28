@@ -10,13 +10,17 @@ interface Provider {
     user: userInterface | null
     login(email: string, password: string): Promise<void>
     clearUser(): void
+    showModal(key: boolean): void,
+    visibilityModal: boolean,
+    errorMessageLogin: string
 }
 
 const AuthContext = createContext<Provider>({} as Provider)
 
 export const AuthProvider: React.FC = ({ children }) => {
     const [user, setUser] = useState<userInterface | null>(null)
-
+    const [modalVisible, setModalVisible] = useState(false)
+    let errorMessage = 'Houve um erro com a rede'
     async function login(email: string, password: string) {
         const data = {
             email,
@@ -27,9 +31,16 @@ export const AuthProvider: React.FC = ({ children }) => {
 
         }).catch(error => {
             // alert(`${error.response.data.error}`)
-            AlertBoxConfirm({ title: 'Ops', textBtn: 'Ok', message: !error.response ? 'Houve um erro com a rede' : error.response.data.error, funcBtn1: () => { } })
+            //showModal(true)
+            errorMessage = !error.response ? 'Houve um erro com a rede' : error.response.data.error
+            setModalVisible(!modalVisible)
+            //  AlertBoxConfirm({ title: 'Ops', textBtn: 'Ok', message: !error.response ? 'Houve um erro com a rede' : error.response.data.error, funcBtn1: () => { } })
         })
 
+    }
+
+    async function showModal(key: boolean) {
+        setModalVisible(key)
     }
 
     async function clearUser() {
@@ -38,7 +49,7 @@ export const AuthProvider: React.FC = ({ children }) => {
     }
 
     return (
-        < AuthContext.Provider value={{ signed: !!user, user, login, clearUser }}>
+        < AuthContext.Provider value={{ signed: !!user, user, login, clearUser, showModal, visibilityModal: modalVisible, errorMessageLogin: errorMessage }}>
             {children}
         </AuthContext.Provider >
     )

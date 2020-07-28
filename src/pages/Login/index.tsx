@@ -2,13 +2,14 @@ import React, { useEffect, useState, useContext } from 'react'
 import Constants from 'expo-constants'
 import AsyncStorage from '@react-native-community/async-storage'
 import { useNavigation } from '@react-navigation/native'
-import { View, TouchableOpacity, Text, ImageBackground, TextInput, StyleSheet, KeyboardAvoidingView, Switch, ActivityIndicator } from 'react-native'
+import { View, TouchableOpacity, Text, ImageBackground, Image, TextInput, StyleSheet, KeyboardAvoidingView, Switch, ActivityIndicator, Modal, Alert } from 'react-native'
 import AuthContext from '../../services/contexts'
+import ModalConfirm from '../../components/modalConfirm'
 
 
 
 const Login = () => {
-    const { signed, login } = useContext(AuthContext)
+    const { login, showModal,errorMessageLogin, visibilityModal } = useContext(AuthContext)
     const [isEnabledSwitch, setIsEnabledSwitch] = useState(false)
     const [indicatorLoading, setIndicatorLoading] = useState(false)
     const [email, setEmail] = useState('')
@@ -72,8 +73,7 @@ const Login = () => {
         login(email, password).then(() => {
             setIndicatorLoading(false)
             actionSwitch()
-        }).catch(error => {
-            setIndicatorLoading(false)
+          //  showModal(!visibilityModal)
         })
     }
 
@@ -81,11 +81,46 @@ const Login = () => {
     return (
 
         <View style={styles.container}>
+
             <View style={styles.header}>
                 <Text style={styles.titleHeader}>Vile</Text>
             </View>
 
             <KeyboardAvoidingView behavior='height' style={styles.formLogin}>
+                {!visibilityModal ? <></> : <ModalConfirm setShow={showModal} title={errorMessageLogin} show={visibilityModal} textBtn='OK'  funcBtn1={() => { }} />}
+                {/* <Modal animationType="slide" transparent={true} visible={true}
+                    onRequestClose={() => {
+                        console.log('jhjgfdghj')
+                    }}
+                >
+                    <View style={styles.centeredView}>
+                        <View style={styles.modalView}>
+                            <Image style={{ width: 200, height: 200 }} source={require('../../assets/ovni_error.png')} />
+                            <Text style={styles.titleModal}>Desea realmente sair?</Text>
+                            <View style={{ flexDirection: 'row' }}>
+                                <TouchableOpacity
+                                    style={{ ...styles.btnPositiveModal, backgroundColor: "#B3ADAD" }}
+                                    onPress={() => {
+                                        setModalVisible(!modalVisible);
+                                    }}
+                                >
+                                    <Text style={styles.textBtnModal}>Não</Text>
+                                </TouchableOpacity>
+
+                                <TouchableOpacity
+                                    style={{ ...styles.btnPositiveModal, backgroundColor: "#FFC633" }}
+                                    onPress={() => {
+                                        setModalVisible(!modalVisible);
+                                    }}
+                                >
+                                    <Text style={styles.textBtnModal}>Sim</Text>
+                                </TouchableOpacity>
+
+                            </View>
+                        </View>
+                    </View>
+                </Modal> */}
+
                 <View style={styles.containerImage}>
                     <ImageBackground source={require('../../assets/home.png')} imageStyle={{ borderRadius: 15, }} style={styles.image}>
 
@@ -143,6 +178,63 @@ const Login = () => {
 }
 
 const styles = StyleSheet.create({
+
+    centeredView: {
+        flex: 1,
+        padding: 40,
+        justifyContent: "center",
+        alignItems: "center",
+    },
+    modalView: {
+        margin: 20,
+        backgroundColor: "white",
+        borderRadius: 20,
+        padding: 10,
+        alignItems: "center",
+        shadowColor: "#000",
+        borderColor: '#FFB802',
+        borderWidth: 4,
+        shadowOffset: {
+            width: 0,
+            height: 2
+        },
+        shadowOpacity: 0.25,
+        shadowRadius: 3.84,
+        elevation: 11,
+    },
+
+    btnPositiveModal: {
+        marginTop: 80,
+        marginBottom: 20,
+        marginHorizontal: 10,
+        // backgroundColor: '#FFB802',
+        borderRadius: 20,
+        paddingHorizontal: 40,
+        paddingVertical: 15
+    },
+
+    titleModal: {
+        marginTop: 10,
+        fontSize: 18,
+        textAlign: 'center',
+        marginHorizontal: 0,
+        color: '#464141',
+        fontFamily: 'Ubuntu_500Medium'
+    },
+
+    textBtnModal: {
+        fontSize: 18,
+        color: '#fff',
+        fontFamily: 'Ubuntu_500Medium'
+    },
+
+
+
+
+
+
+
+
     containerImage: {
         marginVertical: 20,
         justifyContent: 'center',
