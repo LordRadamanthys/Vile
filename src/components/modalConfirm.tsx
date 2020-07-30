@@ -6,8 +6,8 @@ interface AlertInterface {
     textBtn: string,
     funcBtn1(): void
     show: boolean,
-
     setShow(key: boolean): void
+    type:string
 }
 
 const ModalConfirm = (props: AlertInterface) => {
@@ -21,7 +21,7 @@ const ModalConfirm = (props: AlertInterface) => {
         >
             <View style={styles.centeredView}>
                 <View style={styles.modalView}>
-                    <Image style={{ width: 250, height: 175 }} source={require('../assets/404_error.png')} />
+                    <Image style={{ width: 250, height: 175 }} source={props.type === 'error'? require('../assets/404_error.png') : require('../assets/alert_red.png')} />
                     <Text style={styles.titleModal}>{props.title}</Text>
                     <View style={{ flexDirection: 'row' }}>
                         <TouchableOpacity

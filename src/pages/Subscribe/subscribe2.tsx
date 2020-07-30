@@ -7,6 +7,7 @@ import axios from '../../services/api'
 import interestsInterface from '../../interfaces/interestsInterface'
 import { View, TouchableOpacity, Text, ActivityIndicator, TextInput, StyleSheet, KeyboardAvoidingView } from 'react-native'
 import AlertBoxConfirm from '../../components/alertBoxConfirm';
+import ModalConfirm from '../../components/modalConfirm';
 
 const Subscribe = () => {
     const navigate = useNavigation()
@@ -16,6 +17,8 @@ const Subscribe = () => {
     const [visibilityLoad, setVisibilityLoad] = useState(false)
     const [sex, setSex] = useState('')
     const [instagram, setInstagram] = useState('')
+    const [modalVisible, setModalVisible] = useState(false)
+    const [messageModal, setMessageModal] = useState('')
 
     const [selectedItems, setSelectedItems] = useState<number[]>([])
 
@@ -33,7 +36,10 @@ const Subscribe = () => {
     }
 
     async function createUser() {
-        if (!verifyFields()) return alert('preencha todos os campos')
+        if (!verifyFields()) {
+            setMessageModal('preencha todos os campos')
+            return setModalVisible(!modalVisible)
+        }
 
         setVisibilityLoad(true)
         var userInterests = ''
@@ -66,10 +72,14 @@ const Subscribe = () => {
             }
         }).then(resp => {
             setVisibilityLoad(false)
-            AlertBoxConfirm({ title: 'Sucesso', textBtn: 'Ok', message: 'Usuario cadastrado', funcBtn1: () => { navigate.navigate('Login') } })
+            setMessageModal('Usuario cadastrado')
+            setModalVisible(!modalVisible)
+            //AlertBoxConfirm({ title: 'Sucesso', textBtn: 'Ok', message: 'Usuario cadastrado', funcBtn1: () => { navigate.navigate('Login') } })
         }).catch(error => {
+            setMessageModal(`${error.message}`)
             setVisibilityLoad(false)
-            AlertBoxConfirm({ title: 'Ops', textBtn: 'Ok', message: `${error.response.data.error}`, funcBtn1: () => { } })
+            setModalVisible(!modalVisible)
+            //AlertBoxConfirm({ title: 'Ops', textBtn: 'Ok', message: `${error.response.data.error}`, funcBtn1: () => { } })
             // alert(`${error.response.data.error}`)
         })
     }
@@ -103,6 +113,9 @@ const Subscribe = () => {
     return (
 
         <View style={styles.container}>
+
+            {!modalVisible ? <></> : <ModalConfirm setShow={setModalVisible} title={messageModal} show={modalVisible} textBtn='Ok' funcBtn1={() => { }} />}
+
             <View style={styles.header}>
                 <TouchableOpacity disabled={visibilityLoad} style={{ flex: 1, alignSelf: 'center' }} onPress={goBack}>
                     <Icon name="arrow-left" size={28} color="#fff" />
@@ -115,26 +128,32 @@ const Subscribe = () => {
                 <View style={styles.formHeader}>
                     <Text style={styles.titleForm}>Cadastro 2/2</Text>
                 </View>
-                <TextInput
-                    style={styles.input}
-                    placeholderTextColor={'rgba(0, 0, 0, 0.5)'}
-                    placeholder="Digite seu whatsapp"
-                    value={whatsapp}
-                    onChangeText={setWhatsapp} />
+                <View style={styles.containerTextInput}>
+                    <Icon style={{ marginEnd: 10 }} name="phone" size={25} color="#FFC633" />
+                    <TextInput
+                        placeholderTextColor={'rgba(0, 0, 0, 0.5)'}
+                        placeholder="Digite seu whatsapp"
+                        value={whatsapp}
+                        onChangeText={setWhatsapp} />
+                </View>
 
-                <TextInput
-                    style={styles.input}
-                    placeholderTextColor={'rgba(0, 0, 0, 0.5)'}
-                    placeholder="Digite seu sexo"
-                    value={sex}
-                    onChangeText={setSex} />
+                <View style={styles.containerTextInput}>
+                    <Icon style={{ marginEnd: 10 }} name="feather" size={25} color="#FFC633" />
+                    <TextInput
+                        placeholderTextColor={'rgba(0, 0, 0, 0.5)'}
+                        placeholder="Digite seu sexo"
+                        value={sex}
+                        onChangeText={setSex} />
+                </View>
 
-                <TextInput
-                    style={styles.input}
-                    placeholderTextColor={'rgba(0, 0, 0, 0.5)'}
-                    placeholder="Digite seu Instagram (opcional)"
-                    value={instagram}
-                    onChangeText={setInstagram} />
+                <View style={styles.containerTextInput}>
+                    <Icon style={{ marginEnd: 10 }} name="instagram" size={25} color="#FFC633" />
+                    <TextInput
+                        placeholderTextColor={'rgba(0, 0, 0, 0.5)'}
+                        placeholder="Digite seu Instagram"
+                        value={instagram}
+                        onChangeText={setInstagram} />
+                </View>
 
                 <View style={styles.checkboxContainer}>
                     <Text>Qual seu principal interesse aqui?</Text>
@@ -216,14 +235,17 @@ const styles = StyleSheet.create({
         elevation: 9,
 
     },
-    input: {
+    containerTextInput: {
+        flexDirection: 'row',
         height: 60,
+        alignItems: 'center',
+        justifyContent: 'flex-start',
         backgroundColor: 'rgba(186, 186, 186, 0.25)',
         borderRadius: 20,
-        marginBottom: 35,
+        marginBottom: 30,
         width: '90%',
         alignSelf: 'center',
-        paddingHorizontal: 24,
+        paddingHorizontal: 20,
         fontSize: 16,
     },
 

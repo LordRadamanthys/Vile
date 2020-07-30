@@ -5,11 +5,13 @@ import { useNavigation } from '@react-navigation/native'
 import { View, TouchableOpacity, Text, ImageBackground, Image, TextInput, StyleSheet, KeyboardAvoidingView, Switch, ActivityIndicator, Modal, Alert } from 'react-native'
 import AuthContext from '../../services/contexts'
 import ModalConfirm from '../../components/modalConfirm'
+import { Feather as Icon } from '@expo/vector-icons'
+import LottieView from "lottie-react-native";
 
 
 
 const Login = () => {
-    const { login, showModal,errorMessageLogin, visibilityModal } = useContext(AuthContext)
+    const { login, showModal, errorMessageLogin, visibilityModal } = useContext(AuthContext)
     const [isEnabledSwitch, setIsEnabledSwitch] = useState(false)
     const [indicatorLoading, setIndicatorLoading] = useState(false)
     const [email, setEmail] = useState('')
@@ -73,7 +75,6 @@ const Login = () => {
         login(email, password).then(() => {
             setIndicatorLoading(false)
             actionSwitch()
-          //  showModal(!visibilityModal)
         })
     }
 
@@ -87,60 +88,39 @@ const Login = () => {
             </View>
 
             <KeyboardAvoidingView behavior='height' style={styles.formLogin}>
-                {!visibilityModal ? <></> : <ModalConfirm setShow={showModal} title={errorMessageLogin} show={visibilityModal} textBtn='OK'  funcBtn1={() => { }} />}
-                {/* <Modal animationType="slide" transparent={true} visible={true}
-                    onRequestClose={() => {
-                        console.log('jhjgfdghj')
-                    }}
-                >
-                    <View style={styles.centeredView}>
-                        <View style={styles.modalView}>
-                            <Image style={{ width: 200, height: 200 }} source={require('../../assets/ovni_error.png')} />
-                            <Text style={styles.titleModal}>Desea realmente sair?</Text>
-                            <View style={{ flexDirection: 'row' }}>
-                                <TouchableOpacity
-                                    style={{ ...styles.btnPositiveModal, backgroundColor: "#B3ADAD" }}
-                                    onPress={() => {
-                                        setModalVisible(!modalVisible);
-                                    }}
-                                >
-                                    <Text style={styles.textBtnModal}>Não</Text>
-                                </TouchableOpacity>
-
-                                <TouchableOpacity
-                                    style={{ ...styles.btnPositiveModal, backgroundColor: "#FFC633" }}
-                                    onPress={() => {
-                                        setModalVisible(!modalVisible);
-                                    }}
-                                >
-                                    <Text style={styles.textBtnModal}>Sim</Text>
-                                </TouchableOpacity>
-
-                            </View>
-                        </View>
-                    </View>
-                </Modal> */}
+                {!visibilityModal ? <></> : <ModalConfirm setShow={showModal} title={errorMessageLogin} show={visibilityModal} textBtn='OK' funcBtn1={() => { }} />}
 
                 <View style={styles.containerImage}>
-                    <ImageBackground source={require('../../assets/home.png')} imageStyle={{ borderRadius: 15, }} style={styles.image}>
+                    <LottieView
+                        autoPlay
+                        speed={2}
+                        style={styles.homeImage}
+                        source={require('../../animations/error_animation.json')}
+
+                    />
+                    {/* <ImageBackground source={require('../../assets/home.png')} imageStyle={{ borderRadius: 15, }} style={styles.image}>
 
                         <Text style={styles.titleForm}>Login</Text>
-                    </ImageBackground>
+                    </ImageBackground> */}
                 </View>
-                <TextInput
-                    style={styles.input}
-                    placeholderTextColor={'rgba(0, 0, 0, 0.5)'}
-                    placeholder="Digite seu email"
-                    value={email}
-                    onChangeText={(props) => setEmail(props)} />
+                <View style={styles.containerTextInput}>
+                    <Icon style={{ marginEnd: 10 }} name="mail" size={25} color="#FFC633" />
+                    <TextInput
+                        placeholderTextColor={'rgba(0, 0, 0, 0.5)'}
+                        placeholder="Digite seu email"
+                        value={email}
+                        onChangeText={(props) => setEmail(props)} />
+                </View>
 
-                <TextInput
-                    style={styles.input}
-                    placeholderTextColor={'rgba(0, 0, 0, 0.5)'}
-                    placeholder="Digite sua senha"
-                    secureTextEntry={true}
-                    value={password}
-                    onChangeText={(props) => setPassword(props)} />
+                <View style={styles.containerTextInput}>
+                    <Icon style={{ marginEnd: 10 }} name="key" size={25} color="#FFC633" />
+                    <TextInput
+                        placeholderTextColor={'rgba(0, 0, 0, 0.5)'}
+                        placeholder="Digite sua senha"
+                        secureTextEntry={true}
+                        value={password}
+                        onChangeText={(props) => setPassword(props)} />
+                </View>
 
                 <View style={styles.switchContainer}>
                     <Text style={styles.textSwitch}>Lembrar Senha</Text>
@@ -179,70 +159,13 @@ const Login = () => {
 
 const styles = StyleSheet.create({
 
-    centeredView: {
-        flex: 1,
-        padding: 40,
-        justifyContent: "center",
-        alignItems: "center",
-    },
-    modalView: {
-        margin: 20,
-        backgroundColor: "white",
-        borderRadius: 20,
-        padding: 10,
-        alignItems: "center",
-        shadowColor: "#000",
-        borderColor: '#FFB802',
-        borderWidth: 4,
-        shadowOffset: {
-            width: 0,
-            height: 2
-        },
-        shadowOpacity: 0.25,
-        shadowRadius: 3.84,
-        elevation: 11,
-    },
-
-    btnPositiveModal: {
-        marginTop: 80,
-        marginBottom: 20,
-        marginHorizontal: 10,
-        // backgroundColor: '#FFB802',
-        borderRadius: 20,
-        paddingHorizontal: 40,
-        paddingVertical: 15
-    },
-
-    titleModal: {
-        marginTop: 10,
-        fontSize: 18,
-        textAlign: 'center',
-        marginHorizontal: 0,
-        color: '#464141',
-        fontFamily: 'Ubuntu_500Medium'
-    },
-
-    textBtnModal: {
-        fontSize: 18,
-        color: '#fff',
-        fontFamily: 'Ubuntu_500Medium'
-    },
-
-
-
-
-
-
-
-
     containerImage: {
         marginVertical: 20,
         justifyContent: 'center',
         alignItems: 'center',
         borderRadius: 19,
-
-
     },
+
     image: {
         width: '100%',
         height: 200,
@@ -255,12 +178,28 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         justifyContent: 'center',
     },
+
     textSwitch: {
         color: '#464141',
         fontFamily: 'Ubuntu_300Light',
         fontSize: 16,
         marginHorizontal: 10,
         marginTop: 2
+    },
+
+    containerTextInput: {
+        flexDirection: 'row',
+        height: 60,
+        alignItems: 'center',
+        justifyContent: 'flex-start',
+        backgroundColor: 'rgba(186, 186, 186, 0.25)',
+        borderRadius: 20,
+        marginBottom: 30,
+        width: '90%',
+        alignSelf: 'center',
+        paddingHorizontal: 24,
+        fontSize: 16,
+
     },
 
     boxText: {
@@ -300,6 +239,7 @@ const styles = StyleSheet.create({
         justifyContent: "center",
         alignItems: "center",
     },
+
     titleHeader: {
         fontSize: 48,
         color: '#464141',
@@ -325,6 +265,7 @@ const styles = StyleSheet.create({
         elevation: 9,
 
     },
+
     input: {
         height: 60,
         backgroundColor: 'rgba(186, 186, 186, 0.25)',
@@ -356,16 +297,11 @@ const styles = StyleSheet.create({
         fontSize: 18,
         color: '#464141',
         fontWeight: 'bold',
-        //textDecorationLine: 'underline',
     },
+
     homeImage: {
-
-        width: '100%',
-        height: 150,
-        marginBottom: 30,
-        resizeMode: 'center',
-
-
+        width: 190,
+        height: 190,
     },
 
     formHeader: {

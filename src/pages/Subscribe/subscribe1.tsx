@@ -5,6 +5,8 @@ import { useNavigation } from '@react-navigation/native'
 import * as ImagePicker from 'expo-image-picker';
 import * as Permissions from 'expo-permissions';
 import { View, TouchableOpacity, Text, Image, TextInput, StyleSheet, KeyboardAvoidingView } from 'react-native'
+import ModalConfirm from '../../components/modalConfirm';
+import { ScrollView } from 'react-native-gesture-handler';
 
 const Subscribe = () => {
 
@@ -12,7 +14,9 @@ const Subscribe = () => {
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
     const [confirmPassword, setConfirmPassword] = useState('')
+    const [modalVisible, setModalVisible] = useState(false)
     const [image, setImage] = useState('')
+    const [messageModal, setMessageModal] = useState('')
     const navigate = useNavigation()
 
     function goBack() {
@@ -20,15 +24,21 @@ const Subscribe = () => {
     }
 
     function goToNext() {
-        if (!verifyFields()) return alert('preencha os campos')
-        if (password !== confirmPassword) return alert('Senhas não batem')
+        if (!verifyFields()) {
+            setMessageModal('Ops, preencha todos os campos para continuar')
+            return setModalVisible(true)
+        } //alert('preencha os campos')
+        if (password !== confirmPassword) {
+            setMessageModal('Senhas não são iguais')
+            return setModalVisible(!modalVisible)
+        }
         const data = {
             name,
             email,
             password,
             image,
         }
-        navigate.navigate('Subscribe2', { data,uri:image })
+        navigate.navigate('Subscribe2', { data, uri: image })
     }
 
     function componentDidMount() {
@@ -63,17 +73,19 @@ const Subscribe = () => {
 
     function verifyFields() {
         if (!name || !email || !password || !confirmPassword || !image) return false
-        
+
         return true
     }
-
 
     useEffect(() => {
         componentDidMount()
     }, [])
+
     return (
 
         <View style={styles.container}>
+            {!modalVisible ? <></> : <ModalConfirm setShow={setModalVisible} title={messageModal} show={modalVisible} textBtn='Ok' funcBtn1={() => { }} />}
+
             <View style={styles.header}>
                 <TouchableOpacity style={{ flex: 1, alignSelf: 'center' }} onPress={goBack}>
                     <Icon name="arrow-left" size={28} color="#fff" />
@@ -81,50 +93,61 @@ const Subscribe = () => {
                 <Text style={styles.titleHeader}>Vile</Text>
             </View>
 
-
             <KeyboardAvoidingView behavior='height' style={styles.formLogin}>
+                <ScrollView showsVerticalScrollIndicator={false}>
 
-                <View style={styles.formHeader}>
-                    <Text style={styles.titleForm}>Cadastro 1/2</Text>
-                </View>
+                    <View style={styles.formHeader}>
+                        <Text style={styles.titleForm}>Cadastro 1/2</Text>
+                    </View>
 
-                <TouchableOpacity onPress={_pickImage} style={styles.profileImgContainer}>
-                    <Image source={image?{uri:image} : require('../../assets/perfil.jpg')} style={styles.profileImg} />
-                </TouchableOpacity>
+                    <TouchableOpacity onPress={_pickImage} style={styles.profileImgContainer}>
+                        <Image source={image ? { uri: image } : require('../../assets/perfil.jpg')} style={styles.profileImg} />
+                    </TouchableOpacity>
 
-                <TextInput
-                    style={styles.input}
-                    placeholderTextColor={'rgba(0, 0, 0, 0.5)'}
-                    placeholder="Digite seu nome"
-                    onChangeText={setName} />
+                    <View style={styles.containerTextInput}>
+                        <Icon style={{ marginEnd: 10 }} name="user" size={25} color="#FFC633" />
+                        <TextInput
+                            style={{ maxWidth: 200 }}
+                            placeholderTextColor={'rgba(0, 0, 0, 0.5)'}
+                            placeholder="Digite seu nome"
+                            onChangeText={setName} />
+                    </View>
 
-                <TextInput
-                    style={styles.input}
-                    placeholderTextColor={'rgba(0, 0, 0, 0.5)'}
-                    placeholder="Digite seu e-mail"
-                    keyboardType='email-address'
-                    onChangeText={setEmail} />
+                    <View style={styles.containerTextInput}>
+                        <Icon style={{ marginEnd: 10 }} name="mail" size={25} color="#FFC633" />
+                        <TextInput
+                            style={{ maxWidth: 200 }}
+                            placeholderTextColor={'rgba(0, 0, 0, 0.5)'}
+                            placeholder="Digite seu e-mail"
+                            keyboardType='email-address'
+                            onChangeText={setEmail} />
+                    </View>
 
-                <TextInput
-                    style={styles.input}
-                    placeholderTextColor={'rgba(0, 0, 0, 0.5)'}
-                    placeholder="Digite uma senha"
-                    secureTextEntry={true}
-                    onChangeText={setPassword} />
+                    <View style={styles.containerTextInput}>
+                        <Icon style={{ marginEnd: 10 }} name="key" size={25} color="#FFC633" />
+                        <TextInput
+                            style={{ maxWidth: 200 }}
+                            placeholderTextColor={'rgba(0, 0, 0, 0.5)'}
+                            placeholder="Digite uma senha"
+                            secureTextEntry={true}
+                            onChangeText={setPassword} />
+                    </View>
 
-                <TextInput
-                    style={styles.input}
-                    placeholderTextColor={'rgba(0, 0, 0, 0.5)'}
-                    placeholder="Confirme sua senha"
-                    secureTextEntry={true}
-                    onChangeText={setConfirmPassword} />
+                    <View style={styles.containerTextInput}>
+                        <Icon style={{ marginEnd: 10 }} name="key" size={25} color="#FFC633" />
+                        <TextInput
+                            style={{ maxWidth: 200 }}
+                            placeholderTextColor={'rgba(0, 0, 0, 0.5)'}
+                            placeholder="Confirme sua senha"
+                            secureTextEntry={true}
+                            onChangeText={setConfirmPassword} />
+                    </View>
+                    <TouchableOpacity activeOpacity={0.5} style={styles.button} onPress={goToNext}>
+                        <Text style={styles.textButton}>Próximo</Text>
+                    </TouchableOpacity>
 
-                <TouchableOpacity activeOpacity={0.5} style={styles.button} onPress={goToNext}>
-                    <Text style={styles.textButton}>Próximo</Text>
-                </TouchableOpacity>
-
+                </ScrollView>
             </KeyboardAvoidingView>
-
         </View >
 
     )
@@ -203,14 +226,17 @@ const styles = StyleSheet.create({
         elevation: 9,
 
     },
-    input: {
+    containerTextInput: {
+        flexDirection: 'row',
         height: 60,
+        alignItems: 'center',
+        justifyContent: 'flex-start',
         backgroundColor: 'rgba(186, 186, 186, 0.25)',
         borderRadius: 20,
-        marginBottom: 35,
+        marginBottom: 30,
         width: '90%',
         alignSelf: 'center',
-        paddingHorizontal: 24,
+        paddingHorizontal: 20,
         fontSize: 16,
     },
 

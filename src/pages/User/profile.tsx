@@ -91,7 +91,7 @@ const Profile = () => {
         <View style={styles.container}>
 
             {!modalVisible ? <></> : <ModalChooser setShow={setModalVisible} title={`Deseja realmente sair e limpar os dados salvos?`} show={modalVisible} textBtnRight='Sim' textBtnLeft='Não' funcBtn1={clearUser} />}
-            
+
             <View style={styles.header}>
                 <View style={{ flex: 1, alignItems: 'center', }}>
                     <Text style={styles.titleHeader}>Vile</Text>
