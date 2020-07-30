@@ -15,6 +15,7 @@ const Subscribe = () => {
     const [password, setPassword] = useState('')
     const [confirmPassword, setConfirmPassword] = useState('')
     const [modalVisible, setModalVisible] = useState(false)
+    const [typeModal, setTypeModal] = useState('')
     const [image, setImage] = useState('')
     const [messageModal, setMessageModal] = useState('')
     const navigate = useNavigation()
@@ -25,10 +26,12 @@ const Subscribe = () => {
 
     function goToNext() {
         if (!verifyFields()) {
+            setTypeModal('alert')
             setMessageModal('Ops, preencha todos os campos para continuar')
             return setModalVisible(true)
         } //alert('preencha os campos')
         if (password !== confirmPassword) {
+            setTypeModal('alert')
             setMessageModal('Senhas não são iguais')
             return setModalVisible(!modalVisible)
         }
@@ -84,7 +87,7 @@ const Subscribe = () => {
     return (
 
         <View style={styles.container}>
-            {!modalVisible ? <></> : <ModalConfirm setShow={setModalVisible} title={messageModal} show={modalVisible} textBtn='Ok' funcBtn1={() => { }} />}
+            {!modalVisible ? <></> : <ModalConfirm type={typeModal} setShow={setModalVisible} title={messageModal} show={modalVisible} textBtn='Ok' funcBtn1={() => { }} />}
 
             <View style={styles.header}>
                 <TouchableOpacity style={{ flex: 1, alignSelf: 'center' }} onPress={goBack}>

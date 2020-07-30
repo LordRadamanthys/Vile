@@ -20,7 +20,7 @@ const AuthContext = createContext<Provider>({} as Provider)
 export const AuthProvider: React.FC = ({ children }) => {
     const [user, setUser] = useState<userInterface | null>(null)
     const [modalVisible, setModalVisible] = useState(false)
-    let errorMessage = 'Houve um erro com a rede'
+    const [errorMessage, setErrorMessage] =  useState('Ops, verifique seu e-mail e senha ou se a rede esta ativada')
     async function login(email: string, password: string) {
         const data = {
             email,
@@ -32,7 +32,7 @@ export const AuthProvider: React.FC = ({ children }) => {
         }).catch(error => {
             // alert(`${error.response.data.error}`)
             //showModal(true)
-            errorMessage = !error.response ? 'Houve um erro com a rede' : error.response.data.error
+            setErrorMessage(error.response.data.error !== undefined ? 'Ops, verifique seu e-mail e senha ou se a rede esta ativada' : error.response.data.error)
             setModalVisible(!modalVisible)
             //  AlertBoxConfirm({ title: 'Ops', textBtn: 'Ok', message: !error.response ? 'Houve um erro com a rede' : error.response.data.error, funcBtn1: () => { } })
         })

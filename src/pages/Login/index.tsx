@@ -16,6 +16,7 @@ const Login = () => {
     const [indicatorLoading, setIndicatorLoading] = useState(false)
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
+    const [typeModal, setTypeModel] = useState('')
     const navigate = useNavigation()
 
     useEffect(() => {

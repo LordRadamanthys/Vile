@@ -10,6 +10,8 @@ import alertBoxChoose from '../../components/alertBoxChoose'
 import alertBoxConfirm from '../../components/alertBoxConfirm'
 import { ActivityIndicator } from 'react-native-paper'
 import ModalChooser from '../../components/modalChooser'
+import ModalConfirm from '../../components/modalConfirm'
+import ModalSuccesses from '../../components/modalSuccesses'
 
 const Profile = () => {
     const { user, clearUser } = useContext(AuthContext)
@@ -17,6 +19,10 @@ const Profile = () => {
     const [name, setName] = useState('')
     const [loadingIndicator, setLoadingIndicator] = useState(false)
     const [modalVisible, setModalVisible] = useState(false)
+    const [modalVisibleError, setModalVisibleError] = useState(false)
+    const [modalVisibleSuccesses, setModalVisibleSuccesses] = useState(false)
+    const [typeModal, setTypeModal] = useState('')
+    const [messageModal, setMessageModal] = useState('')
 
     const [whatsapp, setWhatsapp] = useState('')
     const [instagram, setInstagram] = useState('')
@@ -66,11 +72,15 @@ const Profile = () => {
                 'Content-Type': 'Multipart/form-data'
             }
         }).then(resp => {
+            setModalVisibleSuccesses(true)
             setLoadingIndicator(false)
-            alertBoxConfirm({ title: 'Sucesso', textBtn: 'Ok', message: 'Dados foram atualizados', funcBtn1: () => { } })
+           // alertBoxConfirm({ title: 'Sucesso', textBtn: 'Ok', message: 'Dados foram atualizados', funcBtn1: () => { } })
         }).catch(error => {
+            setMessageModal('Ops, ocorreu um erro')
+            setTypeModal('error')
+            setModalVisibleError(true)
             setLoadingIndicator(false)
-            alert(`${error.response.data.error}`)
+           // alert(`${error.response.data.error}`)
         })
     }
 
@@ -91,6 +101,8 @@ const Profile = () => {
         <View style={styles.container}>
 
             {!modalVisible ? <></> : <ModalChooser setShow={setModalVisible} title={`Deseja realmente sair e limpar os dados salvos?`} show={modalVisible} textBtnRight='Sim' textBtnLeft='Não' funcBtn1={clearUser} />}
+            {!modalVisibleError ? <></> : <ModalConfirm type={typeModal} setShow={setModalVisibleError} title={messageModal} show={modalVisibleError} textBtn='Ok' funcBtn1={() => { }} />}
+            {!modalVisibleSuccesses ? <></> : <ModalSuccesses  setShow={setModalVisibleSuccesses} title={'Cadastro efetuado'} show={modalVisibleSuccesses} textBtn='OK' funcBtn1={() => { }} />}
 
             <View style={styles.header}>
                 <View style={{ flex: 1, alignItems: 'center', }}>

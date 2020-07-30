@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { StyleSheet, Modal, View, Text, Image, TouchableOpacity } from 'react-native'
-
+import { useNavigation } from '@react-navigation/native'
 interface AlertInterface {
     title: string,
     textBtn: string,
@@ -10,10 +10,11 @@ interface AlertInterface {
     type: string
 }
 
-const ModalConfirm = (props: AlertInterface) => {
+const ModalSuccesses = (props: AlertInterface) => {
+    const navigate = useNavigation()
     const [modalVisible, setModalVisible] = useState(props.show)
     console.log(props.show)
-    
+
     return (
         <Modal animationType="slide" transparent={true} visible={modalVisible}
             onRequestClose={() => {
@@ -22,14 +23,15 @@ const ModalConfirm = (props: AlertInterface) => {
         >
             <View style={styles.centeredView}>
                 <View style={styles.modalView}>
-                    <Image style={{ width: 250, height: 175 }} source={props.type === 'alert' ? require('../assets/alert_red.png') : require('../assets/404_error.png')} />
+                    <Image style={{ width: 250, height: 175 }} source={require('../assets/success.png')} />
                     <Text style={styles.titleModal}>{props.title}</Text>
                     <View style={{ flexDirection: 'row' }}>
                         <TouchableOpacity
-                            style={{ ...styles.btnPositiveModal, backgroundColor: "#D01A1A" }}
+                            style={{ ...styles.btnPositiveModal, backgroundColor: "#FFC633" }}
                             onPress={() => {
                                 setModalVisible(!props.show);
                                 props.setShow(false)
+                                 props.funcBtn1()
                             }}
                         >
                             <Text style={styles.textBtnModal}>{props.textBtn}</Text>
@@ -44,7 +46,7 @@ const ModalConfirm = (props: AlertInterface) => {
 }
 
 
-export default ModalConfirm
+export default ModalSuccesses
 
 
 
@@ -62,7 +64,7 @@ const styles = StyleSheet.create({
         padding: 10,
         alignItems: "center",
         shadowColor: "#000",
-        borderColor: '#D01A1A',
+        borderColor: '#FFC633',
         borderWidth: 2,
         shadowOffset: {
             width: 0,

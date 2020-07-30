@@ -6,8 +6,8 @@ import CheckBox from '@react-native-community/checkbox';
 import axios from '../../services/api'
 import interestsInterface from '../../interfaces/interestsInterface'
 import { View, TouchableOpacity, Text, ActivityIndicator, TextInput, StyleSheet, KeyboardAvoidingView } from 'react-native'
-import AlertBoxConfirm from '../../components/alertBoxConfirm';
 import ModalConfirm from '../../components/modalConfirm';
+import ModalSuccesses from '../../components/modalSuccesses';
 
 const Subscribe = () => {
     const navigate = useNavigation()
@@ -18,7 +18,9 @@ const Subscribe = () => {
     const [sex, setSex] = useState('')
     const [instagram, setInstagram] = useState('')
     const [modalVisible, setModalVisible] = useState(false)
+    const [modalVisibleSuccesses, setModalVisibleSuccesses] = useState(false)
     const [messageModal, setMessageModal] = useState('')
+    const [typeModal, setTypeModal] = useState('')
 
     const [selectedItems, setSelectedItems] = useState<number[]>([])
 
@@ -37,6 +39,7 @@ const Subscribe = () => {
 
     async function createUser() {
         if (!verifyFields()) {
+            setTypeModal('alert')
             setMessageModal('preencha todos os campos')
             return setModalVisible(!modalVisible)
         }
@@ -71,12 +74,12 @@ const Subscribe = () => {
                 'Content-Type': 'Multipart/form-data'
             }
         }).then(resp => {
+            setModalVisibleSuccesses(true)
             setVisibilityLoad(false)
-            setMessageModal('Usuario cadastrado')
-            setModalVisible(!modalVisible)
             //AlertBoxConfirm({ title: 'Sucesso', textBtn: 'Ok', message: 'Usuario cadastrado', funcBtn1: () => { navigate.navigate('Login') } })
         }).catch(error => {
-            setMessageModal(`${error.message}`)
+            setTypeModal('alert')
+            setMessageModal(`${error.response.data.error}`)
             setVisibilityLoad(false)
             setModalVisible(!modalVisible)
             //AlertBoxConfirm({ title: 'Ops', textBtn: 'Ok', message: `${error.response.data.error}`, funcBtn1: () => { } })
@@ -89,7 +92,7 @@ const Subscribe = () => {
             .then(response => {
                 setInterests(response.data)
             }).catch(error => {
-                alert(error.response.data.error)
+                //alert('Ops')
             })
     }
 
@@ -104,6 +107,10 @@ const Subscribe = () => {
         }
     }
 
+    function goLogin(){
+        navigate.navigate('Login')
+    }
+
     useEffect(() => {
         if (!valuePage1) return alert('erro')
         getInterests()
@@ -114,7 +121,8 @@ const Subscribe = () => {
 
         <View style={styles.container}>
 
-            {!modalVisible ? <></> : <ModalConfirm setShow={setModalVisible} title={messageModal} show={modalVisible} textBtn='Ok' funcBtn1={() => { }} />}
+            {!modalVisible ? <></> : <ModalConfirm type={typeModal} setShow={setModalVisible} title={messageModal} show={modalVisible} textBtn='Ok' funcBtn1={() => { }} />}
+            {!modalVisibleSuccesses ? <></> : <ModalSuccesses  setShow={setModalVisibleSuccesses} title={'Cadastro efetuado'} show={modalVisibleSuccesses} textBtn='OK' funcBtn1={() => goLogin()} />}
 
             <View style={styles.header}>
                 <TouchableOpacity disabled={visibilityLoad} style={{ flex: 1, alignSelf: 'center' }} onPress={goBack}>
