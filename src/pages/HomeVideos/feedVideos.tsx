@@ -3,44 +3,10 @@ import Constants from 'expo-constants'
 import CardVideos from '../../components/cardVideos'
 import axios from '../../services/api'
 import videosInterface from '../../interfaces/videosInterface'
-import { View, Text, StyleSheet, ScrollView, FlatList } from 'react-native'
-import userInterface from '../../interfaces/userInterface';
+import { View, Text, StyleSheet, FlatList } from 'react-native'
 import AuthContext from '../../services/contexts'
 
-const itemDefault: Array<videosInterface> = [
-    {
-        description: 'string',
-        id: 1,
-        idAuthor: 1,
-        path: 'string',
-        title: 'string',
-    },
-    {
-        description: 'string',
-        id: 2,
-        idAuthor: 1,
-        path: 'string',
-        title: 'string',
-    }, {
-        description: 'string',
-        id: 3,
-        idAuthor: 1,
-        path: 'string',
-        title: 'string',
-    }, {
-        description: 'string',
-        id: 4,
-        idAuthor: 1,
-        path: 'string',
-        title: 'string',
-    }, {
-        description: 'string',
-        id: 5,
-        idAuthor: 1,
-        path: 'string',
-        title: 'string',
-    },
-]
+
 const FeedVideos = (value: any) => {
     const { user } = useContext(AuthContext)
     const [videos, setVideos] = useState<Array<videosInterface>>()
@@ -90,17 +56,7 @@ const FeedVideos = (value: any) => {
                     showsVerticalScrollIndicator={false}
                     keyExtractor={(i, k) => k.toString()}
                 />
-                {/* <ScrollView
-                    showsVerticalScrollIndicator={false}
-                >
-                    <Text style={styles.title}>Videos</Text>
-                    {videos.map(v => (
-
-                        <CardVideos key={v.id} title={v.title} describe={v.description} page='NewsDetails' video={v.path} visible={cardsVisibility} />
-                    ))}
-
-
-                </ScrollView> */}
+            
             </View>
 
         </View>

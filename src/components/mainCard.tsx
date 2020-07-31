@@ -50,7 +50,6 @@ const styles = StyleSheet.create({
     },
 
     boxText: {
-        // padding: 5,
         width: '100%',
         justifyContent: 'center',
         alignItems: 'center',
@@ -80,4 +79,5 @@ const styles = StyleSheet.create({
         elevation: 4,
     }
 })
+
 export default MainCard

@@ -1,5 +1,5 @@
 import React from 'react'
-import { View, Text, TouchableOpacity, ImageBackground, StyleSheet, Image } from 'react-native'
+import { View, ImageBackground, StyleSheet } from 'react-native'
 
 interface ComponentInterface {
     title: string,
@@ -8,14 +8,10 @@ interface ComponentInterface {
 
 const MainCardDetails = (props: ComponentInterface) => {
     return (
-        // <View style={styles.container1}>
-        //     <Image source={require('../assets/fin.png')} style={styles.image} />
-        //     <Text style={styles.text}>{props.title}</Text>
 
-        // </View>
         <View style={styles.container}>
-            <ImageBackground source={ props.image ? {uri:props.image} :require('../assets/fin.png')} imageStyle={{ borderRadius: 15, }} style={styles.image}>
-             
+            <ImageBackground source={props.image ? { uri: props.image } : require('../assets/fin.png')} imageStyle={{ borderRadius: 15, }} style={styles.image}>
+
             </ImageBackground>
         </View>
     )
@@ -29,7 +25,6 @@ const styles = StyleSheet.create({
         justifyContent: 'flex-end',
         alignItems: 'center',
         borderRadius: 19,
-
     },
 
     boxText: {
@@ -50,8 +45,6 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
         borderRadius: 19,
-
-
     }
 })
 

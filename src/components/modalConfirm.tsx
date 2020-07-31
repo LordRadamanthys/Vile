@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState } from 'react'
 import { StyleSheet, Modal, View, Text, Image, TouchableOpacity } from 'react-native'
 
 interface AlertInterface {

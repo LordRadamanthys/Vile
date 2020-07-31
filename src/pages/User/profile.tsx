@@ -6,8 +6,6 @@ import { RectButton } from 'react-native-gesture-handler'
 import * as ImagePicker from 'expo-image-picker';
 import { View, TouchableOpacity, Text, Image, StyleSheet, KeyboardAvoidingView, TextInput } from 'react-native'
 import axios from '../../services/api'
-import alertBoxChoose from '../../components/alertBoxChoose'
-import alertBoxConfirm from '../../components/alertBoxConfirm'
 import { ActivityIndicator } from 'react-native-paper'
 import ModalChooser from '../../components/modalChooser'
 import ModalConfirm from '../../components/modalConfirm'
@@ -23,10 +21,8 @@ const Profile = () => {
     const [modalVisibleSuccesses, setModalVisibleSuccesses] = useState(false)
     const [typeModal, setTypeModal] = useState('')
     const [messageModal, setMessageModal] = useState('')
-
     const [whatsapp, setWhatsapp] = useState('')
     const [instagram, setInstagram] = useState('')
-    // const navigate = useNavigation()
 
     function handleName(value: string) {
         setName(value)
@@ -74,19 +70,16 @@ const Profile = () => {
         }).then(resp => {
             setModalVisibleSuccesses(true)
             setLoadingIndicator(false)
-           // alertBoxConfirm({ title: 'Sucesso', textBtn: 'Ok', message: 'Dados foram atualizados', funcBtn1: () => { } })
         }).catch(error => {
             setMessageModal('Ops, ocorreu um erro')
             setTypeModal('error')
             setModalVisibleError(true)
             setLoadingIndicator(false)
-           // alert(`${error.response.data.error}`)
         })
     }
 
     function exit() {
         setModalVisible(!modalVisible)
-        //alertBoxChoose({ title: 'Deseja realmente sair?', message: 'Esse processo limpara suas credenciais salvas!', textBtn1: 'Sim', textBtn2: 'Não', funcBtn1: clearUser })
     }
 
     useEffect(() => {

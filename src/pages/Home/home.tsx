@@ -2,7 +2,7 @@ import React, { useState, useEffect, useContext } from 'react'
 import Constants from 'expo-constants'
 import MainCard from '../../components/mainCard'
 import Card from '../../components/card'
-import { View, TouchableOpacity, Text, Image, FlatList, StyleSheet, ScrollView } from 'react-native'
+import { View, TouchableOpacity, Text, Image, FlatList, StyleSheet} from 'react-native'
 import axios from '../../services/api'
 import * as ImagePicker from 'expo-image-picker';
 import * as Permissions from 'expo-permissions';
@@ -83,8 +83,6 @@ const Home = () => {
                 setImage(result.uri);
             }
 
-            //console.log(result);
-            console.log(image)
         } catch (E) {
             console.log(E);
         }
@@ -118,24 +116,6 @@ const Home = () => {
                     showsVerticalScrollIndicator={false}
                     keyExtractor={(i, k) => k.toString()}
                 />
-
-                {/* <ScrollView
-                    showsVerticalScrollIndicator={false}
-                >
-                    <Text style={styles.title}>News</Text>
-
-                    {
-                        !news ? <MainCard key={''} title={''} describe={''} text={''} image={''} page='NewsDetails' visible={cardsVisibility} /> : news.map((n) => {
-                            if (n.id === 1) {
-                                return <MainCard key={n.id} title={n.title} describe={n.description} text={n.text} image={n.image} page='NewsDetails' visible={cardsVisibility} />
-                            } else {
-                                return <Card key={n.id} title={n.title} describe={n.description} text={n.text} image={n.image} visible={cardsVisibility} />
-                            }
-                        })
-                        
-                    }
-
-                </ScrollView> */}
             </View>
 
         </View>

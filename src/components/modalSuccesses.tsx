@@ -1,6 +1,5 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState } from 'react'
 import { StyleSheet, Modal, View, Text, Image, TouchableOpacity } from 'react-native'
-import { useNavigation } from '@react-navigation/native'
 interface AlertInterface {
     title: string,
     textBtn: string,
@@ -11,7 +10,6 @@ interface AlertInterface {
 }
 
 const ModalSuccesses = (props: AlertInterface) => {
-    const navigate = useNavigation()
     const [modalVisible, setModalVisible] = useState(props.show)
     console.log(props.show)
 

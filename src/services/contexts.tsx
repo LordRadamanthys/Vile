@@ -2,8 +2,7 @@ import React, { createContext, useState, useEffect } from 'react'
 import axios from './api'
 import AsyncStorage from '@react-native-community/async-storage'
 import userInterface from '../interfaces/userInterface'
-import AlertBoxConfirm from '../components/alertBoxConfirm'
-
+const AuthContext = createContext<Provider>({} as Provider)
 
 interface Provider {
     signed: boolean,
@@ -15,12 +14,11 @@ interface Provider {
     errorMessageLogin: string
 }
 
-const AuthContext = createContext<Provider>({} as Provider)
 
 export const AuthProvider: React.FC = ({ children }) => {
     const [user, setUser] = useState<userInterface | null>(null)
     const [modalVisible, setModalVisible] = useState(false)
-    const [errorMessage, setErrorMessage] =  useState('Ops, verifique seu e-mail e senha ou se a rede esta ativada')
+    const [errorMessage, setErrorMessage] = useState('Ops, verifique seu e-mail e senha ou se a rede esta ativada')
     async function login(email: string, password: string) {
         const data = {
             email,
@@ -30,11 +28,8 @@ export const AuthProvider: React.FC = ({ children }) => {
             setUser(response.data)
 
         }).catch(error => {
-            // alert(`${error.response.data.error}`)
-            //showModal(true)
-            setErrorMessage(error.response.data.error !== undefined ? 'Ops, verifique seu e-mail e senha ou se a rede esta ativada' : error.response.data.error)
+
             setModalVisible(!modalVisible)
-            //  AlertBoxConfirm({ title: 'Ops', textBtn: 'Ok', message: !error.response ? 'Houve um erro com a rede' : error.response.data.error, funcBtn1: () => { } })
         })
 
     }

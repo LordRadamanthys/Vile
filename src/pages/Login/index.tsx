@@ -2,7 +2,7 @@ import React, { useEffect, useState, useContext } from 'react'
 import Constants from 'expo-constants'
 import AsyncStorage from '@react-native-community/async-storage'
 import { useNavigation } from '@react-navigation/native'
-import { View, TouchableOpacity, Text, ImageBackground, Image, TextInput, StyleSheet, KeyboardAvoidingView, Switch, ActivityIndicator, Modal, Alert } from 'react-native'
+import { View, TouchableOpacity, Text, TextInput, StyleSheet, KeyboardAvoidingView, Switch, ActivityIndicator } from 'react-native'
 import AuthContext from '../../services/contexts'
 import ModalConfirm from '../../components/modalConfirm'
 import { Feather as Icon } from '@expo/vector-icons'
@@ -16,7 +16,6 @@ const Login = () => {
     const [indicatorLoading, setIndicatorLoading] = useState(false)
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
-    const [typeModal, setTypeModel] = useState('')
     const navigate = useNavigation()
 
     useEffect(() => {
@@ -47,7 +46,6 @@ const Login = () => {
         } else {
             setIsEnabledSwitch(false)
         }
-        //console.log(isSave)
     }
 
     const setPreferences = async (isSave: boolean) => {
@@ -55,10 +53,7 @@ const Login = () => {
             await AsyncStorage.setItem('@isSave', String(isSave))
             await AsyncStorage.setItem('@email', email)
             await AsyncStorage.setItem('@password', password)
-            // // await AsyncStorage.setItem('password', '')
-            // await AsyncStorage.setItem('token', String(value.token))
         } catch (e) {
-            // saving error
         }
     }
 

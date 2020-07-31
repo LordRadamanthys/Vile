@@ -8,6 +8,7 @@ import interestsInterface from '../../interfaces/interestsInterface'
 import { View, TouchableOpacity, Text, ActivityIndicator, TextInput, StyleSheet, KeyboardAvoidingView } from 'react-native'
 import ModalConfirm from '../../components/modalConfirm';
 import ModalSuccesses from '../../components/modalSuccesses';
+import { ScrollView } from 'react-native-gesture-handler';
 
 const Subscribe = () => {
     const navigate = useNavigation()
@@ -76,14 +77,11 @@ const Subscribe = () => {
         }).then(resp => {
             setModalVisibleSuccesses(true)
             setVisibilityLoad(false)
-            //AlertBoxConfirm({ title: 'Sucesso', textBtn: 'Ok', message: 'Usuario cadastrado', funcBtn1: () => { navigate.navigate('Login') } })
         }).catch(error => {
             setTypeModal('alert')
             setMessageModal(`${error.response.data.error}`)
             setVisibilityLoad(false)
             setModalVisible(!modalVisible)
-            //AlertBoxConfirm({ title: 'Ops', textBtn: 'Ok', message: `${error.response.data.error}`, funcBtn1: () => { } })
-            // alert(`${error.response.data.error}`)
         })
     }
 
@@ -92,7 +90,6 @@ const Subscribe = () => {
             .then(response => {
                 setInterests(response.data)
             }).catch(error => {
-                //alert('Ops')
             })
     }
 
@@ -107,7 +104,7 @@ const Subscribe = () => {
         }
     }
 
-    function goLogin(){
+    function goLogin() {
         navigate.navigate('Login')
     }
 
@@ -122,7 +119,7 @@ const Subscribe = () => {
         <View style={styles.container}>
 
             {!modalVisible ? <></> : <ModalConfirm type={typeModal} setShow={setModalVisible} title={messageModal} show={modalVisible} textBtn='Ok' funcBtn1={() => { }} />}
-            {!modalVisibleSuccesses ? <></> : <ModalSuccesses  setShow={setModalVisibleSuccesses} title={'Cadastro efetuado'} show={modalVisibleSuccesses} textBtn='OK' funcBtn1={() => goLogin()} />}
+            {!modalVisibleSuccesses ? <></> : <ModalSuccesses setShow={setModalVisibleSuccesses} title={'Cadastro efetuado'} show={modalVisibleSuccesses} textBtn='OK' funcBtn1={() => goLogin()} />}
 
             <View style={styles.header}>
                 <TouchableOpacity disabled={visibilityLoad} style={{ flex: 1, alignSelf: 'center' }} onPress={goBack}>
@@ -133,67 +130,70 @@ const Subscribe = () => {
 
 
             <KeyboardAvoidingView behavior='height' style={styles.formLogin}>
-                <View style={styles.formHeader}>
-                    <Text style={styles.titleForm}>Cadastro 2/2</Text>
-                </View>
-                <View style={styles.containerTextInput}>
-                    <Icon style={{ marginEnd: 10 }} name="phone" size={25} color="#FFC633" />
-                    <TextInput
-                        placeholderTextColor={'rgba(0, 0, 0, 0.5)'}
-                        placeholder="Digite seu whatsapp"
-                        value={whatsapp}
-                        onChangeText={setWhatsapp} />
-                </View>
+                <ScrollView
+                showsVerticalScrollIndicator={false}>
+                    <View style={styles.formHeader}>
+                        <Text style={styles.titleForm}>Cadastro 2/2</Text>
+                    </View>
+                    <View style={styles.containerTextInput}>
+                        <Icon style={{ marginEnd: 10 }} name="phone" size={25} color="#FFC633" />
+                        <TextInput
+                            placeholderTextColor={'rgba(0, 0, 0, 0.5)'}
+                            placeholder="Digite seu whatsapp"
+                            value={whatsapp}
+                            onChangeText={setWhatsapp} />
+                    </View>
 
-                <View style={styles.containerTextInput}>
-                    <Icon style={{ marginEnd: 10 }} name="feather" size={25} color="#FFC633" />
-                    <TextInput
-                        placeholderTextColor={'rgba(0, 0, 0, 0.5)'}
-                        placeholder="Digite seu sexo"
-                        value={sex}
-                        onChangeText={setSex} />
-                </View>
+                    <View style={styles.containerTextInput}>
+                        <Icon style={{ marginEnd: 10 }} name="feather" size={25} color="#FFC633" />
+                        <TextInput
+                            placeholderTextColor={'rgba(0, 0, 0, 0.5)'}
+                            placeholder="Digite seu sexo"
+                            value={sex}
+                            onChangeText={setSex} />
+                    </View>
 
-                <View style={styles.containerTextInput}>
-                    <Icon style={{ marginEnd: 10 }} name="instagram" size={25} color="#FFC633" />
-                    <TextInput
-                        placeholderTextColor={'rgba(0, 0, 0, 0.5)'}
-                        placeholder="Digite seu Instagram"
-                        value={instagram}
-                        onChangeText={setInstagram} />
-                </View>
+                    <View style={styles.containerTextInput}>
+                        <Icon style={{ marginEnd: 10 }} name="instagram" size={25} color="#FFC633" />
+                        <TextInput
+                            placeholderTextColor={'rgba(0, 0, 0, 0.5)'}
+                            placeholder="Digite seu Instagram"
+                            value={instagram}
+                            onChangeText={setInstagram} />
+                    </View>
 
-                <View style={styles.checkboxContainer}>
-                    <Text>Qual seu principal interesse aqui?</Text>
-
-
-                    {!interests ? <Text style={{ marginTop: 10 }}>Carregando...</Text> : interests?.map((interest: interestsInterface) => {
-                        return (
-                            <View key={interest.id} style={styles.checkBoxItens}>
-                                <CheckBox
-                                    //onPress={() => handleSelectItem(interest.id)}
-                                    tintColors={{ true: '#FFC633', false: '' }}
-                                    value={selectedItems.includes(interest.id) ? true : false}
-                                    // value={valor}
-                                    onValueChange={() => handleSelectItem(interest.id)}
-
-                                />
-                                <Text style={{ marginEnd: 30 }}>{interest.name}</Text>
-                            </View>
-                        )
-                    })}
-
-                </View>
+                    <View style={styles.checkboxContainer}>
+                        <Text>Qual seu principal interesse aqui?</Text>
 
 
-                <TouchableOpacity
-                    disabled={visibilityLoad}
-                    activeOpacity={0.5}
-                    style={styles.button}
-                    onPress={createUser}
-                >
-                    {visibilityLoad ? <ActivityIndicator style={{ paddingHorizontal: 20 }} color="#fff" /> : <Text style={styles.textButton}>Finalizar</Text>}
-                </TouchableOpacity>
+                        {!interests ? <Text style={{ marginTop: 10 }}>Carregando...</Text> : interests?.map((interest: interestsInterface) => {
+                            return (
+                                <View key={interest.id} style={styles.checkBoxItens}>
+                                    <CheckBox
+                                        //onPress={() => handleSelectItem(interest.id)}
+                                        tintColors={{ true: '#FFC633', false: '' }}
+                                        value={selectedItems.includes(interest.id) ? true : false}
+                                        // value={valor}
+                                        onValueChange={() => handleSelectItem(interest.id)}
+
+                                    />
+                                    <Text style={{ marginEnd: 30 }}>{interest.name}</Text>
+                                </View>
+                            )
+                        })}
+
+                    </View>
+
+
+                    <TouchableOpacity
+                        disabled={visibilityLoad}
+                        activeOpacity={0.5}
+                        style={styles.button}
+                        onPress={createUser}
+                    >
+                        {visibilityLoad ? <ActivityIndicator style={{ paddingHorizontal: 20 }} color="#fff" /> : <Text style={styles.textButton}>Finalizar</Text>}
+                    </TouchableOpacity>
+                </ScrollView>
             </KeyboardAvoidingView>
 
         </View>
@@ -259,7 +259,7 @@ const styles = StyleSheet.create({
 
     button: {
         alignSelf: 'center',
-        marginTop: 70,
+        marginTop: 20,
         backgroundColor: '#FFB802',
         borderRadius: 20,
         paddingHorizontal: 50,
