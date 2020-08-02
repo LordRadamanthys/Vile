@@ -10,7 +10,7 @@ import newsInterface from '../../interfaces/newsInterface'
 import AuthContext from '../../services/contexts'
 
 const Home = () => {
-    const { user } = useContext(AuthContext)
+    const { user,darkmode, setDarkMode } = useContext(AuthContext)
     const [image, setImage] = useState('')
     const [cardsVisibility, setCardsVisibility] = useState(false)
     const [news, setNews] = useState<Array<newsInterface>>()
@@ -35,6 +35,7 @@ const Home = () => {
 
 
     useEffect(() => {
+        setDarkMode(true)
         componentDidMount()
         setImage(user.image)
         setTimeout(loadNews, 2000)
@@ -102,7 +103,7 @@ const Home = () => {
                 </View>
                 <Text style={styles.titleHeader}>Vile</Text>
             </View>
-            <View style={styles.main}>
+            <View style={!darkmode? styles.main : styles.mainDark}>
 
 
                 <FlatList
@@ -147,7 +148,13 @@ const styles = StyleSheet.create({
     main: {
         flex: 1,
         paddingHorizontal: 20,
-        backgroundColor: '#fff'
+        backgroundColor:  '#fff'
+    },
+    
+    mainDark: {
+        flex: 1,
+        paddingHorizontal: 20,
+        backgroundColor:  '#121212'
     },
 
     title: {

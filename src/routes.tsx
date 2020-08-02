@@ -1,6 +1,6 @@
 import React,{useContext} from 'react'
 import { NavigationContainer } from '@react-navigation/native';
-import { createStackNavigator, TransitionPresets, CardStyleInterpolators } from '@react-navigation/stack';
+import { createStackNavigator, CardStyleInterpolators } from '@react-navigation/stack';
 import Login from './pages/Login'
 import BottomMenu from './bottomMenu'
 import Subscribe1 from './pages/Subscribe/subscribe1'
