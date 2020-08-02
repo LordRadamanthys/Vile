@@ -8,7 +8,7 @@ import AuthContext from '../../services/contexts'
 
 
 const FeedVideos = (value: any) => {
-    const { user } = useContext(AuthContext)
+    const { user, darkmode } = useContext(AuthContext)
     const [videos, setVideos] = useState<Array<videosInterface>>()
     const [cardsVisibility, setCardsVisibility] = useState(false)
     useEffect(() => {
@@ -43,11 +43,11 @@ const FeedVideos = (value: any) => {
             <View style={styles.header}>
                 <Text style={styles.titleHeader}>Vile</Text>
             </View>
-            <View style={styles.main}>
+            <View style={!darkmode ? styles.main : styles.mainDark}>
                 <FlatList
-                    ListHeaderComponent={<Text style={styles.title}>Videos</Text>}
+                    ListHeaderComponent={<Text style={!darkmode ? styles.title : styles.titleDark}>Videos</Text>}
                     data={videos}
-                    ListEmptyComponent={videos?.length < 1 && cardsVisibility ? <Text>Nenhum video disponivel no momento </Text>
+                    ListEmptyComponent={videos?.length < 1 && cardsVisibility ? <Text style={!darkmode ? {} : {color:'#6B6B6B'}}>Nenhum video disponivel no momento </Text>
                         :
                         <CardVideos key={''} title={''} describe={''} page='NewsDetails' video={''} visible={cardsVisibility} />}
                     renderItem={renderItem}
@@ -112,11 +112,24 @@ const styles = StyleSheet.create({
         paddingHorizontal: 20,
         backgroundColor: '#fff'
     },
+    
+    mainDark: {
+        flex: 1,
+        paddingHorizontal: 20,
+        backgroundColor: '#121212'
+    },
 
     title: {
         padding: 20,
         fontSize: 24,
         fontFamily: 'Ubuntu_500Medium',
+    },
+    
+    titleDark: {
+        padding: 20,
+        fontSize: 24,
+        fontFamily: 'Ubuntu_500Medium',
+        color:'#6B6B6B'
     },
 
     titleHeader: {

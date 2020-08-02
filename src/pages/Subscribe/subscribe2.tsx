@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useContext } from 'react'
 import Constants from 'expo-constants'
 import { Feather as Icon } from '@expo/vector-icons'
 import { useNavigation, useRoute } from '@react-navigation/native'
@@ -9,8 +9,10 @@ import { View, TouchableOpacity, Text, ActivityIndicator, TextInput, StyleSheet,
 import ModalConfirm from '../../components/modalConfirm';
 import ModalSuccesses from '../../components/modalSuccesses';
 import { ScrollView } from 'react-native-gesture-handler';
+import AuthContext from '../../services/contexts';
 
 const Subscribe = () => {
+    const { darkmode } = useContext(AuthContext)
     const navigate = useNavigation()
     const route = useRoute()
     const valuePage1 = route.params.data
@@ -123,21 +125,22 @@ const Subscribe = () => {
 
             <View style={styles.header}>
                 <TouchableOpacity disabled={visibilityLoad} style={{ flex: 1, alignSelf: 'center' }} onPress={goBack}>
-                    <Icon name="arrow-left" size={28} color="#fff" />
+                    <Icon name="arrow-left" size={28} color={!darkmode ? "#fff" : "#464141"} />
                 </TouchableOpacity>
                 <Text style={styles.titleHeader}>Vile</Text>
             </View>
 
 
-            <KeyboardAvoidingView behavior='height' style={styles.formLogin}>
+            <KeyboardAvoidingView behavior='height' style={!darkmode ? styles.formLogin : styles.formLoginDark}>
                 <ScrollView
-                showsVerticalScrollIndicator={false}>
+                    showsVerticalScrollIndicator={false}>
                     <View style={styles.formHeader}>
-                        <Text style={styles.titleForm}>Cadastro 2/2</Text>
+                        <Text style={!darkmode ? styles.titleForm : styles.titleFormDark}>Cadastro 2/2</Text>
                     </View>
                     <View style={styles.containerTextInput}>
                         <Icon style={{ marginEnd: 10 }} name="phone" size={25} color="#FFC633" />
                         <TextInput
+                            style={ { maxWidth: 200 } }
                             placeholderTextColor={'rgba(0, 0, 0, 0.5)'}
                             placeholder="Digite seu whatsapp"
                             value={whatsapp}
@@ -147,7 +150,8 @@ const Subscribe = () => {
                     <View style={styles.containerTextInput}>
                         <Icon style={{ marginEnd: 10 }} name="feather" size={25} color="#FFC633" />
                         <TextInput
-                            placeholderTextColor={'rgba(0, 0, 0, 0.5)'}
+                            style={{ maxWidth: 200 }}
+                            placeholderTextColor={ 'rgba(0, 0, 0, 0.5)'}
                             placeholder="Digite seu sexo"
                             value={sex}
                             onChangeText={setSex} />
@@ -156,17 +160,18 @@ const Subscribe = () => {
                     <View style={styles.containerTextInput}>
                         <Icon style={{ marginEnd: 10 }} name="instagram" size={25} color="#FFC633" />
                         <TextInput
-                            placeholderTextColor={'rgba(0, 0, 0, 0.5)'}
+                            style={{ maxWidth: 200 }}
+                            placeholderTextColor={'rgba(0, 0, 0, 0.5)' }
                             placeholder="Digite seu Instagram"
                             value={instagram}
                             onChangeText={setInstagram} />
                     </View>
 
                     <View style={styles.checkboxContainer}>
-                        <Text>Qual seu principal interesse aqui?</Text>
+                        <Text style={!darkmode ? {} : { color: '#6B6B6B' }}>Qual seu principal interesse aqui?</Text>
 
 
-                        {!interests ? <Text style={{ marginTop: 10 }}>Carregando...</Text> : interests?.map((interest: interestsInterface) => {
+                        {!interests ? <Text style={!darkmode ? { marginTop: 10 } : { marginTop: 10, color: '#6B6B6B' }}>Carregando...</Text> : interests?.map((interest: interestsInterface) => {
                             return (
                                 <View key={interest.id} style={styles.checkBoxItens}>
                                     <CheckBox
@@ -177,7 +182,7 @@ const Subscribe = () => {
                                         onValueChange={() => handleSelectItem(interest.id)}
 
                                     />
-                                    <Text style={{ marginEnd: 30 }}>{interest.name}</Text>
+                                    <Text style={!darkmode ? { marginEnd: 30 } : { marginEnd: 30, color: '#fff' }}>{interest.name}</Text>
                                 </View>
                             )
                         })}
@@ -231,7 +236,6 @@ const styles = StyleSheet.create({
         paddingHorizontal: 30,
         backgroundColor: '#fff',
         borderRadius: 20,
-
         shadowColor: "#000",
         shadowOffset: {
             width: 20,
@@ -239,10 +243,29 @@ const styles = StyleSheet.create({
         },
         shadowOpacity: 1,
         shadowRadius: 9.65,
-
         elevation: 9,
 
     },
+
+    formLoginDark: {
+
+        flex: 1,
+        marginTop: 30,
+        marginBottom: 50,
+        paddingHorizontal: 30,
+        backgroundColor: '#121212',
+        borderRadius: 20,
+        shadowColor: "#000",
+        shadowOffset: {
+            width: 20,
+            height: 20,
+        },
+        shadowOpacity: 1,
+        shadowRadius: 9.65,
+        elevation: 9,
+
+    },
+
     containerTextInput: {
         flexDirection: 'row',
         height: 60,
@@ -282,6 +305,19 @@ const styles = StyleSheet.create({
         fontSize: 24,
 
     },
+
+    titleFormDark: {
+        color: '#6B6B6B',
+        fontFamily: 'Ubuntu_300Light',
+        marginTop: 20,
+        marginBottom: 35,
+        textAlign: 'left',
+        justifyContent: 'center',
+        fontSize: 24,
+
+    },
+
+
     footer: {
         fontFamily: 'Ubuntu_500Medium',
         padding: 40,

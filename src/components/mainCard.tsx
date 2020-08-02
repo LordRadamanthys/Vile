@@ -1,13 +1,15 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import { View, Text, ImageBackground, StyleSheet, TouchableOpacity } from 'react-native'
 import { useNavigation } from '@react-navigation/native'
 import ShimmerPlaceHolder from 'react-native-shimmer-placeholder';
 import mainCardInterface from './interfacesCards/mainCardInterface'
+import AuthContext from '../services/contexts'
 
 
 
 
 const MainCard = (props: mainCardInterface) => {
+    const { darkmode } = useContext(AuthContext)
     const navigate = useNavigation()
     function goTo(page: string) {
 
@@ -26,15 +28,15 @@ const MainCard = (props: mainCardInterface) => {
             autoRun={true}
             visible={props.visible}
         >
-                <TouchableOpacity activeOpacity={0.9} style={styles.container} onPress={() => goTo(props.page)}>
+            <TouchableOpacity activeOpacity={0.9} style={styles.container} onPress={() => goTo(props.page)}>
 
-                    <ImageBackground source={!props.image ? require('../assets/fin.png') : { uri: props.image }} imageStyle={{ borderRadius: 15, }} style={styles.image}>
-                        <View style={styles.boxText}>
-                            <Text style={styles.title}>{props.title}</Text>
-                        </View>
-                    </ImageBackground>
-                </TouchableOpacity >
-            
+                <ImageBackground source={!props.image ? require('../assets/fin.png') : { uri: props.image }} imageStyle={{ borderRadius: 15, }} style={styles.image}>
+                    <View style={styles.boxText}>
+                        <Text style={!darkmode ? styles.title : styles.titleDark}>{props.title}</Text>
+                    </View>
+                </ImageBackground>
+            </TouchableOpacity >
+
         </ShimmerPlaceHolder>
     )
 }
@@ -64,12 +66,19 @@ const styles = StyleSheet.create({
         fontFamily: 'NotoSansJP_400Regular',
     },
 
+    titleDark: {
+        color: '#6B6B6B',
+        fontSize: 16,
+        marginHorizontal: 10,
+        fontFamily: 'NotoSansJP_400Regular',
+    },
+
     container: {
         justifyContent: 'center',
         alignItems: 'center',
         marginBottom: 20,
         borderStyle: 'solid',
-        borderColor: '#BABABA',
+        borderColor: '#C3C3C3',
         borderWidth: 2,
         borderRadius: 15,
         shadowColor: '#000',

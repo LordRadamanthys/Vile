@@ -35,7 +35,6 @@ const Home = () => {
 
 
     useEffect(() => {
-        setDarkMode(true)
         componentDidMount()
         setImage(user.image)
         setTimeout(loadNews, 2000)
@@ -107,7 +106,7 @@ const Home = () => {
 
 
                 <FlatList
-                    ListHeaderComponent={<Text style={styles.title}>News</Text>}
+                    ListHeaderComponent={<Text style={!darkmode ? styles.title : styles.titleDark}>News</Text>}
                     data={news}
                     ListEmptyComponent={news?.length<1 && cardsVisibility? <Text>Nenhuma noticias disponnivel</Text> : <MainCard key={''} title={''} describe={''} text={''} image={''} page='NewsDetails' visible={cardsVisibility} />}
                     renderItem={renderItem}
@@ -159,6 +158,13 @@ const styles = StyleSheet.create({
 
     title: {
         padding: 20,
+        fontSize: 24,
+        fontFamily: 'Ubuntu_500Medium',
+    },
+    
+    titleDark: {
+        padding: 20,
+        color:'#6B6B6B',
         fontSize: 24,
         fontFamily: 'Ubuntu_500Medium',
     },

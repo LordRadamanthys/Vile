@@ -86,6 +86,7 @@ const Profile = () => {
     }
 
     useEffect(() => {
+        setIsEnabledSwitch(darkmode)
         setName(user.name)
         setWhatsapp(user.whatsapp)
         setInstagram(user?.instagram)
@@ -119,40 +120,44 @@ const Profile = () => {
                         <Image source={image ? { uri: image } : require('../../assets/perfil.jpg')} style={styles.profileImg} />
                     </TouchableOpacity>
                 </View>
-                <Text style={!darkmode ? styles.titleInput : styles.titleInputDark}>Nome:</Text>
-                <TextInput
-                    style={styles.input}
-                    placeholderTextColor={'rgba(0, 0, 0, 0.5)'}
-                    placeholder="Nome"
-                    onChangeText={(props) => handleName(props)}
-                    value={name} />
-                    
-                <Text style={!darkmode ? styles.titleInput : styles.titleInputDark}>Instagram:</Text>
-                <TextInput
-                    style={styles.input}
-                    placeholderTextColor={'rgba(0, 0, 0, 0.5)'}
-                    placeholder="Instagram"
-                    value={instagram}
-                    onChangeText={setInstagram}
-                />
-                <Text style={!darkmode ? styles.titleInput : styles.titleInputDark}>Whatsapp:</Text>
-                <TextInput
-                    style={styles.input}
-                    placeholderTextColor={'rgba(0, 0, 0, 0.5)'}
-                    placeholder="Whatsapp"
-                    onChangeText={setWhatsapp}
-                    value={whatsapp} />
+
+
+                <View style={styles.containerTextInput}>
+                    <Icon style={{ marginEnd: 10 }} name="phone" size={25} color="#FFC633" />
+                    <TextInput
+                        placeholderTextColor={'rgba(0, 0, 0, 0.5)'}
+                        placeholder="Nome"
+                        onChangeText={(props) => handleName(props)}
+                        value={name} />
+                </View>
+
+                <View style={styles.containerTextInput}>
+                    <Icon style={{ marginEnd: 10 }} name="phone" size={25} color="#FFC633" />
+                    <TextInput
+                        placeholderTextColor={'rgba(0, 0, 0, 0.5)'}
+                        placeholder="Instagram"
+                        value={instagram}
+                        onChangeText={setInstagram}
+                    />
+                </View>
+
+                <View style={styles.containerTextInput}>
+                    <Icon style={{ marginEnd: 10 }} name="phone" size={25} color="#FFC633" />
+                    <TextInput
+                        placeholderTextColor={'rgba(0, 0, 0, 0.5)'}
+                        placeholder="Whatsapp"
+                        onChangeText={setWhatsapp}
+                        value={whatsapp} />
+                </View>
 
                 <View style={styles.switchContainer}>
-                    <Text style={!darkmode ? {color:'#464141'} : {color:'#fff'}}>Darkmode </Text>
+                    <Text style={!darkmode ? { color: '#464141' } : { color: '#fff' }}>Tema escuro</Text>
                     <Switch
                         trackColor={{ false: "#767577", true: "#FFD361" }}
                         thumbColor={isEnabledSwitch ? "#FFC633" : "#f4f3f4"}
                         ios_backgroundColor="#3e3e3e"
                         onValueChange={() => setIsEnabledSwitch(previousState => !previousState)}
                         value={isEnabledSwitch}
-                        
-
                     />
                 </View>
 
@@ -190,6 +195,19 @@ const styles = StyleSheet.create({
         shadowRadius: 4.65,
 
         elevation: 7,
+    },
+    containerTextInput: {
+        flexDirection: 'row',
+        height: 60,
+        alignItems: 'center',
+        justifyContent: 'flex-start',
+        backgroundColor: 'rgba(186, 186, 186, 0.25)',
+        borderRadius: 20,
+        marginBottom: 30,
+        width: '90%',
+        alignSelf: 'center',
+        paddingHorizontal: 20,
+        fontSize: 16,
     },
 
     profileImg: {
@@ -245,7 +263,7 @@ const styles = StyleSheet.create({
         elevation: 9,
 
     },
-    
+
     formLoginDark: {
         flex: 1,
         marginTop: 20,
@@ -295,7 +313,7 @@ const styles = StyleSheet.create({
         textAlign: 'left',
         fontSize: 24,
     },
-    
+
     titleFormDark: {
         color: '#fff',
         fontFamily: 'Ubuntu_300Light',
@@ -313,7 +331,7 @@ const styles = StyleSheet.create({
         fontSize: 17,
 
     },
-    
+
     titleInputDark: {
         color: '#fff',
         fontFamily: 'Ubuntu_300Light',

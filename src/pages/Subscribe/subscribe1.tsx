@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, useContext } from 'react'
 import Constants from 'expo-constants'
 import { Feather as Icon } from '@expo/vector-icons'
 import { useNavigation } from '@react-navigation/native'
@@ -7,9 +7,11 @@ import * as Permissions from 'expo-permissions';
 import { View, TouchableOpacity, Text, Image, TextInput, StyleSheet, KeyboardAvoidingView } from 'react-native'
 import ModalConfirm from '../../components/modalConfirm';
 import { ScrollView } from 'react-native-gesture-handler';
+import AuthContext from '../../services/contexts'
 
 const Subscribe = () => {
 
+    const { darkmode } = useContext(AuthContext)
     const [name, setName] = useState('')
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
@@ -91,16 +93,16 @@ const Subscribe = () => {
 
             <View style={styles.header}>
                 <TouchableOpacity style={{ flex: 1, alignSelf: 'center' }} onPress={goBack}>
-                    <Icon name="arrow-left" size={28} color="#fff" />
+                    <Icon name="arrow-left" size={28} color={!darkmode ? "#fff" : "#464141"} />
                 </TouchableOpacity>
                 <Text style={styles.titleHeader}>Vile</Text>
             </View>
 
-            <KeyboardAvoidingView behavior='height' style={styles.formLogin}>
+            <KeyboardAvoidingView behavior='height' style={!darkmode ? styles.formLogin : styles.formLoginDark}>
                 <ScrollView showsVerticalScrollIndicator={false}>
 
                     <View style={styles.formHeader}>
-                        <Text style={styles.titleForm}>Cadastro 1/2</Text>
+                        <Text style={!darkmode ? styles.titleForm: styles.titleFormDark}>Cadastro 1/2</Text>
                     </View>
 
                     <TouchableOpacity onPress={_pickImage} style={styles.profileImgContainer}>
@@ -120,7 +122,7 @@ const Subscribe = () => {
                         <Icon style={{ marginEnd: 10 }} name="mail" size={25} color="#FFC633" />
                         <TextInput
                             style={{ maxWidth: 200 }}
-                            placeholderTextColor={'rgba(0, 0, 0, 0.5)'}
+                            placeholderTextColor={ 'rgba(0, 0, 0, 0.5)'}
                             placeholder="Digite seu e-mail"
                             keyboardType='email-address'
                             onChangeText={setEmail} />
@@ -130,7 +132,7 @@ const Subscribe = () => {
                         <Icon style={{ marginEnd: 10 }} name="key" size={25} color="#FFC633" />
                         <TextInput
                             style={{ maxWidth: 200 }}
-                            placeholderTextColor={'rgba(0, 0, 0, 0.5)'}
+                            placeholderTextColor={ 'rgba(0, 0, 0, 0.5)'}
                             placeholder="Digite uma senha"
                             secureTextEntry={true}
                             onChangeText={setPassword} />
@@ -139,7 +141,7 @@ const Subscribe = () => {
                     <View style={styles.containerTextInput}>
                         <Icon style={{ marginEnd: 10 }} name="key" size={25} color="#FFC633" />
                         <TextInput
-                            style={{ maxWidth: 200 }}
+                            style={{ maxWidth: 200 } }
                             placeholderTextColor={'rgba(0, 0, 0, 0.5)'}
                             placeholder="Confirme sua senha"
                             secureTextEntry={true}
@@ -227,7 +229,24 @@ const styles = StyleSheet.create({
         shadowOpacity: 1,
         shadowRadius: 9.65,
         elevation: 9,
+    },
+    
+    formLoginDark: {
+        flex: 1,
+        marginTop: 30,
+        marginBottom: 50,
+        paddingHorizontal: 20,
+        backgroundColor: '#121212',
+        borderRadius: 20,
 
+        shadowColor: "#000",
+        shadowOffset: {
+            width: 20,
+            height: 20,
+        },
+        shadowOpacity: 1,
+        shadowRadius: 9.65,
+        elevation: 9,
     },
     containerTextInput: {
         flexDirection: 'row',
@@ -259,8 +278,15 @@ const styles = StyleSheet.create({
         marginBottom: 10,
         textAlign: 'left',
         fontSize: 24,
+    },
 
-
+    titleFormDark: {
+        color: '#6B6B6B',
+        fontFamily: 'Ubuntu_300Light',
+        marginTop: 20,
+        marginBottom: 10,
+        textAlign: 'left',
+        fontSize: 24,
     },
 
     footer: {

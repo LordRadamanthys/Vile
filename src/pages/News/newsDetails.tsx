@@ -14,7 +14,7 @@ import ShimmerPlaceHolder from 'react-native-shimmer-placeholder';
 const NewsDetails = () => {
     const route = useRoute()
     const newsInfo: newsInterface = route.params.data
-    const { user } = useContext(AuthContext)
+    const { user,darkmode } = useContext(AuthContext)
     const navigate = useNavigation()
     const [shimmerVisibility, setShimmerVisibility] = useState(false)
     const [author, setAuthor] = useState<userInterface>()
@@ -52,7 +52,7 @@ const NewsDetails = () => {
             <View style={styles.header}>
                 <View style={{ justifyContent: 'center' }}>
                     <TouchableOpacity onPress={goBack}>
-                        <Icon name="arrow-left" size={28} color="#fff" />
+                        <Icon name="arrow-left" size={28} color={!darkmode ? "#fff" : "#464141"} />
                     </TouchableOpacity>
                 </View>
                 <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
@@ -60,9 +60,9 @@ const NewsDetails = () => {
                 </View>
             </View>
 
-            <View style={styles.main}>
+            <View style={styles.main }>
                 <ScrollView
-                    style={styles.scrollMain}
+                    style={!darkmode ? styles.scrollMain : styles.scrollMainDark}
                     showsVerticalScrollIndicator={false}
                 >
                     <MainCardDetails title='Alguma noticia interessante' image={newsInfo.image} />
@@ -75,14 +75,14 @@ const NewsDetails = () => {
                         </View>
                         <View style={styles.infoEditor}>
                             <ShimmerPlaceHolder style={styles.nameEditor} autoRun={true} visible={shimmerVisibility}>
-                                <Text style={styles.nameEditor}>{author?.name}</Text>
+                                <Text style={!darkmode ? styles.nameEditor : styles.nameEditorDark}>{author?.name}</Text>
                             </ShimmerPlaceHolder>
                             <ShimmerPlaceHolder style={styles.subtitleEditor} autoRun={true} visible={shimmerVisibility}>
-                                <Text style={styles.subtitleEditor}>Autor</Text>
+                                <Text style={!darkmode ? styles.subtitleEditor : styles.subtitleEditorDark}>Autor</Text>
                             </ShimmerPlaceHolder>
                         </View>
                     </TouchableOpacity>
-                    <Text style={styles.mainText}>
+                    <Text style={!darkmode ? styles.mainText : styles.mainTextDark}>
                         {newsInfo.text}
                     </Text>
                 </ScrollView>
@@ -100,18 +100,18 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         marginVertical: 10
     },
+
     infoEditor: {
         justifyContent: 'center',
         marginHorizontal: 10,
         flexDirection: 'column'
     },
+
     profileImgContainer: {
         marginLeft: 10,
         height: 60,
         width: 60,
         borderRadius: 40,
-
-
         shadowColor: "#000",
         shadowOffset: {
             width: 0,
@@ -119,9 +119,9 @@ const styles = StyleSheet.create({
         },
         shadowOpacity: 0.29,
         shadowRadius: 4.65,
-
         elevation: 7,
     },
+    
     profileImg: {
         height: 60,
         width: 60,
@@ -133,11 +133,25 @@ const styles = StyleSheet.create({
         fontFamily: 'NotoSansJP_300Light',
         fontStyle: 'italic',
     },
+    
+    nameEditorDark: {
+        fontSize: 14,
+        fontFamily: 'NotoSansJP_300Light',
+        fontStyle: 'italic',
+        color:'#6B6B6B'
+    },
 
     subtitleEditor: {
         fontStyle: 'italic',
         fontSize: 12,
         fontFamily: 'NotoSansJP_300Light',
+    },
+    
+    subtitleEditorDark: {
+        fontStyle: 'italic',
+        fontSize: 12,
+        fontFamily: 'NotoSansJP_300Light',
+        color:'#6B6B6B'
     },
 
     container: {
@@ -166,9 +180,21 @@ const styles = StyleSheet.create({
         // NotoSansJP_500Medium,
     },
 
+    mainTextDark: {
+        textAlign: 'left',
+        fontSize: 16,
+        fontFamily: 'NotoSansJP_400Regular',
+        paddingHorizontal: 20,
+        color: '#6B6B6B',
+        lineHeight: 25,
+        marginBottom: 30
+        // NotoSansJP_400Regular,
+        // NotoSansJP_300Light,
+        // NotoSansJP_500Medium,
+    },
+
     scrollMain: {
-        // borderTopLeftRadius: 20,
-        // borderTopRightRadius: 20,
+        
         borderRadius: 20,
         backgroundColor: '#fff',
         marginBottom: 5,
@@ -179,7 +205,21 @@ const styles = StyleSheet.create({
         },
         shadowOpacity: 0.29,
         shadowRadius: 4.65,
+        elevation: 7,
+    },
 
+    scrollMainDark: {
+        
+        borderRadius: 20,
+        backgroundColor: '#121212',
+        marginBottom: 5,
+        shadowColor: "#000",
+        shadowOffset: {
+            width: 0,
+            height: 3,
+        },
+        shadowOpacity: 0.29,
+        shadowRadius: 4.65,
         elevation: 7,
     },
 

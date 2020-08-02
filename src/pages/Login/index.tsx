@@ -11,7 +11,7 @@ import LottieView from "lottie-react-native";
 
 
 const Login = () => {
-    const { login, showModal, errorMessageLogin, visibilityModal } = useContext(AuthContext)
+    const { login, showModal, errorMessageLogin, visibilityModal, setDarkMode, darkmode } = useContext(AuthContext)
     const [isEnabledSwitch, setIsEnabledSwitch] = useState(false)
     const [indicatorLoading, setIndicatorLoading] = useState(false)
     const [email, setEmail] = useState('')
@@ -83,7 +83,7 @@ const Login = () => {
                 <Text style={styles.titleHeader}>Vile</Text>
             </View>
 
-            <KeyboardAvoidingView behavior='height' style={styles.formLogin}>
+            <KeyboardAvoidingView behavior='height' style={!darkmode ? styles.formLogin : styles.formLoginDark}>
                 {!visibilityModal ? <></> : <ModalConfirm setShow={showModal} title={errorMessageLogin} show={visibilityModal} textBtn='OK' funcBtn1={() => { }} />}
 
                 <View style={styles.containerImage}>
@@ -94,14 +94,12 @@ const Login = () => {
                         source={require('../../animations/error_animation.json')}
 
                     />
-                    {/* <ImageBackground source={require('../../assets/home.png')} imageStyle={{ borderRadius: 15, }} style={styles.image}>
 
-                        <Text style={styles.titleForm}>Login</Text>
-                    </ImageBackground> */}
                 </View>
                 <View style={styles.containerTextInput}>
                     <Icon style={{ marginEnd: 10 }} name="mail" size={25} color="#FFC633" />
                     <TextInput
+                        
                         placeholderTextColor={'rgba(0, 0, 0, 0.5)'}
                         placeholder="Digite seu email"
                         value={email}
@@ -111,7 +109,7 @@ const Login = () => {
                 <View style={styles.containerTextInput}>
                     <Icon style={{ marginEnd: 10 }} name="key" size={25} color="#FFC633" />
                     <TextInput
-                        placeholderTextColor={'rgba(0, 0, 0, 0.5)'}
+                        placeholderTextColor={'rgba(0, 0, 0, 0.5)' }
                         placeholder="Digite sua senha"
                         secureTextEntry={true}
                         value={password}
@@ -119,7 +117,7 @@ const Login = () => {
                 </View>
 
                 <View style={styles.switchContainer}>
-                    <Text style={styles.textSwitch}>Lembrar Senha</Text>
+                    <Text style={!darkmode ? styles.textSwitch : styles.textSwitchDark}>Lembrar Senha</Text>
                     <Switch
                         trackColor={{ false: "#767577", true: "#FFD361" }}
                         thumbColor={isEnabledSwitch ? "#FFC633" : "#f4f3f4"}
@@ -177,6 +175,14 @@ const styles = StyleSheet.create({
 
     textSwitch: {
         color: '#464141',
+        fontFamily: 'Ubuntu_300Light',
+        fontSize: 16,
+        marginHorizontal: 10,
+        marginTop: 2
+    },
+
+    textSwitchDark: {
+        color: '#fff',
         fontFamily: 'Ubuntu_300Light',
         fontSize: 16,
         marginHorizontal: 10,
@@ -246,7 +252,6 @@ const styles = StyleSheet.create({
         flex: 1,
         marginTop: 30,
         paddingHorizontal: 30,
-        //alignItems: 'center',
         backgroundColor: '#fff',
         borderRadius: 20,
 
@@ -259,7 +264,24 @@ const styles = StyleSheet.create({
         shadowRadius: 9.65,
 
         elevation: 9,
+    },
 
+    formLoginDark: {
+        flex: 1,
+        marginTop: 30,
+        paddingHorizontal: 30,
+        backgroundColor: '#121212',
+        borderRadius: 20,
+
+        shadowColor: "#000",
+        shadowOffset: {
+            width: 20,
+            height: 20,
+        },
+        shadowOpacity: 1,
+        shadowRadius: 9.65,
+
+        elevation: 9,
     },
 
     input: {

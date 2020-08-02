@@ -12,16 +12,27 @@ interface Provider {
     showModal(key: boolean): void,
     setDarkMode(key: boolean): void,
     visibilityModal: boolean,
-    darkmode:boolean,
+    darkmode: boolean,
     errorMessageLogin: string
 }
 
 
 export const AuthProvider: React.FC = ({ children }) => {
+    
     const [user, setUser] = useState<userInterface | null>(null)
     const [modalVisible, setModalVisible] = useState(false)
     const [errorMessage, setErrorMessage] = useState('Ops, verifique seu e-mail e senha ou se a rede esta ativada')
-    const [darkmode, setdarkmode] = useState(true)
+    const [darkmode, setdarkmode] = useState(false)
+    async function getDark() {
+        const dark = Boolean(await AsyncStorage.getItem('@Darkmode'))
+        setDarkMode(dark)
+    }
+    useEffect(() => {
+        
+
+        getDark()
+    }, [])
+
     async function login(email: string, password: string) {
         const data = {
             email,
@@ -39,10 +50,12 @@ export const AuthProvider: React.FC = ({ children }) => {
 
     async function showModal(key: boolean) {
         setModalVisible(key)
+       
     }
 
     async function setDarkMode(value: boolean) {
         setdarkmode(value)
+        await AsyncStorage.setItem('@Darkmode', String(value))
     }
 
     async function clearUser() {
@@ -51,7 +64,7 @@ export const AuthProvider: React.FC = ({ children }) => {
     }
 
     return (
-        < AuthContext.Provider value={{ signed: !!user, user, login, clearUser, showModal, visibilityModal: modalVisible, errorMessageLogin: errorMessage, setDarkMode,darkmode }}>
+        < AuthContext.Provider value={{ signed: !!user, user, login, clearUser, showModal, visibilityModal: modalVisible, errorMessageLogin: errorMessage, setDarkMode, darkmode }}>
             {children}
         </AuthContext.Provider >
     )
