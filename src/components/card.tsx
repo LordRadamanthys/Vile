@@ -52,8 +52,8 @@ const styles = StyleSheet.create({
         justifyContent: 'flex-end',
         alignItems: 'center',
         // borderRadius: 15,
-        borderBottomLeftRadius: 7,
-        borderTopLeftRadius: 7,
+        borderBottomLeftRadius: 9,
+        borderTopLeftRadius: 9,
 
     },
 
@@ -98,7 +98,7 @@ const styles = StyleSheet.create({
         backgroundColor: "#121212",
         borderRadius: 10,
         borderStyle: 'solid',
-        borderColor: '#C3C3C3',
+       borderColor: '#FFC633',
         borderWidth: 1,
         shadowColor: '#000',
         shadowOffset: { width: 5, height: 20 },

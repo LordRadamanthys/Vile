@@ -28,9 +28,9 @@ const MainCard = (props: mainCardInterface) => {
             autoRun={true}
             visible={props.visible}
         >
-            <TouchableOpacity activeOpacity={0.9} style={styles.container} onPress={() => goTo(props.page)}>
+            <TouchableOpacity activeOpacity={0.9} style={!darkmode ? styles.container : styles.containerDark} onPress={() => goTo(props.page)}>
 
-                <ImageBackground source={!props.image ? require('../assets/fin.png') : { uri: props.image }} imageStyle={{ borderRadius: 15, }} style={styles.image}>
+                <ImageBackground source={!props.image ? require('../assets/fin.png') : { uri: props.image }} imageStyle={{ borderRadius: 12 }} style={styles.image}>
                     <View style={styles.boxText}>
                         <Text style={!darkmode ? styles.title : styles.titleDark}>{props.title}</Text>
                     </View>
@@ -56,7 +56,8 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
         backgroundColor: 'rgba(4, 0, 0, 0.60)',
-        borderBottomLeftRadius: 15, borderBottomRightRadius: 15
+        borderBottomLeftRadius: 12,
+        borderBottomRightRadius: 12
     },
 
     title: {
@@ -67,7 +68,7 @@ const styles = StyleSheet.create({
     },
 
     titleDark: {
-        color: '#6B6B6B',
+        color: '#C3C3C3',
         fontSize: 16,
         marginHorizontal: 10,
         fontFamily: 'NotoSansJP_400Regular',
@@ -78,7 +79,22 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         marginBottom: 20,
         borderStyle: 'solid',
-        borderColor: '#C3C3C3',
+        borderColor: '#BABABA',
+        borderWidth: 2,
+        borderRadius: 15,
+        shadowColor: '#000',
+        shadowOffset: { width: 5, height: 40 },
+        shadowOpacity: 5,
+        shadowRadius: 100,
+        elevation: 4,
+    },
+
+    containerDark: {
+        justifyContent: 'center',
+        alignItems: 'center',
+        marginBottom: 20,
+        borderStyle: 'solid',
+        borderColor: '#FFC633',
         borderWidth: 2,
         borderRadius: 15,
         shadowColor: '#000',
